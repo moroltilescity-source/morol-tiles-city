@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MTC — Tiles, Sanitary & Fittings</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7f8;color:#17212b}
+.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#0b5d4f,#19a487);padding:20px}
+.box{background:#fff;padding:28px;border-radius:16px;width:min(390px,100%);box-shadow:0 12px 35px #0003}
+h2{text-align:center;color:#0b5d4f}label{display:block;font-size:14px;margin:12px 0 5px}
+input,select{width:100%;padding:12px;border:1px solid #b8c2cc;border-radius:8px;font-size:16px}
+button{border:0;border-radius:7px;padding:10px 13px;color:#fff;background:#0b5d4f}
+.passrow{position:relative}.passrow input{padding-right:70px}.toggle{position:absolute;right:6px;top:6px;background:#64748b;padding:7px}
+.loginbtn{width:100%;margin-top:18px}.err{color:#c0392b;min-height:18px}
+#app{display:none}#app:target{display:block}body:has(#app:target) #login{display:none!important}header{background:#0b5d4f;color:white;padding:16px}
+nav{background:white;padding:10px;display:flex;gap:7px;flex-wrap:wrap}
+main{max-width:1150px;margin:auto;padding:16px}.sec{display:none}.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.card{background:white;padding:16px;border-radius:10px;box-shadow:0 2px 8px #0001}
+.card b{display:block;font-size:24px;margin-top:7px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+table{width:100%;border-collapse:collapse;background:white;margin-top:14px}
+th,td{padding:8px;border-bottom:1px solid #ddd;text-align:left;font-size:13px}th{background:#edf5f2}
+.sms{background:#14804a;padding:7px 9px;font-size:12px}.muted{font-size:13px;color:#667085}
+</style>
+</head>
+<body>
+<div id="login" class="login"><div class="box">
+<h2>Morol Tiles City</h2><p class="muted" style="text-align:center">Tiles • Sanitary • Fittings</p>
+<label>Username</label><input id="username" value="admin">
+<label>Password</label><div class="passrow"><input id="password" type="text" inputmode="numeric" autocomplete="off"><button type="button" class="toggle" onclick="togglePass()">Hide</button></div>
+<div id="error" class="err"></div><a class="loginbtn" href="#app" style="display:block;text-align:center;text-decoration:none;cursor:pointer" onclick="try{var u=document.getElementById('username').value.trim(),p=document.getElementById('password').value.trim();if(u!=='admin'||p!=='123456'){event.preventDefault();document.getElementById('error').textContent='Username বা Password ভুল।';return false;}document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';try{render()}catch(e){} }catch(e){}">Login</a>
+<p class="muted" style="text-align:center">Demo: admin / 123456</p></div></div>
+
+<div id="app">
+<header><h2 style="margin:0;color:white;text-align:left">MTC — Morol Tiles City</h2><small>Tiles, Sanitary & Fittings</small></header>
+<nav>
+<button onclick="show('dash')">Dashboard</button><button onclick="show('products')">Products & Stock</button>
+<button onclick="show('sales')">Sales Invoice</button><button onclick="show('purchase')">Purchase</button>
+<button onclick="show('due')">Customer Due</button><button onclick="show('reports')">Reports</button>
+</nav>
+<main>
+<section id="dash" class="sec active"><h2>Dashboard</h2><div class="cards">
+<div class="card">মোট পণ্য<b id="np">0</b></div><div class="card">মোট Stock<b id="ns">0</b></div>
+<div class="card">মোট বিক্রি<b id="sv">৳0</b></div><div class="card">মোট বাকি<b id="du">৳0</b></div></div></section>
+
+<section id="products" class="sec"><h2>Products & Stock</h2><div class="card grid">
+<div><label>Product Code</label><input id="code"></div>
+<div><label>Category</label><select id="cat">
+<option>Tiles — Wall</option><option>Tiles — Floor</option><option>Tiles — Parking</option><option>Tiles — Mosaic</option><option>Marble</option><option>Granite</option>
+<option>Sanitary — Commode</option><option>Sanitary — Pan</option><option>Sanitary — Basin</option><option>Sanitary — Urinal</option><option>Sanitary — Bathtub</option><option>Sanitary — Accessories</option>
+<option>Fittings — Tap</option><option>Fittings — Shower</option><option>Fittings — Mixer</option><option>Fittings — Health Faucet</option><option>Fittings — Angle Valve</option><option>Fittings — Other</option>
+</select></div>
+<div><label>Product Name</label><input id="name"></div><div><label>Size / Model</label><input id="size"></div>
+<div><label>Unit</label><select id="unit"><option>Box</option><option>Piece</option><option>Set</option><option>Sq.Ft</option><option>Carton</option></select></div>
+<div><label>Opening Stock</label><input id="stock" type="number"></div><div><label>Purchase Price</label><input id="buy" type="number"></div><div><label>Sale Price</label><input id="salePrice" type="number"></div>
+</div><br><button onclick="addProduct()">পণ্য যোগ করুন</button>
+<table><thead><tr><th>Code</th><th>Product</th><th>Category</th><th>Size</th><th>Unit</th><th>Sale</th><th>Stock</th></tr></thead><tbody id="productTable"></tbody></table></section>
+
+<section id="sales" class="sec"><h2>Sales Invoice</h2><div class="card grid">
+<div><label>Customer Name</label><input id="customer"></div><div><label>Customer Mobile</label><input id="phone" type="tel" placeholder="01XXXXXXXXX"></div>
+<div><label>Product</label><select id="saleProduct"></select></div><div><label>Quantity</label><input id="qty" type="number" value="1"></div><div><label>Paid</label><input id="paid" type="number" value="0"></div>
+</div><br><button onclick="makeSale()">Sale Save / Invoice</button>
+<table><thead><tr><th>Date</th><th>Customer</th><th>Mobile</th><th>Product</th><th>Qty</th><th>Total</th><th>Paid</th><th>Due</th></tr></thead><tbody id="salesTable"></tbody></table></section>
+
+<section id="purchase" class="sec"><h2>Purchase / Stock Entry</h2><div class="card grid"><div><label>Product</label><select id="purchaseProduct"></select></div><div><label>Quantity</label><input id="purchaseQty" type="number" value="1"></div></div><br><button onclick="purchase()">Stock বাড়ান</button></section>
+
+<section id="due" class="sec"><h2>Customer Due</h2>
+<p class="muted">📱 Send SMS চাপলে ফোনের SMS অ্যাপ খুলবে এবং Due মেসেজ আগে থেকেই লেখা থাকবে।</p>
+<table><thead><tr><th>Customer</th><th>Mobile</th><th>Total Due</th><th>SMS</th></tr></thead><tbody id="dueTable"></tbody></table></section>
+
+<section id="reports" class="sec"><h2>Reports</h2><div class="card">
+<p>মোট Sales: <b id="rSales">৳0</b></p><p>মোট Due: <b id="rDue">৳0</b></p><p>মোট Stock: <b id="rStock">0</b></p>
+</div></section>
+</main></div>
+
+<script>
+let db;
+try{
+  db=JSON.parse(localStorage.getItem("mtc_sms_demo")||'{"products":[],"sales":[]}');
+  if(!db || !Array.isArray(db.products) || !Array.isArray(db.sales)) throw new Error("bad data");
+}catch(err){
+  db={products:[],sales:[]};
+  try{localStorage.setItem("mtc_sms_demo",JSON.stringify(db));}catch(e){}
+}
+
+function togglePass(){let x=document.getElementById("password"),b=document.querySelector(".toggle");if(x.type==="password"){x.type="text";b.textContent="Hide"}else{x.type="password";b.textContent="Show"}}
+function doLogin(){
+var u=document.getElementById("username").value.trim(),p=document.getElementById("password").value.trim();
+if(u==="admin"&&p==="123456"){document.getElementById("error").textContent="";document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";try{render()}catch(err){}}
+else{document.getElementById("error").textContent="Username বা Password ভুল।";}
+}
+document.getElementById("password").addEventListener("keydown",function(e){if(e.key==="Enter")doLogin()});
+function show(id){document.querySelectorAll(".sec").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");render()}
+function save(){localStorage.setItem("mtc_sms_demo",JSON.stringify(db));render()}
+
+function addProduct(){
+let p={code:code.value,cat:cat.value,name:name.value,size:size.value,unit:unit.value,stock:+stock.value||0,buy:+buy.value||0,sale:+salePrice.value||0};
+if(!p.name)return alert("Product Name দিন");db.products.push(p);save();alert("Product added");
+}
+function makeSale(){
+let i=+saleProduct.value,p=db.products[i],q=+qty.value||0,pa=+paid.value||0;
+if(!p||q<=0)return alert("Product ও Quantity ঠিক করুন");if(q>p.stock)return alert("পর্যাপ্ত Stock নেই");
+let total=q*p.sale;db.sales.push({date:new Date().toLocaleString("bn-BD"),customer:customer.value||"Cash Customer",phone:phone.value.trim(),product:p.name,qty:q,total,paid:pa,due:Math.max(0,total-pa)});
+p.stock-=q;save();alert("Sale saved");
+}
+function purchase(){let i=+purchaseProduct.value,q=+purchaseQty.value||0;if(db.products[i]&&q>0){db.products[i].stock+=q;save();alert("Stock updated")}}
+
+function sendSMS(name,phone,due){
+if(!phone){alert("এই Customer-এর Mobile Number দেওয়া নেই।");return}
+let clean=phone.replace(/[^0-9+]/g,"");
+let msg="প্রিয় "+name+", Morol Tiles City-তে আপনার বর্তমান বকেয়া ৳"+due+"। অনুগ্রহ করে বকেয়া পরিশোধ করুন। ধন্যবাদ।";
+window.location.href="sms:"+clean+"?body="+encodeURIComponent(msg);
+}
+
+function render(){
+let totalSales=db.sales.reduce((a,s)=>a+s.total,0),totalDue=db.sales.reduce((a,s)=>a+s.due,0),totalStock=db.products.reduce((a,p)=>a+p.stock,0);
+np.textContent=db.products.length;ns.textContent=totalStock;sv.textContent="৳"+totalSales;du.textContent="৳"+totalDue;
+rSales.textContent="৳"+totalSales;rDue.textContent="৳"+totalDue;rStock.textContent=totalStock;
+productTable.innerHTML=db.products.map(p=>"<tr><td>"+p.code+"</td><td>"+p.name+"</td><td>"+p.cat+"</td><td>"+p.size+"</td><td>"+p.unit+"</td><td>৳"+p.sale+"</td><td>"+p.stock+"</td></tr>").join("");
+let opts=db.products.map((p,i)=>'<option value="'+i+'">'+p.name+' — '+(p.size||p.code||"")+'</option>').join("");
+saleProduct.innerHTML=opts;purchaseProduct.innerHTML=opts;
+salesTable.innerHTML=db.sales.slice().reverse().map(s=>"<tr><td>"+s.date+"</td><td>"+s.customer+"</td><td>"+(s.phone||"-")+"</td><td>"+s.product+"</td><td>"+s.qty+"</td><td>৳"+s.total+"</td><td>৳"+s.paid+"</td><td>৳"+s.due+"</td></tr>").join("");
+let m={};db.sales.forEach(s=>{let k=s.customer+"|"+(s.phone||"");if(!m[k])m[k]={name:s.customer,phone:s.phone||"",due:0};m[k].due+=s.due});
+dueTable.innerHTML=Object.values(m).map(x=>'<tr><td>'+x.name+'</td><td>'+(x.phone||"-")+'</td><td>৳'+x.due+'</td><td><button class="sms" onclick='sendSMS('+JSON.stringify(x.name)+','+JSON.stringify(x.phone)+','+x.due+')'>📱 Send SMS</button></td></tr>').join("");
+}
+window.addEventListener("error",function(){
+  var e=document.getElementById("error");
+  if(e && document.getElementById("login").style.display!=="none") e.textContent="সফটওয়্যার চালু করতে সমস্যা হয়েছে। আবার ফাইলটি খুলুন।";
+});
+</script>
+</body>
+</html>
