@@ -616,7 +616,6 @@ function saveInvoice(){
  refreshAll();
 }
 
-
 function renderHistory(){
 
  const tbody=document.getElementById("historyTable");
@@ -632,12 +631,105 @@ function renderHistory(){
     <td>${escapeHtml(inv.customer)}</td>
     <td>${escapeHtml(inv.mobile||"")}</td>
     <td><b>৳${inv.total}</b></td>
+    <td>
+      <button class="btn" onclick="previewInvoice('${inv.id}')">
+        👁️ Preview
+      </button>
+    </td>
    </tr>
   `;
  });
 }
 
+function previewInvoice(id){
 
+ const inv = invoices.find(x => String(x.id) === String(id));
+
+ if(!inv){
+   alert("Invoice not found");
+   return;
+ }
+
+ const items = inv.items || inv.products || [];
+
+ let rows = "";
+
+ items.forEach(item => {
+
+   const name = item.name || item.product || "";
+   const qty = item.qty || item.quantity || 0;
+   const price = item.price || item.unitPrice || 0;
+   const total = qty * price;
+
+   rows += `
+    <tr>
+      <td>${escapeHtml(name)}</td>
+      <td>${qty}</td>
+      <td>৳${price}</td>
+      <td>৳${total}</td>
+    </tr>
+   `;
+ });
+
+ const preview = `
+  <div style="padding:20px;max-width:800px;margin:auto;background:#fff">
+
+   <h2 style="text-align:center">MOROL TILES CITY</h2>
+   <h3 style="text-align:center">SALES INVOICE</h3>
+
+   <hr>
+
+   <p><b>Invoice:</b> ${inv.id}</p>
+   <p><b>Date:</b> ${inv.date}</p>
+   <p><b>Customer:</b> ${escapeHtml(inv.customer)}</p>
+   <p><b>Mobile:</b> ${escapeHtml(inv.mobile || "")}</p>
+   <p><b>Address:</b> ${escapeHtml(inv.address || "")}</p>
+
+   <table style="width:100%;border-collapse:collapse;margin-top:15px">
+    <thead>
+     <tr>
+      <th style="border:1px solid #ccc;padding:8px">Product</th>
+      <th style="border:1px solid #ccc;padding:8px">Qty</th>
+      <th style="border:1px solid #ccc;padding:8px">Unit Price</th>
+      <th style="border:1px solid #ccc;padding:8px">Total</th>
+     </tr>
+    </thead>
+
+    <tbody>
+     ${rows}
+    </tbody>
+
+   </table>
+
+   <h3 style="text-align:right;margin-top:20px">
+     Grand Total: ৳${inv.total}
+   </h3>
+
+  </div>
+ `;
+
+ const win = window.open("", "_blank");
+
+ if(!win){
+   alert("Please allow pop-ups for this site.");
+   return;
+ }
+
+ win.document.write(`
+  <!DOCTYPE html>
+  <html>
+  <head>
+   <title>Invoice ${inv.id}</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body style="margin:0;background:#f5f5f5">
+   ${preview}
+  </body>
+  </html>
+ `);
+
+ win.document.close();
+}
 /* DASHBOARD */
 
 function updateDashboard(){
