@@ -845,29 +845,7 @@ function salesReturn(id){
             return;
           }
 
-          const results = [];
-
-          ${items.map((item, index) => {
-
-            const name = item.name || item.product || "";
-            const soldQty = Number(item.qty || item.quantity || 0);
-            const alreadyReturned = Number(item.returnedQty || 0);
-            const remainingQty = Math.max(0, soldQty - alreadyReturned);
-
-            return `
-              {
-                index:${index},
-                name:${JSON.stringify(name)},
-                soldQty:${soldQty},
-                alreadyReturned:${alreadyReturned},
-                remainingQty:${remainingQty},
-                returnQty:Number(
-                  document.getElementById("returnQty_${index}")?.value || 0
-                )
-              }
-            `;
-          }).join(",")}
-
+          
           window.opener.completeSalesReturn(
             "${String(inv.id).replace(/"/g, '\\"')}",
             "${String(returnDate).replace(/"/g, '\\"')}",
