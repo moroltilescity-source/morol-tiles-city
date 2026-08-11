@@ -292,7 +292,43 @@ th{background:#f3f4f6}
    <div class="invoice-total">
     Grand Total: ৳<span id="grandTotal">0</span>
    </div>
+<div style="margin-top:15px;max-width:400px;margin-left:auto">
 
+  <div style="display:flex;justify-content:space-between;margin:8px 0">
+    <b>Discount:</b>
+    <input
+      id="discountAmount"
+      type="number"
+      value="0"
+      min="0"
+      oninput="calculateInvoiceSummary()"
+      style="width:150px;padding:6px"
+    >
+  </div>
+
+  <div style="display:flex;justify-content:space-between;margin:8px 0">
+    <b>Payable Bill:</b>
+    <b>৳<span id="payableBill">0</span></b>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;margin:8px 0">
+    <b>Paid Amount:</b>
+    <input
+      id="paidAmount"
+      type="number"
+      value="0"
+      min="0"
+      oninput="calculateInvoiceSummary()"
+      style="width:150px;padding:6px"
+    >
+  </div>
+
+  <div style="display:flex;justify-content:space-between;margin:8px 0">
+    <b>Due:</b>
+    <b>৳<span id="dueAmount">0</span></b>
+  </div>
+
+</div>
    <button class="btn green" onclick="saveInvoice()">💾 Save Invoice</button>
    <button class="btn" onclick="printInvoice()">🖨️ Print</button>
 
