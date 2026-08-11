@@ -673,15 +673,79 @@ function renderHistory(){
     <td>${escapeHtml(inv.mobile||"")}</td>
     <td><b>৳${inv.total}</b></td>
     <td>
-      <button class="btn" onclick="previewInvoice('${inv.id}')">
-        👁️ Preview
-      </button>
-    </td>
+
+  <button class="btn" onclick="previewInvoice('${inv.id}')">
+    👁️ Preview
+  </button>
+
+  <button class="btn" style="background:#e67e22;color:white"
+          onclick="salesReturn('${inv.id}')">
+    ↩️ Sales Return
+  </button>
+
+</td>
    </tr>
   `;
  });
 }
+function salesReturn(id){
 
+  const inv = invoices.find(x => String(x.id) === String(id));
+
+  if(!inv){
+    alert("Invoice not found");
+    return;
+  }
+
+  if(inv.returned){
+    alert("এই Invoice ইতিমধ্যে Sales Return করা হয়েছে!");
+    return;
+  }
+
+  const confirmReturn = confirm(
+    "এই Invoice-এর সব পণ্য Sales Return করতে চান?"
+  );
+
+  if(!confirmReturn) return;
+
+  const items = inv.items || inv.products || [];
+
+  if(!items.length){
+    alert("এই Invoice-এ কোনো Product পাওয়া যায়নি!");
+    return;
+  }
+
+  items.forEach(item => {
+
+    const name = item.name || item.product || "";
+    const qty = Number(item.qty || item.quantity || 0);
+
+    if(!name || qty <= 0) return;
+
+    const product = products.find(p =>
+      String(p.name || "").trim().toLowerCase() ===
+      String(name).trim().toLowerCase()
+    );
+
+    if(product){
+      product.stock =
+        Number(product.stock || 0) + qty;
+    }
+
+  });
+
+  inv.returned = true;
+  inv.returnDate = new Date().toISOString();
+
+  localStorage.setItem("products", JSON.stringify(products));
+  localStorage.setItem("invoices", JSON.stringify(invoices));
+
+  alert("✅ Sales Return সফল হয়েছে!\n\nStock-এ পণ্য ফেরত যোগ করা হয়েছে।");
+
+  if(typeof renderSalesHistory === "function"){
+    renderSalesHistory();
+  }
+}
 function previewInvoice(id){
 
  const inv = invoices.find(x => String(x.id) === String(id));
