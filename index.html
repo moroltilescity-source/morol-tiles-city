@@ -251,6 +251,15 @@ th{background:#f3f4f6}
     <div>
   <label>Customer Address</label>
   <input id="customerAddress" placeholder="Customer address">
+     <label>Invoice Date</label>
+   <input id="invoiceDate" type="date">  
+     <script>
+const today = new Date();
+document.getElementById("invoiceDate").value =
+  today.getFullYear() + "-" +
+  String(today.getMonth() + 1).padStart(2, "0") + "-" +
+  String(today.getDate()).padStart(2, "0");
+</script>
 </div>
    </div>
 
