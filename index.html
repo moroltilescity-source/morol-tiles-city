@@ -248,6 +248,10 @@ th{background:#f3f4f6}
      <label>Customer Mobile</label>
      <input id="customerMobile" placeholder="01XXXXXXXXX">
     </div>
+    <div>
+  <label>Customer Address</label>
+  <input id="customerAddress" placeholder="Customer address">
+</div>
    </div>
 
    <hr>
@@ -579,7 +583,7 @@ function saveInvoice(){
 
  const customer=document.getElementById("customerName").value.trim()||"Walk-in Customer";
  const mobile=document.getElementById("customerMobile").value.trim();
-
+const address=document.getElementById("customerAddress").value.trim();
  let total=currentInvoice.reduce((s,x)=>s+x.total,0);
 
  /* reduce stock */
@@ -598,6 +602,7 @@ function saveInvoice(){
   date:new Date().toLocaleString("en-BD"),
   customer,
   mobile,
+  address,
   items:[...currentInvoice],
   total
  };
@@ -611,7 +616,7 @@ function saveInvoice(){
  currentInvoice=[];
  document.getElementById("customerName").value="";
  document.getElementById("customerMobile").value="";
-
+document.getElementById("customerAddress").value="";
  renderInvoice();
  refreshAll();
 }
