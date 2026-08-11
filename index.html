@@ -719,33 +719,32 @@ function salesReturn(id){
 
     const name = item.name || item.product || "";
     const soldQty = Number(item.qty || item.quantity || 0);
-
     const alreadyReturned = Number(item.returnedQty || 0);
     const remainingQty = Math.max(0, soldQty - alreadyReturned);
 
     if(remainingQty > 0){
 
       returnRows += `
-        <div style="padding:10px;border-bottom:1px solid #ddd">
+        <div style="padding:12px;border-bottom:1px solid #ddd">
           <b>${escapeHtml(name)}</b><br>
           Sold: ${soldQty} &nbsp; | &nbsp;
-          Already Returned: ${alreadyReturned}<br>
+          Already Returned: ${alreadyReturned} &nbsp; | &nbsp;
+          Remaining: ${remainingQty}<br><br>
 
           <label>
-            Return Qty:
+            <b>Return Qty:</b>
             <input
               type="number"
               id="returnQty_${index}"
               min="0"
               max="${remainingQty}"
               value="0"
-              style="width:80px;padding:5px"
+              style="width:90px;padding:7px"
             >
           </label>
         </div>
       `;
     }
-
   });
 
   if(!returnRows){
@@ -760,33 +759,194 @@ function salesReturn(id){
 
   if(!returnDate) return;
 
-  const confirmReturn = confirm(
-    "আপনি যে Return Quantity দিয়েছেন সেগুলো কি Stock-এ ফেরত যোগ করবেন?"
+  const returnWindow = window.open("", "_blank");
+
+  if(!returnWindow){
+    alert("Return window খুলতে পারেনি। Browser popup অনুমতি দিন।");
+    return;
+  }
+
+  returnWindow.document.write(`
+    <!doctype html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Sales Return</title>
+      <style>
+        body{
+          font-family:Arial,sans-serif;
+          padding:20px;
+          background:#f5f5f5;
+        }
+
+        .box{
+          max-width:700px;
+          margin:auto;
+          background:#fff;
+          padding:20px;
+          border-radius:8px;
+        }
+
+        input{
+          font-size:16px;
+        }
+
+        button{
+          padding:10px 18px;
+          margin-top:20px;
+          cursor:pointer;
+        }
+      </style>
+    </head>
+
+    <body>
+
+      <div class="box">
+
+        <h2 style="text-align:center">
+          MOROL TILES CITY
+        </h2>
+
+        <h3 style="text-align:center">
+          SALES RETURN
+        </h3>
+
+        <hr>
+
+        <p>
+          <b>Invoice:</b> ${inv.id}
+        </p>
+
+        <p>
+          <b>Invoice Date:</b> ${inv.date}
+        </p>
+
+        <p>
+          <b>Return Date:</b> ${escapeHtml(returnDate)}
+        </p>
+
+        <hr>
+
+        ${returnRows}
+
+        <button onclick="confirmReturn()">
+          ↩️ Confirm Sales Return
+        </button>
+
+      </div>
+
+      <script>
+
+        function confirmReturn(){
+
+          if(!confirm(
+            "আপনি যে Return Quantity দিয়েছেন সেগুলো কি Stock-এ ফেরত যোগ করবেন?"
+          )){
+            return;
+          }
+
+          const results = [];
+
+          ${items.map((item, index) => {
+
+            const name = item.name || item.product || "";
+            const soldQty = Number(item.qty || item.quantity || 0);
+            const alreadyReturned = Number(item.returnedQty || 0);
+            const remainingQty = Math.max(0, soldQty - alreadyReturned);
+
+            return `
+              {
+                index:${index},
+                name:${JSON.stringify(name)},
+                soldQty:${soldQty},
+                alreadyReturned:${alreadyReturned},
+                remainingQty:${remainingQty},
+                returnQty:Number(
+                  document.getElementById("returnQty_${index}")?.value || 0
+                )
+              }
+            `;
+          }).join(",")}
+
+          window.opener.completeSalesReturn(
+            "${String(inv.id).replace(/"/g, '\\"')}",
+            "${String(returnDate).replace(/"/g, '\\"')}",
+            [
+              ${items.map((item, index) => {
+
+                const name = item.name || item.product || "";
+                return `{
+                  index:${index},
+                  name:${JSON.stringify(name)},
+                  returnQty:Number(
+                    document.getElementById("returnQty_${index}")?.value || 0
+                  )
+                }`;
+              }).join(",")}
+            ]
+          );
+
+          window.close();
+        }
+
+      <\/script>
+
+    </body>
+    </html>
+  `);
+
+  returnWindow.document.close();
+}
+
+
+function completeSalesReturn(invoiceId, returnDate, returnedItems){
+
+  const inv = invoices.find(
+    x => String(x.id) === String(invoiceId)
   );
 
-  if(!confirmReturn) return;
+  if(!inv){
+    alert("Invoice not found");
+    return;
+  }
+
+  const items = inv.items || inv.products || [];
 
   let totalReturned = 0;
 
-  items.forEach((item, index) => {
+  returnedItems.forEach(data => {
+
+    const item = items[data.index];
+
+    if(!item) return;
 
     const name = item.name || item.product || "";
-    const soldQty = Number(item.qty || item.quantity || 0);
-    const alreadyReturned = Number(item.returnedQty || 0);
-    const remainingQty = Math.max(0, soldQty - alreadyReturned);
 
-    if(remainingQty <= 0) return;
+    const soldQty = Number(
+      item.qty || item.quantity || 0
+    );
 
-    const input = document.getElementById("returnQty_" + index);
+    const alreadyReturned = Number(
+      item.returnedQty || 0
+    );
 
-    if(!input) return;
+    const remainingQty = Math.max(
+      0,
+      soldQty - alreadyReturned
+    );
 
-    const returnQty = Number(input.value || 0);
+    const returnQty = Number(
+      data.returnQty || 0
+    );
 
     if(returnQty <= 0) return;
 
     if(returnQty > remainingQty){
-      alert(name + " এর সর্বোচ্চ Return Qty হলো " + remainingQty);
+      alert(
+        name +
+        " এর সর্বোচ্চ Return Qty হলো " +
+        remainingQty
+      );
       return;
     }
 
@@ -795,16 +955,15 @@ function salesReturn(id){
       String(name).trim().toLowerCase()
     );
 
-    if(product){
+    if(!product) return;
 
-      product.stock =
-        Number(product.stock || 0) + returnQty;
+    product.stock =
+      Number(product.stock || 0) + returnQty;
 
-      item.returnedQty = alreadyReturned + returnQty;
+    item.returnedQty =
+      alreadyReturned + returnQty;
 
-      totalReturned += returnQty;
-    }
-
+    totalReturned += returnQty;
   });
 
   if(totalReturned <= 0){
@@ -812,23 +971,35 @@ function salesReturn(id){
     return;
   }
 
-  inv.returned = true;
-  inv.returnDate = returnDate;
-
   const allReturned = items.every(item => {
 
-    const soldQty = Number(item.qty || item.quantity || 0);
-    const returnedQty = Number(item.returnedQty || 0);
+    const soldQty = Number(
+      item.qty || item.quantity || 0
+    );
+
+    const returnedQty = Number(
+      item.returnedQty || 0
+    );
 
     return returnedQty >= soldQty;
   });
+
+  inv.returned = true;
+  inv.returnDate = returnDate;
 
   inv.returnStatus = allReturned
     ? "Returned"
     : "Partially Returned";
 
-  localStorage.setItem("products", JSON.stringify(products));
-  localStorage.setItem("invoices", JSON.stringify(invoices));
+  localStorage.setItem(
+    "products",
+    JSON.stringify(products)
+  );
+
+  localStorage.setItem(
+    "invoices",
+    JSON.stringify(invoices)
+  );
 
   alert(
     "✅ Sales Return সফল হয়েছে!\n\n" +
@@ -840,6 +1011,9 @@ function salesReturn(id){
     renderSalesHistory();
   }
 }
+
+
+function previewInvoice(id){
 function previewInvoice(id){
 
  const inv = invoices.find(x => String(x.id) === String(id));
