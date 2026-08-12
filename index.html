@@ -618,7 +618,50 @@ function renderInvoice(){
  document.getElementById("grandTotal").textContent=total;
 }
 
+document.getElementById("grandTotal").textContent=total;
+}
 
+function calculateInvoiceSummary(){
+
+ const grandTotal =
+  currentInvoice.reduce((s,x)=>s+Number(x.total||0),0);
+
+ let discount =
+  Number(document.getElementById("discountAmount").value||0);
+
+ let labour =
+  Number(document.getElementById("labourCharge").value||0);
+
+ let paid =
+  Number(document.getElementById("paidAmount").value||0);
+
+ if(discount < 0) discount = 0;
+ if(labour < 0) labour = 0;
+ if(paid < 0) paid = 0;
+
+ if(discount > grandTotal){
+  discount = grandTotal;
+  document.getElementById("discountAmount").value = discount;
+ }
+
+ const payable = grandTotal - discount + labour;
+
+ if(paid > payable){
+  paid = payable;
+  document.getElementById("paidAmount").value = paid;
+ }
+
+ const due = payable - paid;
+
+ document.getElementById("grandTotal").textContent =
+  grandTotal.toFixed(2);
+
+ document.getElementById("payableBill").textContent =
+  payable.toFixed(2);
+
+ document.getElementById("dueAmount").textContent =
+  due.toFixed(2);
+}
 function saveInvoice(){
 
  if(currentInvoice.length===0){
@@ -626,11 +669,46 @@ function saveInvoice(){
   return;
  }
 
- const customer=document.getElementById("customerName").value.trim()||"Walk-in Customer";
- const mobile=document.getElementById("customerMobile").value.trim();
-const address=document.getElementById("customerAddress").value.trim();
- let total=currentInvoice.reduce((s,x)=>s+x.total,0);
+ const customer =
+  document.getElementById("customerName").value.trim() ||
+  "Walk-in Customer";
 
+ const mobile =
+  document.getElementById("customerMobile").value.trim();
+
+ const address =
+  document.getElementById("customerAddress").value.trim();
+
+ const grandTotal =
+  currentInvoice.reduce((s,x)=>s+Number(x.total||0),0);
+
+ let discount =
+  Number(document.getElementById("discountAmount").value||0);
+
+ let labour =
+  Number(document.getElementById("labourCharge").value||0);
+
+ if(discount < 0) discount = 0;
+ if(labour < 0) labour = 0;
+
+ if(discount > grandTotal){
+  discount = grandTotal;
+  document.getElementById("discountAmount").value = discount;
+ }
+
+ const payable =
+  grandTotal - discount + labour;
+let paid =
+  Number(document.getElementById("paidAmount").value||0);
+
+if(paid < 0) paid = 0;
+
+if(paid > payable){
+  paid = payable;
+  document.getElementById("paidAmount").value = paid;
+}
+
+const due = payable - paid;
  /* reduce stock */
 
  currentInvoice.forEach(item=>{
@@ -640,30 +718,57 @@ const address=document.getElementById("customerAddress").value.trim();
   if(p){
    p.stock-=item.qty;
   }
+
  });
 
  const invoice={
+
   id:"MTC-"+Date.now(),
+
   date:document.getElementById("invoiceDate").value,
+
   customer,
+
   mobile,
+
   address,
+
   items:[...currentInvoice],
-  total
+
+  grandTotal,
+paidAmount:paid,
+dueAmount:due,
+  discount,
+
+  labourCharge:labour,
+
+  total:payable
+
  };
 
  invoices.unshift(invoice);
 
  saveData();
 
- alert("Invoice saved successfully!\nInvoice No: "+invoice.id);
+ alert(
+  "Invoice saved successfully!\n\n"+
+  "Invoice No: "+invoice.id+
+  "\nPayable Bill: ৳"+payable.toFixed(2)
+ );
 
  currentInvoice=[];
+
  document.getElementById("customerName").value="";
  document.getElementById("customerMobile").value="";
-document.getElementById("customerAddress").value="";
+ document.getElementById("customerAddress").value="";
+
+ document.getElementById("discountAmount").value="0";
+ document.getElementById("labourCharge").value="0";
+
  renderInvoice();
+
  refreshAll();
+
 }
 
 function renderHistory(){
@@ -1105,7 +1210,8 @@ function printInvoice(){
  }
 
  let total=currentInvoice.reduce((s,x)=>s+x.total,0);
-
+let paid=Number(document.getElementById("paidAmount").value)||0;
+let due=total-paid;
  let rows=currentInvoice.map(x=>`
   <tr>
    <td>${escapeHtml(x.name)}</td>
@@ -1142,6 +1248,8 @@ function printInvoice(){
    </table>
 
    <p class="total">Grand Total: ৳${total}</p>
+   <p class="total">Paid Amount: ৳${paid.toFixed(2)}</p>
+<p class="total">Due Amount: ৳${due.toFixed(2)}</p>
   </body>
   </html>
  `);
