@@ -1181,9 +1181,21 @@ function previewInvoice(id){
 
    </table>
 
-   <h3 style="text-align:right;margin-top:20px">
-     Grand Total: ৳${inv.total}
-   </h3>
+      <div style="text-align:right;margin-top:20px">
+
+    <p><b>Grand Total:</b> ৳${Number(inv.grandTotal || 0).toFixed(2)}</p>
+
+    <p><b>Discount:</b> ৳${Number(inv.discount || 0).toFixed(2)}</p>
+
+    <p><b>Labour Charge:</b> ৳${Number(inv.labourCharge || 0).toFixed(2)}</p>
+
+    <p><b>Payable Bill:</b> ৳${Number(inv.total || 0).toFixed(2)}</p>
+
+    <p><b>Paid Amount:</b> ৳${Number(inv.paidAmount || 0).toFixed(2)}</p>
+
+    <p><b>Due Amount:</b> ৳${Number(inv.dueAmount || 0).toFixed(2)}</p>
+
+   </div>
 
   </div>
  `;
