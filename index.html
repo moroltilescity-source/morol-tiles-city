@@ -1119,9 +1119,7 @@ function completeSalesReturn(invoiceId, returnDate, returnedItems){
   }
 }
 
-
 function previewInvoice(id){
-
 
  const inv = invoices.find(x => String(x.id) === String(id));
 
@@ -1145,8 +1143,8 @@ function previewInvoice(id){
     <tr>
       <td>${escapeHtml(name)}</td>
       <td>${qty}</td>
-      <td>৳${price}</td>
-      <td>৳${total}</td>
+      <td>৳${Number(price).toFixed(2)}</td>
+      <td>৳${Number(total).toFixed(2)}</td>
     </tr>
    `;
  });
@@ -1178,10 +1176,9 @@ function previewInvoice(id){
     <tbody>
      ${rows}
     </tbody>
-
    </table>
 
-      <div style="text-align:right;margin-top:20px">
+   <div style="text-align:right;margin-top:20px">
 
     <p><b>Grand Total:</b> ৳${Number(inv.grandTotal || 0).toFixed(2)}</p>
 
@@ -1194,6 +1191,48 @@ function previewInvoice(id){
     <p><b>Paid Amount:</b> ৳${Number(inv.paidAmount || 0).toFixed(2)}</p>
 
     <p><b>Due Amount:</b> ৳${Number(inv.dueAmount || 0).toFixed(2)}</p>
+
+   </div>
+
+   <!-- SIGNATURE AREA -->
+
+   <div style="
+     display:flex;
+     justify-content:space-between;
+     align-items:flex-end;
+     margin-top:90px;
+     padding:0 20px;
+   ">
+
+     <div style="width:40%;text-align:center">
+
+       <div style="height:55px"></div>
+
+       <div style="
+         border-top:1px solid #000;
+         padding-top:8px;
+       ">
+         Customer Signature
+       </div>
+
+     </div>
+
+     <div style="width:40%;text-align:center">
+
+       <div style="height:55px"></div>
+
+       <div style="
+         border-top:1px solid #000;
+         padding-top:8px;
+       ">
+         Authorized Signature
+       </div>
+
+       <div style="margin-top:5px">
+         Morol Tiles City
+       </div>
+
+     </div>
 
    </div>
 
@@ -1214,14 +1253,18 @@ function previewInvoice(id){
    <title>Invoice ${inv.id}</title>
    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
+
   <body style="margin:0;background:#f5f5f5">
+
    ${preview}
+
   </body>
   </html>
  `);
 
  win.document.close();
 }
+
 /* DASHBOARD */
 
 function updateDashboard(){
