@@ -388,16 +388,32 @@ let currentInvoice=[];
 /* LOGIN */
 
 function login(){
- const u=document.getElementById("username").value.trim();
- const p=document.getElementById("password").value;
 
- if(u===USERNAME && p===PASSWORD){
-  document.getElementById("loginPage").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  refreshAll();
- }else{
-  document.getElementById("loginMsg").textContent="Username অথবা Password ভুল!";
+ try{
+
+  const u=document.getElementById("username").value.trim();
+  const p=document.getElementById("password").value;
+
+  if(u===USERNAME && p===PASSWORD){
+
+   document.getElementById("loginPage").classList.add("hidden");
+   document.getElementById("app").classList.remove("hidden");
+
+   refreshAll();
+
+  }else{
+
+   document.getElementById("loginMsg").textContent =
+     "Username অথবা Password ভুল!";
+
+  }
+
+ }catch(error){
+
+  alert("Login Error:\n\n" + error.message);
+
  }
+
 }
 
 function logout(){
