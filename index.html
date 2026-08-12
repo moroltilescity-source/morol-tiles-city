@@ -314,7 +314,17 @@ document.getElementById("invoiceDate").value =
       style="width:150px;padding:6px"
     >
   </div>
-
+  <div style="display:flex;justify-content:space-between;margin:8px 0">
+    <b>Labour Charge:</b>
+    <input
+      id="labourCharge"
+      type="number"
+      value="0"
+      min="0"
+      oninput="calculateInvoiceSummary()"
+      style="width:150px;padding:6px"
+    >
+  </div>
   <div style="display:flex;justify-content:space-between;margin:8px 0">
     <b>Payable Bill:</b>
     <b>৳<span id="payableBill">0</span></b>
