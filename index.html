@@ -1138,7 +1138,7 @@ function previewInvoice(id){
    const name = item.name || item.product || "";
    const qty = item.qty || item.quantity || 0;
    const price = item.price || item.unitPrice || 0;
-   const total = qty * price;
+   const total = Number(qty) * Number(price);
 
    rows += `
     <tr>
@@ -1151,47 +1151,214 @@ function previewInvoice(id){
  });
 
  const preview = `
-  <div style="padding:20px;max-width:800px;margin:auto;background:#fff">
+  <div style="
+    padding:20px;
+    max-width:800px;
+    margin:auto;
+    background:#fff;
+    font-family:Arial,sans-serif;
+    color:#222;
+  ">
 
-   <h2 style="text-align:center">MOROL TILES CITY</h2>
-   <h3 style="text-align:center">SALES INVOICE</h3>
+   <!-- INVOICE HEADER -->
 
-   <hr>
+   <div style="
+     display:flex;
+     align-items:center;
+     gap:18px;
+     border-bottom:2px solid #b8860b;
+     padding-bottom:12px;
+     margin-bottom:15px;
+   ">
 
-   <p><b>Invoice:</b> ${inv.id}</p>
-   <p><b>Date:</b> ${inv.date}</p>
-   <p><b>Customer:</b> ${escapeHtml(inv.customer)}</p>
-   <p><b>Mobile:</b> ${escapeHtml(inv.mobile || "")}</p>
-   <p><b>Address:</b> ${escapeHtml(inv.address || "")}</p>
+     <img
+       src="logo.jpg"
+       style="
+         width:90px;
+         height:90px;
+         object-fit:contain;
+         border-radius:8px;
+         background:#fffaf0;
+         padding:5px;
+       "
+     >
 
-   <table style="width:100%;border-collapse:collapse;margin-top:15px">
+     <div style="flex:1">
+
+       <h1 style="
+         margin:0;
+         color:#b8860b;
+         font-size:26px;
+       ">
+         MOROL TILES CITY
+       </h1>
+
+       <p style="
+         margin:4px 0;
+         font-size:14px;
+         font-weight:bold;
+       ">
+         Decoration Your Home
+       </p>
+
+       <p style="
+         margin:3px 0;
+         font-size:13px;
+       ">
+         বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা, যশোর রোড, সাতক্ষীরা
+       </p>
+
+       <p style="
+         margin:3px 0;
+         font-size:13px;
+         font-weight:bold;
+       ">
+         মোবাইল: 01911-786336, 01912-709914
+       </p>
+
+     </div>
+
+   </div>
+
+   <!-- INVOICE TITLE -->
+
+   <div style="
+     text-align:right;
+     color:#b8860b;
+     font-size:22px;
+     font-weight:bold;
+     margin-bottom:12px;
+   ">
+     SALES INVOICE
+   </div>
+
+   <p>
+     <b>Invoice:</b> ${inv.id}
+   </p>
+
+   <p>
+     <b>Date:</b> ${inv.date}
+   </p>
+
+   <p>
+     <b>Customer:</b> ${escapeHtml(inv.customer || "Walk-in Customer")}
+   </p>
+
+   <p>
+     <b>Mobile:</b> ${escapeHtml(inv.mobile || "")}
+   </p>
+
+   <p>
+     <b>Address:</b> ${escapeHtml(inv.address || "")}
+   </p>
+
+   <!-- PRODUCT TABLE -->
+
+   <table style="
+     width:100%;
+     border-collapse:collapse;
+     margin-top:15px;
+   ">
+
     <thead>
+
      <tr>
-      <th style="border:1px solid #ccc;padding:8px">Product</th>
-      <th style="border:1px solid #ccc;padding:8px">Qty</th>
-      <th style="border:1px solid #ccc;padding:8px">Unit Price</th>
-      <th style="border:1px solid #ccc;padding:8px">Total</th>
+
+      <th style="
+        border:1px solid #999;
+        padding:8px;
+        background:#eee;
+      ">
+       Product
+      </th>
+
+      <th style="
+        border:1px solid #999;
+        padding:8px;
+        background:#eee;
+      ">
+       Qty
+      </th>
+
+      <th style="
+        border:1px solid #999;
+        padding:8px;
+        background:#eee;
+      ">
+       Unit Price
+      </th>
+
+      <th style="
+        border:1px solid #999;
+        padding:8px;
+        background:#eee;
+      ">
+       Total
+      </th>
+
      </tr>
+
     </thead>
 
     <tbody>
+
      ${rows}
+
     </tbody>
+
    </table>
 
-   <div style="text-align:right;margin-top:20px">
+   <!-- SUMMARY -->
 
-    <p><b>Grand Total:</b> ৳${Number(inv.grandTotal || 0).toFixed(2)}</p>
+   <div style="
+     width:320px;
+     max-width:100%;
+     margin-left:auto;
+     margin-top:18px;
+   ">
 
-    <p><b>Discount:</b> ৳${Number(inv.discount || 0).toFixed(2)}</p>
+    <p style="text-align:right;margin:6px 0">
+     Grand Total:
+     ৳${Number(inv.grandTotal || 0).toFixed(2)}
+    </p>
 
-    <p><b>Labour Charge:</b> ৳${Number(inv.labourCharge || 0).toFixed(2)}</p>
+    <p style="text-align:right;margin:6px 0">
+     Discount:
+     ৳${Number(inv.discount || 0).toFixed(2)}
+    </p>
 
-    <p><b>Payable Bill:</b> ৳${Number(inv.total || 0).toFixed(2)}</p>
+    <p style="text-align:right;margin:6px 0">
+     Labour Charge:
+     ৳${Number(inv.labourCharge || 0).toFixed(2)}
+    </p>
 
-    <p><b>Paid Amount:</b> ৳${Number(inv.paidAmount || 0).toFixed(2)}</p>
+    <p style="
+      text-align:right;
+      margin:6px 0;
+      font-size:20px;
+      font-weight:bold;
+      color:#b8860b;
+      border-top:2px solid #999;
+      padding-top:8px;
+    ">
+     Payable Bill:
+     ৳${Number(inv.total || 0).toFixed(2)}
+    </p>
 
-    <p><b>Due Amount:</b> ৳${Number(inv.dueAmount || 0).toFixed(2)}</p>
+    <p style="text-align:right;margin:6px 0">
+     Paid Amount:
+     ৳${Number(inv.paidAmount || 0).toFixed(2)}
+    </p>
+
+    <p style="
+      text-align:right;
+      margin:6px 0;
+      font-size:20px;
+      font-weight:bold;
+    ">
+     Due Amount:
+     ৳${Number(inv.dueAmount || 0).toFixed(2)}
+    </p>
 
    </div>
 
@@ -1205,7 +1372,10 @@ function previewInvoice(id){
      padding:0 20px;
    ">
 
-     <div style="width:40%;text-align:center">
+     <div style="
+       width:40%;
+       text-align:center;
+     ">
 
        <div style="height:55px"></div>
 
@@ -1218,7 +1388,10 @@ function previewInvoice(id){
 
      </div>
 
-     <div style="width:40%;text-align:center">
+     <div style="
+       width:40%;
+       text-align:center;
+     ">
 
        <div style="height:55px"></div>
 
@@ -1249,17 +1422,31 @@ function previewInvoice(id){
 
  win.document.write(`
   <!DOCTYPE html>
+
   <html>
+
   <head>
+
+   <meta charset="UTF-8">
+
    <title>Invoice ${inv.id}</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <meta
+     name="viewport"
+     content="width=device-width, initial-scale=1"
+   >
+
   </head>
 
-  <body style="margin:0;background:#f5f5f5">
+  <body style="
+    margin:0;
+    background:#f5f5f5;
+  ">
 
    ${preview}
 
   </body>
+
   </html>
  `);
 
