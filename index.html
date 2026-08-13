@@ -642,8 +642,9 @@ function renderInvoice(){
  });
 
  document.getElementById("grandTotal").textContent=total;
-}
 
+calculateInvoiceSummary();
+}
 
 function calculateInvoiceSummary(){
 
@@ -1288,9 +1289,18 @@ function printInvoice(){
   return;
  }
 
- let total=currentInvoice.reduce((s,x)=>s+x.total,0);
-let paid=Number(document.getElementById("paidAmount").value)||0;
-let due=total-paid;
+ let grandTotal=currentInvoice.reduce((s,x)=>s+x.total,0);
+
+ let discount=Number(document.getElementById("discountAmount").value)||0;
+
+ let labour=Number(document.getElementById("labourCharge").value)||0;
+
+ let payable=grandTotal-discount+labour;
+
+ let paid=Number(document.getElementById("paidAmount").value)||0;
+
+ let due=payable-paid;
+
  let rows=currentInvoice.map(x=>`
   <tr>
    <td>${escapeHtml(x.name)}</td>
@@ -1306,29 +1316,195 @@ let due=total-paid;
   <html>
   <head>
    <title>MTC Invoice</title>
+
    <style>
-    body{font-family:Arial;padding:20px}
-    h1{text-align:center;color:#b8860b}
-    table{width:100%;border-collapse:collapse}
-    th,td{border:1px solid #999;padding:8px}
-    th{background:#eee}
-    .total{text-align:right;font-size:20px;font-weight:bold}
+    body{
+     font-family:Arial,sans-serif;
+     padding:20px;
+     color:#222;
+    }
+
+    .invoice-header{
+     display:flex;
+     align-items:center;
+     gap:18px;
+     border-bottom:2px solid #b8860b;
+     padding-bottom:12px;
+     margin-bottom:15px;
+    }
+
+    .invoice-logo{
+     width:90px;
+     height:90px;
+     object-fit:contain;
+     border-radius:8px;
+     background:#fffaf0;
+     padding:5px;
+    }
+
+    .company-info{
+     flex:1;
+    }
+
+    .company-info h1{
+     margin:0;
+     color:#b8860b;
+     font-size:26px;
+    }
+
+    .slogan{
+     margin:4px 0;
+     font-size:14px;
+     font-weight:bold;
+    }
+
+    .address{
+     margin:3px 0;
+     font-size:13px;
+    }
+
+    .mobile{
+     margin:3px 0;
+     font-size:13px;
+     font-weight:bold;
+    }
+
+    .invoice-title{
+     text-align:right;
+     color:#b8860b;
+     font-size:22px;
+     font-weight:bold;
+     margin-bottom:12px;
+    }
+
+    table{
+     width:100%;
+     border-collapse:collapse;
+     margin-top:15px;
+    }
+
+    th,td{
+     border:1px solid #999;
+     padding:8px;
+    }
+
+    th{
+     background:#eee;
+    }
+
+    .summary{
+     width:320px;
+     margin-left:auto;
+     margin-top:18px;
+    }
+
+    .summary p{
+     text-align:right;
+     margin:6px 0;
+     font-size:16px;
+    }
+
+    .payable{
+     font-size:20px !important;
+     font-weight:bold;
+     color:#b8860b;
+     border-top:2px solid #999;
+     padding-top:8px;
+    }
+
+    .due{
+     font-size:20px !important;
+     font-weight:bold;
+    }
    </style>
   </head>
+
   <body>
-   <h1>MOROL TILES CITY</h1>
-   <p style="text-align:center">Decoration Your Home</p>
-   <hr>
-   <p>Customer: ${escapeHtml(document.getElementById("customerName").value||"Walk-in Customer")}</p>
+
+   <div class="invoice-header">
+
+    <img src="logo.jpg" class="invoice-logo">
+
+    <div class="company-info">
+
+     <h1>MOROL TILES CITY</h1>
+
+     <p class="slogan">
+      Decoration Your Home
+     </p>
+
+     <p class="address">
+      বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা, যশোর রোড, সাতক্ষীরা
+     </p>
+
+     <p class="mobile">
+      মোবাইল: 01911-786336, 01912-709914
+     </p>
+
+    </div>
+
+   </div>
+
+   <div class="invoice-title">
+    SALES INVOICE
+   </div>
+
+   <p>
+    <strong>Customer:</strong>
+    ${escapeHtml(document.getElementById("customerName").value||"Walk-in Customer")}
+   </p>
+
+   <p>
+    <strong>Mobile:</strong>
+    ${escapeHtml(document.getElementById("customerMobile").value||"")}
+   </p>
+
+   <p>
+    <strong>Address:</strong>
+    ${escapeHtml(document.getElementById("customerAddress").value||"")}
+   </p>
 
    <table>
-    <tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+
+    <tr>
+     <th>Product</th>
+     <th>Qty</th>
+     <th>Price</th>
+     <th>Total</th>
+    </tr>
+
     ${rows}
+
    </table>
 
-   <p class="total">Grand Total: ৳${total}</p>
-   <p class="total">Paid Amount: ৳${paid.toFixed(2)}</p>
-<p class="total">Due Amount: ৳${due.toFixed(2)}</p>
+   <div class="summary">
+
+    <p>
+     Grand Total: ৳${grandTotal.toFixed(2)}
+    </p>
+
+    <p>
+     Discount: ৳${discount.toFixed(2)}
+    </p>
+
+    <p>
+     Labour Charge: ৳${labour.toFixed(2)}
+    </p>
+
+    <p class="payable">
+     Payable Bill: ৳${payable.toFixed(2)}
+    </p>
+
+    <p>
+     Paid Amount: ৳${paid.toFixed(2)}
+    </p>
+
+    <p class="due">
+     Due Amount: ৳${due.toFixed(2)}
+    </p>
+
+   </div>
+
   </body>
   </html>
  `);
@@ -1336,7 +1512,6 @@ let due=total-paid;
  w.document.close();
  w.print();
 }
-
 
 /* STORAGE */
 
