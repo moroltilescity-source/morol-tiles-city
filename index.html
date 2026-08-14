@@ -421,15 +421,12 @@ function login(){
 
    document.getElementById("loginPage").classList.add("hidden");
    document.getElementById("app").classList.remove("hidden");
-window.scrollTo(0,0);
-document.documentElement.scrollTop = 0;
-document.body.scrollTop = 0;
-   refreshAll();
-setTimeout(function(){
-   window.scrollTo(0,0);
-   document.documentElement.scrollTop = 0;
-   document.body.scrollTop = 0;
-},100);
+refreshAll();
+
+document.getElementById("app").scrollIntoView({
+   behavior:"instant",
+   block:"start"
+});
   }else{
 
    document.getElementById("loginMsg").textContent =
