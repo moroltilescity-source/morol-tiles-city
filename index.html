@@ -1461,8 +1461,8 @@ function updateDashboard(){
  const totalSales=invoices.reduce((s,i)=>s+Number(i.total||0),0);
 
  document.getElementById("totalProducts").textContent=products.length;
- document.getElementById("totalStock").textContent=totalStock;
- document.getElementById("totalSales").textContent="৳"+totalSales;
+ document.getElementById("totalStock").textContent=totalStock.toFixed(2);
+document.getElementById("totalSales").textContent="৳"+totalSales.toFixed(2);
  document.getElementById("totalInvoices").textContent=invoices.length;
 }
 
