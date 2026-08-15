@@ -1508,222 +1508,477 @@ function printInvoice(){
 
  let rows=currentInvoice.map(x=>`
   <tr>
-   <td>${escapeHtml(x.name)}</td>
+   <td class="product">${escapeHtml(x.name)}</td>
    <td>${x.qty}</td>
-   <td>${x.price}</td>
-   <td>${x.total}</td>
+   <td>৳${Number(x.price).toFixed(2)}</td>
+   <td>৳${Number(x.total).toFixed(2)}</td>
   </tr>
  `).join("");
 
- let w=window.open("","_blank","width=800,height=1000");
+ let customerName =
+   escapeHtml(document.getElementById("customerName").value||"Walk-in Customer");
+
+ let customerMobile =
+   escapeHtml(document.getElementById("customerMobile").value||"");
+
+ let customerAddress =
+   escapeHtml(document.getElementById("customerAddress").value||"");
+
+
+ /*
+  * নতুন invoice page
+  * width/height popup ব্যবহার করা হয়নি,
+  * যাতে মোবাইলে page ছোট হয়ে এক কোনায় না থাকে।
+  */
+
+ let w=window.open("","_blank");
+
+ if(!w){
+  alert("Invoice page open করা যাচ্ছে না। Browser popup permission check করুন।");
+  return;
+ }
 
  w.document.write(`
-  <html>
-  <head>
-   <title>MTC Invoice</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <style>
-    body{
- font-family:Arial,sans-serif;
- margin:0;
- padding:20px;
- color:#222;
- width:100%;
-}
+  <!DOCTYPE html>
+  <html lang="bn">
 
-.invoice-header{
- width:100%;
-}
+  <head>
+
+   <meta charset="UTF-8">
+
+   <meta name="viewport"
+         content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+   <title>MTC Invoice</title>
+
+   <style>
+
+    *{
+     box-sizing:border-box;
+    }
+
+    html,body{
+     margin:0;
+     padding:0;
+     width:100%;
+     min-width:0;
+    }
+
+    body{
+     font-family:Arial,sans-serif;
+     background:#fff;
+     color:#222;
+     padding:15px;
+     font-size:14px;
+    }
+
+    .invoice-page{
+     width:100%;
+     max-width:800px;
+     margin:0 auto;
+    }
+
     .invoice-header{
+     width:100%;
      display:flex;
      align-items:center;
-     gap:18px;
+     gap:12px;
      border-bottom:2px solid #b8860b;
-     padding-bottom:12px;
-     margin-bottom:15px;
+     padding-bottom:10px;
+     margin-bottom:12px;
     }
 
     .invoice-logo{
-     width:90px;
-     height:90px;
+     width:75px;
+     height:75px;
+     flex:0 0 75px;
      object-fit:contain;
      border-radius:8px;
      background:#fffaf0;
-     padding:5px;
+     padding:4px;
     }
 
     .company-info{
      flex:1;
+     min-width:0;
     }
 
     .company-info h1{
      margin:0;
      color:#b8860b;
-     font-size:26px;
+     font-size:23px;
+     line-height:1.15;
+     white-space:nowrap;
     }
 
     .slogan{
-     margin:4px 0;
-     font-size:14px;
+     margin:3px 0;
+     font-size:13px;
      font-weight:bold;
     }
 
     .address{
      margin:3px 0;
-     font-size:13px;
+     font-size:12px;
+     line-height:1.35;
     }
 
     .mobile{
- margin:3px 0;
- font-size:12px;
- font-weight:bold;
- white-space:nowrap;
-}
+     margin:3px 0;
+     font-size:12px;
+     font-weight:bold;
+     white-space:normal;
+     overflow-wrap:normal;
+     word-break:normal;
+    }
 
     .invoice-title{
-     text-align:right;
+     text-align:center;
      color:#b8860b;
-     font-size:22px;
+     font-size:21px;
      font-weight:bold;
+     margin:10px 0 12px;
+    }
+
+    .customer-info{
      margin-bottom:12px;
+    }
+
+    .customer-info p{
+     margin:5px 0;
+     line-height:1.4;
+    }
+
+    .customer-mobile{
+     white-space:nowrap;
     }
 
     table{
      width:100%;
      border-collapse:collapse;
-     margin-top:15px;
+     table-layout:fixed;
+     margin-top:12px;
     }
 
     th,td{
      border:1px solid #999;
-     padding:8px;
+     padding:7px 5px;
+     text-align:center;
+     vertical-align:middle;
+     word-wrap:break-word;
     }
 
     th{
      background:#eee;
+     font-weight:bold;
+    }
+
+    th:first-child,
+    td:first-child{
+     width:45%;
+     text-align:left;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2){
+     width:15%;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(4),
+    td:nth-child(4){
+     width:20%;
+    }
+
+    .product{
+     text-align:left;
     }
 
     .summary{
-     width:320px;
+     width:100%;
+     max-width:340px;
      margin-left:auto;
-     margin-top:18px;
+     margin-top:15px;
     }
 
     .summary p{
      text-align:right;
-     margin:6px 0;
-     font-size:16px;
+     margin:5px 0;
+     font-size:14px;
     }
 
     .payable{
-     font-size:20px !important;
+     font-size:18px !important;
      font-weight:bold;
      color:#b8860b;
      border-top:2px solid #999;
-     padding-top:8px;
+     padding-top:7px;
+     margin-top:7px !important;
     }
 
     .due{
-     font-size:20px !important;
+     font-size:18px !important;
      font-weight:bold;
     }
+
+    .terms{
+     margin-top:22px;
+     padding-top:10px;
+     border-top:1px solid #bbb;
+     font-size:12px;
+     line-height:1.6;
+    }
+
+    .terms p{
+     margin:2px 0;
+    }
+
+    .signatures{
+     display:flex;
+     justify-content:space-between;
+     margin-top:45px;
+     gap:30px;
+    }
+
+    .signature{
+     width:42%;
+     text-align:center;
+     font-size:13px;
+    }
+
+    .signature-line{
+     border-top:1px solid #555;
+     margin-bottom:7px;
+    }
+
+    @media print{
+
+     body{
+      padding:8mm;
+     }
+
+     .invoice-page{
+      max-width:none;
+     }
+
+     .terms{
+      page-break-inside:avoid;
+     }
+
+     .signatures{
+      page-break-inside:avoid;
+     }
+
+    }
+
+    @media(max-width:480px){
+
+     body{
+      padding:10px;
+      font-size:13px;
+     }
+
+     .invoice-logo{
+      width:65px;
+      height:65px;
+      flex-basis:65px;
+     }
+
+     .company-info h1{
+      font-size:20px;
+     }
+
+     .slogan{
+      font-size:12px;
+     }
+
+     .address,
+     .mobile{
+      font-size:11px;
+     }
+
+     .invoice-title{
+      font-size:19px;
+     }
+
+     th,td{
+      padding:6px 3px;
+      font-size:12px;
+     }
+
+     .summary p{
+      font-size:13px;
+     }
+
+     .payable,
+     .due{
+      font-size:16px !important;
+     }
+
+     .terms{
+      font-size:11px;
+     }
+
+     .signatures{
+      margin-top:35px;
+     }
+
+    }
+
    </style>
+
   </head>
 
   <body>
 
-   <div class="invoice-header">
+   <div class="invoice-page">
 
-    <img src="logo.jpg" class="invoice-logo">
+    <div class="invoice-header">
 
-    <div class="company-info">
+     <img src="logo.jpg" class="invoice-logo">
 
-     <h1>MOROL TILES CITY</h1>
+     <div class="company-info">
 
-     <p class="slogan">
-      Decoration Your Home
+      <h1>MOROL TILES CITY</h1>
+
+      <p class="slogan">
+       Decoration Your Home
+      </p>
+
+      <p class="address">
+       বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা, যশোর রোড, সাতক্ষীরা
+      </p>
+
+      <p class="mobile">
+       মোবাইল: 01911-786336, 01912-709914
+      </p>
+
+     </div>
+
+    </div>
+
+
+    <div class="invoice-title">
+     SALES INVOICE
+    </div>
+
+
+    <div class="customer-info">
+
+     <p>
+      <strong>Customer:</strong>
+      ${customerName}
      </p>
 
-     <p class="address">
-      বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা, যশোর রোড, সাতক্ষীরা
+     <p class="customer-mobile">
+      <strong>Mobile:</strong>
+      ${customerMobile}
      </p>
 
-     <p class="mobile" style="white-space:nowrap !important; font-size:11px !important; width:max-content;">
-  মোবাইল: 01911-786336, 01912-709914
-</p>
+     <p>
+      <strong>Address:</strong>
+      ${customerAddress}
+     </p>
+
+    </div>
+
+
+    <table>
+
+     <tr>
+      <th>Product</th>
+      <th>Qty</th>
+      <th>Unit Price</th>
+      <th>Total</th>
+     </tr>
+
+     ${rows}
+
+    </table>
+
+
+    <div class="summary">
+
+     <p>
+      Grand Total: ৳${grandTotal.toFixed(2)}
+     </p>
+
+     <p>
+      Discount: ৳${discount.toFixed(2)}
+     </p>
+
+     <p>
+      Labour Charge: ৳${labour.toFixed(2)}
+     </p>
+
+     <p class="payable">
+      Payable Bill: ৳${payable.toFixed(2)}
+     </p>
+
+     <p>
+      Paid Amount: ৳${paid.toFixed(2)}
+     </p>
+
+     <p class="due">
+      Due Amount: ৳${due.toFixed(2)}
+     </p>
+
+    </div>
+
+
+    <div class="terms">
+
+     <p>
+      ★ বি গ্রেড ও বিদেশী পন্য ফেরত ও পরিবর্তনযোগ্য নহে।
+     </p>
+
+     <p>
+      ★ এ গ্রেড ক্রয়কৃত বেচে যাওয়া পন্য ১৫ দিনের মধ্যে ১০% কর্তনে ফেরত নেওয়া হবে।
+     </p>
+
+    </div>
+
+
+    <div class="signatures">
+
+     <div class="signature">
+
+      <div class="signature-line"></div>
+
+      Customer Signature
+
+     </div>
+
+
+     <div class="signature">
+
+      <div class="signature-line"></div>
+
+      Authorized Signature<br>
+
+      Morol Tiles City
+
+     </div>
 
     </div>
 
    </div>
 
-   <div class="invoice-title">
-    SALES INVOICE
-   </div>
-
-   <p>
-    <strong>Customer:</strong>
-    ${escapeHtml(document.getElementById("customerName").value||"Walk-in Customer")}
-   </p>
-
-   <p>
-    <strong>Mobile:</strong>
-    ${escapeHtml(document.getElementById("customerMobile").value||"")}
-   </p>
-
-   <p>
-    <strong>Address:</strong>
-    ${escapeHtml(document.getElementById("customerAddress").value||"")}
-   </p>
-
-   <table>
-
-    <tr>
-     <th>Product</th>
-     <th>Qty</th>
-     <th>Price</th>
-     <th>Total</th>
-    </tr>
-
-    ${rows}
-
-   </table>
-
-   <div class="summary">
-
-    <p>
-     Grand Total: ৳${grandTotal.toFixed(2)}
-    </p>
-
-    <p>
-     Discount: ৳${discount.toFixed(2)}
-    </p>
-
-    <p>
-     Labour Charge: ৳${labour.toFixed(2)}
-    </p>
-
-    <p class="payable">
-     Payable Bill: ৳${payable.toFixed(2)}
-    </p>
-
-    <p>
-     Paid Amount: ৳${paid.toFixed(2)}
-    </p>
-
-    <p class="due">
-     Due Amount: ৳${due.toFixed(2)}
-    </p>
-
-   </div>
-
   </body>
+
   </html>
  `);
 
  w.document.close();
- w.print();
-}
 
+ setTimeout(function(){
+  w.focus();
+  w.print();
+ },500);
+
+}
+   
 /* STORAGE */
 
 function saveData(){
