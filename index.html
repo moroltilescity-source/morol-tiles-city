@@ -1154,282 +1154,20 @@ function previewInvoice(id){
  items.forEach(item => {
 
    const name = item.name || item.product || "";
-   const qty = item.qty || item.quantity || 0;
-   const price = item.price || item.unitPrice || 0;
-   const total = Number(qty) * Number(price);
+   const qty = Number(item.qty || item.quantity || 0);
+   const price = Number(item.price || item.unitPrice || 0);
+   const total = qty * price;
 
    rows += `
     <tr>
-      <td>${escapeHtml(name)}</td>
+      <td class="product-name">${escapeHtml(name)}</td>
       <td>${qty}</td>
-      <td>৳${Number(price).toFixed(2)}</td>
-      <td>৳${Number(total).toFixed(2)}</td>
+      <td>৳${price.toFixed(2)}</td>
+      <td>৳${total.toFixed(2)}</td>
     </tr>
    `;
  });
 
- const preview = `
-  <div style="
-    padding:20px;
-    max-width:800px;
-    margin:auto;
-    background:#fff;
-    font-family:Arial,sans-serif;
-    color:#222;
-  ">
-
-   <!-- INVOICE HEADER -->
-
-   <div style="
-     display:flex;
-     align-items:center;
-     gap:18px;
-     border-bottom:2px solid #b8860b;
-     padding-bottom:12px;
-     margin-bottom:15px;
-   ">
-
-     <img
-       src="logo.jpg"
-       style="
-         width:90px;
-         height:90px;
-         object-fit:contain;
-         border-radius:8px;
-         background:#fffaf0;
-         padding:5px;
-       "
-     >
-
-     <div style="flex:1">
-
-       <h1 style="
-         margin:0;
-         color:#b8860b;
-         font-size:26px;
-       ">
-         MOROL TILES CITY
-       </h1>
-
-       <p style="
-         margin:4px 0;
-         font-size:14px;
-         font-weight:bold;
-       ">
-         Decoration Your Home
-       </p>
-
-       <p style="
-         margin:3px 0;
-         font-size:13px;
-       ">
-         বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা, যশোর রোড, সাতক্ষীরা
-       </p>
-
-       <p style="
-         margin:3px 0;
-         font-size:13px;
-         font-weight:bold;
-       ">
-         মোবাইল: 01911-786336, 01912-709914
-       </p>
-
-     </div>
-
-   </div>
-
-   <!-- INVOICE TITLE -->
-
-   <div style="
-     text-align:right;
-     color:#b8860b;
-     font-size:22px;
-     font-weight:bold;
-     margin-bottom:12px;
-   ">
-     SALES INVOICE
-   </div>
-
-   <p>
-     <b>Invoice:</b> ${inv.id}
-   </p>
-
-   <p>
-     <b>Date:</b> ${inv.date}
-   </p>
-
-   <p>
-     <b>Customer:</b> ${escapeHtml(inv.customer || "Walk-in Customer")}
-   </p>
-
-   <p>
-     <b>Mobile:</b> ${escapeHtml(inv.mobile || "")}
-   </p>
-
-   <p>
-     <b>Address:</b> ${escapeHtml(inv.address || "")}
-   </p>
-
-   <!-- PRODUCT TABLE -->
-
-   <table style="
-     width:100%;
-     border-collapse:collapse;
-     margin-top:15px;
-   ">
-
-    <thead>
-
-     <tr>
-
-      <th style="
-        border:1px solid #999;
-        padding:8px;
-        background:#eee;
-      ">
-       Product
-      </th>
-
-      <th style="
-        border:1px solid #999;
-        padding:8px;
-        background:#eee;
-      ">
-       Qty
-      </th>
-
-      <th style="
-        border:1px solid #999;
-        padding:8px;
-        background:#eee;
-      ">
-       Unit Price
-      </th>
-
-      <th style="
-        border:1px solid #999;
-        padding:8px;
-        background:#eee;
-      ">
-       Total
-      </th>
-
-     </tr>
-
-    </thead>
-
-    <tbody>
-
-     ${rows}
-
-    </tbody>
-
-   </table>
-
-   <!-- SUMMARY -->
-
-   <div style="
-     width:320px;
-     max-width:100%;
-     margin-left:auto;
-     margin-top:18px;
-   ">
-
-    <p style="text-align:right;margin:6px 0">
-     Grand Total:
-     ৳${Number(inv.grandTotal || 0).toFixed(2)}
-    </p>
-
-    <p style="text-align:right;margin:6px 0">
-     Discount:
-     ৳${Number(inv.discount || 0).toFixed(2)}
-    </p>
-
-    <p style="text-align:right;margin:6px 0">
-     Labour Charge:
-     ৳${Number(inv.labourCharge || 0).toFixed(2)}
-    </p>
-
-    <p style="
-      text-align:right;
-      margin:6px 0;
-      font-size:20px;
-      font-weight:bold;
-      color:#b8860b;
-      border-top:2px solid #999;
-      padding-top:8px;
-    ">
-     Payable Bill:
-     ৳${Number(inv.total || 0).toFixed(2)}
-    </p>
-
-    <p style="text-align:right;margin:6px 0">
-     Paid Amount:
-     ৳${Number(inv.paidAmount || 0).toFixed(2)}
-    </p>
-
-    <p style="
-      text-align:right;
-      margin:6px 0;
-      font-size:20px;
-      font-weight:bold;
-    ">
-     Due Amount:
-     ৳${Number(inv.dueAmount || 0).toFixed(2)}
-    </p>
-
-   </div>
-
-   <!-- SIGNATURE AREA -->
-
-   <div style="
-     display:flex;
-     justify-content:space-between;
-     align-items:flex-end;
-     margin-top:90px;
-     padding:0 20px;
-   ">
-
-     <div style="
-       width:40%;
-       text-align:center;
-     ">
-
-       <div style="height:55px"></div>
-
-       <div style="
-         border-top:1px solid #000;
-         padding-top:8px;
-       ">
-         Customer Signature
-       </div>
-
-     </div>
-
-     <div style="
-       width:40%;
-       text-align:center;
-     ">
-
-       <div style="height:55px"></div>
-
-       <div style="
-         border-top:1px solid #000;
-         padding-top:8px;
-       ">
-         Authorized Signature
-       </div>
-
-       <div style="margin-top:5px">
-         Morol Tiles City
-       </div>
-
-     </div>
-
-   </div>
-
-  </div>
- `;
 
  const win = window.open("", "_blank");
 
@@ -1438,39 +1176,517 @@ function previewInvoice(id){
    return;
  }
 
+
  win.document.write(`
-  <!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="bn">
 
-  <html>
+<head>
 
-  <head>
+<meta charset="UTF-8">
 
-   <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-   <title>Invoice ${inv.id}</title>
+<title>MTC Invoice</title>
 
-   <meta
-     name="viewport"
-     content="width=device-width, initial-scale=1"
-   >
+<style>
 
-  </head>
-
-  <body style="
-    margin:0;
-    background:#f5f5f5;
-  ">
-
-   ${preview}
-
-  </body>
-
-  </html>
- `);
-
- win.document.close();
+*{
+ box-sizing:border-box;
 }
 
+html,
+body{
+ margin:0;
+ padding:0;
+ width:100%;
+ min-width:0;
+}
+
+body{
+ font-family:Arial,sans-serif;
+ background:#fff;
+ color:#222;
+ padding:10px;
+ font-size:14px;
+}
+
+.invoice-page{
+ width:100%;
+ max-width:100%;
+ margin:0 auto;
+ background:#fff;
+}
+
+.invoice-header{
+ width:100%;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ border-bottom:2px solid #b8860b;
+ padding-bottom:10px;
+ margin-bottom:12px;
+}
+
+.invoice-logo{
+ width:75px;
+ height:75px;
+ flex:0 0 75px;
+ object-fit:contain;
+ border-radius:8px;
+ background:#fffaf0;
+ padding:4px;
+}
+
+.company-info{
+ flex:1;
+ min-width:0;
+}
+
+.company-info h1{
+ margin:0;
+ color:#b8860b;
+ font-size:24px;
+ white-space:nowrap;
+}
+
+.slogan{
+ margin:3px 0;
+ font-size:13px;
+ font-weight:bold;
+}
+
+.address{
+ margin:3px 0;
+ font-size:12px;
+}
+
+.company-mobile{
+ margin:3px 0;
+ font-size:12px;
+ font-weight:bold;
+ white-space:nowrap;
+}
+
+.invoice-title{
+ text-align:right;
+ color:#b8860b;
+ font-size:20px;
+ font-weight:bold;
+ margin-bottom:12px;
+}
+
+.customer-info p{
+ margin:5px 0;
+}
+
+.customer-mobile{
+ white-space:nowrap;
+}
+
+.invoice-table{
+ width:100%;
+ border-collapse:collapse;
+ margin-top:15px;
+ table-layout:auto;
+}
+
+.invoice-table th,
+.invoice-table td{
+ border:1px solid #999;
+ padding:7px;
+ text-align:left;
+}
+
+.invoice-table th{
+ background:#eee;
+}
+
+.invoice-table th:nth-child(2),
+.invoice-table td:nth-child(2){
+ text-align:center;
+ width:55px;
+}
+
+.invoice-table th:nth-child(3),
+.invoice-table td:nth-child(3){
+ text-align:right;
+ width:90px;
+ white-space:nowrap;
+}
+
+.invoice-table th:nth-child(4),
+.invoice-table td:nth-child(4){
+ text-align:right;
+ width:95px;
+ white-space:nowrap;
+}
+
+.product-name{
+ word-break:normal;
+ overflow-wrap:break-word;
+}
+
+.summary{
+ width:320px;
+ max-width:100%;
+ margin-left:auto;
+ margin-top:18px;
+}
+
+.summary p{
+ text-align:right;
+ margin:6px 0;
+}
+
+.payable{
+ font-size:18px;
+ font-weight:bold;
+ color:#b8860b;
+ border-top:2px solid #999;
+ padding-top:8px;
+}
+
+.due{
+ font-size:18px;
+ font-weight:bold;
+}
+
+.terms{
+ margin-top:18px;
+ padding-top:10px;
+ border-top:1px solid #ccc;
+ font-size:12px;
+ line-height:1.6;
+}
+
+.signature-area{
+ display:flex;
+ justify-content:space-between;
+ align-items:flex-end;
+ margin-top:65px;
+ padding:0 10px;
+}
+
+.signature{
+ width:40%;
+ text-align:center;
+}
+
+.signature-space{
+ height:45px;
+}
+
+.signature-line{
+ border-top:1px solid #000;
+ padding-top:6px;
+ font-size:12px;
+}
+
+.authority-name{
+ margin-top:4px;
+ font-size:12px;
+}
+
+
+@media(max-width:600px){
+
+ body{
+   padding:8px;
+   font-size:13px;
+ }
+
+ .invoice-logo{
+   width:60px;
+   height:60px;
+   flex:0 0 60px;
+ }
+
+ .company-info h1{
+   font-size:18px;
+ }
+
+ .slogan{
+   font-size:10px;
+ }
+
+ .address,
+ .company-mobile{
+   font-size:10px;
+ }
+
+ .invoice-title{
+   font-size:17px;
+ }
+
+ .invoice-table th,
+ .invoice-table td{
+   padding:5px 4px;
+   font-size:11px;
+ }
+
+ .invoice-table th:nth-child(2),
+ .invoice-table td:nth-child(2){
+   width:38px;
+ }
+
+ .invoice-table th:nth-child(3),
+ .invoice-table td:nth-child(3){
+   width:65px;
+ }
+
+ .invoice-table th:nth-child(4),
+ .invoice-table td:nth-child(4){
+   width:75px;
+ }
+
+ .summary{
+   width:100%;
+ }
+
+ .signature-area{
+   margin-top:50px;
+   padding:0 5px;
+ }
+
+ .signature{
+   width:42%;
+ }
+
+ .terms{
+   font-size:11px;
+ }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="invoice-page">
+
+
+<!-- HEADER -->
+
+<div class="invoice-header">
+
+ <img
+   src="logo.jpg"
+   class="invoice-logo"
+ >
+
+ <div class="company-info">
+
+   <h1>MOROL TILES CITY</h1>
+
+   <p class="slogan">
+     Decoration Your Home
+   </p>
+
+   <p class="address">
+     বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা,
+     যশোর রোড, সাতক্ষীরা
+   </p>
+
+   <p class="company-mobile">
+     মোবাইল: 01911-786336, 01912-709914
+   </p>
+
+ </div>
+
+</div>
+
+
+<!-- TITLE -->
+
+<div class="invoice-title">
+ SALES INVOICE
+</div>
+
+
+<!-- CUSTOMER -->
+
+<div class="customer-info">
+
+ <p>
+   <b>Invoice:</b> ${escapeHtml(inv.id)}
+ </p>
+
+ <p>
+   <b>Date:</b> ${escapeHtml(inv.date || "")}
+ </p>
+
+ <p>
+   <b>Customer:</b>
+   ${escapeHtml(inv.customer || "Walk-in Customer")}
+ </p>
+
+ <p class="customer-mobile">
+   <b>Mobile:</b>
+   ${escapeHtml(inv.mobile || "")}
+ </p>
+
+ <p>
+   <b>Address:</b>
+   ${escapeHtml(inv.address || "")}
+ </p>
+
+</div>
+
+
+<!-- PRODUCT TABLE -->
+
+<table class="invoice-table">
+
+ <thead>
+
+  <tr>
+
+   <th>Product</th>
+   <th>Qty</th>
+   <th>Unit Price</th>
+   <th>Total</th>
+
+  </tr>
+
+ </thead>
+
+ <tbody>
+
+  ${rows}
+
+ </tbody>
+
+</table>
+
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+ <p>
+   Grand Total:
+   ৳${Number(inv.grandTotal || 0).toFixed(2)}
+ </p>
+
+ <p>
+   Discount:
+   ৳${Number(inv.discount || 0).toFixed(2)}
+ </p>
+
+ <p>
+   Labour Charge:
+   ৳${Number(inv.labourCharge || 0).toFixed(2)}
+ </p>
+
+ <p class="payable">
+   Payable Bill:
+   ৳${Number(inv.total || 0).toFixed(2)}
+ </p>
+
+ <p>
+   Paid Amount:
+   ৳${Number(inv.paidAmount || 0).toFixed(2)}
+ </p>
+
+ <p class="due">
+   Due Amount:
+   ৳${Number(inv.dueAmount || 0).toFixed(2)}
+ </p>
+
+</div>
+
+
+<!-- TERMS -->
+
+<div class="terms">
+
+ <div>
+   ★ বি গ্রেড ও বিদেশী পন্য ফেরত ও পরিবর্তনযোগ্য নহে।
+ </div>
+
+ <div>
+   ★ এ গ্রেড ক্রয়কৃত বেচে যাওয়া পন্য ১৫ দিনের মধ্যে
+   ১০% কর্তনে ফেরত নেওয়া হবে।
+ </div>
+
+</div>
+
+
+<!-- SIGNATURE -->
+
+<div class="signature-area">
+
+ <div class="signature">
+
+   <div class="signature-space"></div>
+
+   <div class="signature-line">
+     Customer Signature
+   </div>
+
+ </div>
+
+
+ <div class="signature">
+
+   <div class="signature-space"></div>
+
+   <div class="signature-line">
+     Authorized Signature
+   </div>
+
+   <div class="authority-name">
+     Morol Tiles City
+   </div>
+
+ </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* Force mobile width immediately */
+
+document.documentElement.style.width = "100%";
+document.body.style.width = "100%";
+
+</script>
+
+
+</body>
+
+</html>
+ `);
+
+
+ win.document.close();
+
+
+ /* Force Chrome to recalculate the mobile layout */
+
+ setTimeout(function(){
+
+   try{
+
+     win.document.documentElement.style.width = "100vw";
+     win.document.body.style.width = "100vw";
+
+     win.document.body.style.minWidth = "0";
+
+   }catch(e){}
+
+ },100);
+
+}
 /* DASHBOARD */
 
 function updateDashboard(){
