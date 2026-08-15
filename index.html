@@ -161,7 +161,13 @@ th{background:#f3f4f6}
    <p>স্বাগতম MTC Management Software-এ।</p>
    <p>Products & Stock থেকে পণ্য যোগ করুন এবং Sales Invoice থেকে বিক্রয় করুন।</p>
   </div>
+  <div class="section" style="margin-top:18px; text-align:center">
 
+   <button class="btn blue" onclick="backupMTCData()">
+    💾 Backup MTC Data
+   </button>
+
+  </div>
  </div>
 
 
@@ -2200,7 +2206,35 @@ function saveData(){
  localStorage.setItem("mtc_products",JSON.stringify(products));
  localStorage.setItem("mtc_invoices",JSON.stringify(invoices));
 }
+function backupMTCData(){
 
+ const backup = {
+   products: JSON.parse(localStorage.getItem("mtc_products") || "[]"),
+   invoices: JSON.parse(localStorage.getItem("mtc_invoices") || "[]"),
+   backupDate: new Date().toISOString()
+ };
+
+ const blob = new Blob(
+   [JSON.stringify(backup, null, 2)],
+   {type:"application/json"}
+ );
+
+ const url = URL.createObjectURL(blob);
+
+ const a = document.createElement("a");
+ a.href = url;
+ a.download = "MTC_Backup_" +
+   new Date().toISOString().slice(0,10) +
+   ".json";
+
+ document.body.appendChild(a);
+ a.click();
+ document.body.removeChild(a);
+
+ URL.revokeObjectURL(url);
+
+ alert("✅ MTC Backup সফলভাবে তৈরি হয়েছে!");
+}
 
 function refreshAll(){
 
