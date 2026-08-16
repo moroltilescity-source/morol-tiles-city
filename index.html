@@ -406,8 +406,24 @@ document.getElementById("invoiceDate").value =
 </div>
 
 
-<script>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZO1C2bH1qOFyr9_YmYQ-9f7VncfVvjQY",
+    authDomain: "morol-tiles-city.firebaseapp.com",
+    projectId: "morol-tiles-city",
+    storageBucket: "morol-tiles-city.firebasestorage.app",
+    messagingSenderId: "322244319196",
+    appId: "1:322244319196:web:db3764e68d605f683c6119"
+  };
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const db = getFirestore(firebaseApp);
+ console.log("MTC Firebase Connected");
+</script>
 const USERNAME="admin";
 const PASSWORD="123456";
 
