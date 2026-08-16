@@ -2291,8 +2291,8 @@ async function loadFirebaseData(){
   // Firebase backup
   try{
 
-    await setDoc(
-      doc(db, "mtc_data", "main"),
+    await window.setDoc(
+  window.doc(window.db, "mtc_data", "main"),
       {
         products: products,
         invoices: invoices,
