@@ -2470,6 +2470,33 @@ window.addEventListener("firebaseReady", function(){
   loadFirebaseData();
 
 });
+<script>
+window.doLogin = function(){
 
+  const username =
+    document.getElementById("username").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  if(username === "admin" && password === "123456"){
+
+    document.getElementById("loginPage")
+      .classList.add("hidden");
+
+    document.getElementById("app")
+      .classList.remove("hidden");
+
+    document.getElementById("loginMsg").textContent = "";
+
+  }else{
+
+    document.getElementById("loginMsg").textContent =
+      "Username অথবা Password ভুল!";
+
+  }
+
+};
+</script>
 </body>
 </html>
