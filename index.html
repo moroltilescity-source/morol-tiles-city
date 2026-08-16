@@ -2222,7 +2222,59 @@ function printInvoice(){
 }
    
 /* STORAGE */
+async function loadFirebaseData(){
 
+  try{
+
+    const snap = await window.getDoc(
+      window.doc(window.db, "mtc_data", "main")
+    );
+
+    if(snap.exists()){
+
+      const data = snap.data();
+
+      if(Array.isArray(data.products)){
+        products = data.products;
+
+        localStorage.setItem(
+          "mtc_products",
+          JSON.stringify(products)
+        );
+      }
+
+      if(Array.isArray(data.invoices)){
+        invoices = data.invoices;
+
+        localStorage.setItem(
+          "mtc_invoices",
+          JSON.stringify(invoices)
+        );
+      }
+
+      refreshAll();
+
+      console.log("MTC data loaded from Firebase");
+
+    }else{
+
+      console.log("Firebase data not found");
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Firebase load error:",
+      error
+    );
+
+    alert(
+      "Firebase থেকে data load হয়নি!\n\n" +
+      error.message
+    );
+  }
+}
  async function saveData(){
 
   // Local backup
@@ -2343,7 +2395,7 @@ if(products.length===0){
 
  saveData();
 }
-
+loadFirebaseData();
 </script>
 
 </body>
