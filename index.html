@@ -427,6 +427,7 @@ document.getElementById("invoiceDate").value =
 window.doc = doc;
 window.setDoc = setDoc;
  window.getDoc = getDoc;
+ window.dispatchEvent(new Event("firebaseReady"));
 </script>
 
  <script>
@@ -2370,33 +2371,37 @@ function escapeHtml(text){
 
 /* DEMO PRODUCT */
 
-if(products.length===0){
+window.addEventListener("firebaseReady", function(){
 
- products=[
-  {
-   id:1,
-   name:"60x60 Floor Tile",
-   category:"Floor Tile",
-   unit:"Box",
-   stock:10,
-   purchase:1800,
-   sale:2200
-  },
-  {
-   id:2,
-   name:"30x60 Wall Tile",
-   category:"Wall Tile",
-   unit:"Box",
-   stock:15,
-   purchase:1400,
-   sale:1750
+  if(products.length===0){
+
+    products=[
+      {
+        id:1,
+        name:"60x60 Floor Tile",
+        category:"Floor Tile",
+        unit:"Box",
+        stock:10,
+        purchase:1800,
+        sale:2200
+      },
+      {
+        id:2,
+        name:"30x60 Wall Tile",
+        category:"Wall Tile",
+        unit:"Box",
+        stock:15,
+        purchase:1400,
+        sale:1750
+      }
+    ];
+
+    saveData();
   }
- ];
 
- saveData();
-}
-loadFirebaseData();
-</script>
+  loadFirebaseData();
+
+});
 
 </body>
 </html>
