@@ -423,6 +423,9 @@ document.getElementById("invoiceDate").value =
   const firebaseApp = initializeApp(firebaseConfig);
   const db = getFirestore(firebaseApp);
  console.log("MTC Firebase Connected");
+ window.db = db;
+window.doc = doc;
+window.setDoc = setDoc;
 </script>
 
  <script>
