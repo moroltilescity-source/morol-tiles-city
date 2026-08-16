@@ -100,9 +100,10 @@ th{background:#f3f4f6}
 
   <input id="username" placeholder="Username">
   <input id="password" type="password" placeholder="Password">
-
-  <button class="btn" style="width:100%" onclick="login()">LOGIN</button>
-
+<button id="loginButton" class="btn" style="width:100%" type="button">
+  LOGIN
+</button>
+  
   <p id="loginMsg" style="color:red"></p>
  </div>
 </div>
@@ -440,47 +441,112 @@ let products=JSON.parse(localStorage.getItem("mtc_products")||"[]");
 let invoices=JSON.parse(localStorage.getItem("mtc_invoices")||"[]");
 let currentInvoice=[];
 
-
 /* LOGIN */
 
-window.login = function(){
+const USERNAME = "admin";
+const PASSWORD = "123456";
 
- alert("LOGIN FUNCTION চলছে");
+function doLogin(){
 
- try{
+  try{
 
-  const u=document.getElementById("username").value.trim();
-  const p=document.getElementById("password").value;
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const loginPage = document.getElementById("loginPage");
+    const app = document.getElementById("app");
+    const loginMsg = document.getElementById("loginMsg");
 
-  if(u===USERNAME && p===PASSWORD){
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
 
-   document.getElementById("loginPage").classList.add("hidden");
-   document.getElementById("app").classList.remove("hidden");
-//refreshAll();
+    loginMsg.textContent = "";
 
-document.getElementById("app").scrollIntoView({
-   behavior:"instant",
-   block:"start"
-});
-  }else{
+    if(username === USERNAME && password === PASSWORD){
 
-   document.getElementById("loginMsg").textContent =
-     "Username অথবা Password ভুল!";
+      /* Login successful */
+
+      loginPage.classList.add("hidden");
+      app.classList.remove("hidden");
+
+      /* Show Dashboard */
+      document.querySelectorAll(".page").forEach(page=>{
+        page.classList.add("hidden");
+      });
+
+      document.getElementById("dashboard").classList.remove("hidden");
+
+      document.querySelectorAll(".nav button").forEach(btn=>{
+        btn.classList.remove("active");
+      });
+
+      document.querySelector(".nav button").classList.add("active");
+
+      /* Load current local data immediately */
+      refreshAll();
+
+      /* Then load Firebase data if Firebase is ready */
+      if(
+        typeof window.getDoc === "function" &&
+        typeof window.doc === "function" &&
+        window.db
+      ){
+        loadFirebaseData();
+      }
+
+    }else{
+
+      loginMsg.textContent =
+        "Username অথবা Password ভুল!";
+
+      passwordInput.focus();
+    }
+
+  }catch(error){
+
+    console.error("Login Error:", error);
+
+    alert(
+      "Login Error:\n\n" +
+      error.message
+    );
+
+  }
+}
+
+
+/* Login button */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  if(loginButton){
+
+    loginButton.addEventListener("click", doLogin);
 
   }
 
- }catch(error){
+  /* Enter key দিয়ে Login */
 
-  alert("Login Error:\n\n" + error.message);
+  document
+    .getElementById("password")
+    .addEventListener("keydown", function(event){
 
- }
+      if(event.key === "Enter"){
+        doLogin();
+      }
 
-}
+    });
+
+});
+
 
 function logout(){
- location.reload();
-}
 
+  location.reload();
+
+}
 
 /* PAGE */
 
