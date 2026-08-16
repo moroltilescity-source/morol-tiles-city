@@ -101,7 +101,7 @@ th{background:#f3f4f6}
   <input id="username" placeholder="Username">
   <input id="password" type="password" placeholder="Password">
 
-  <button class="btn" style="width:100%" onclick="alert('BUTTON কাজ করছে'); login()">LOGIN</button>
+  <button class="btn" style="width:100%" onclick="login()">LOGIN</button>
 
   <p id="loginMsg" style="color:red"></p>
  </div>
@@ -443,7 +443,7 @@ let currentInvoice=[];
 
 /* LOGIN */
 
-function login(){
+window.login = function(){
 
  alert("LOGIN FUNCTION চলছে");
 
