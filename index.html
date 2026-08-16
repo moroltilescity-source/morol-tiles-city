@@ -2219,10 +2219,45 @@ function printInvoice(){
    
 /* STORAGE */
 
-function saveData(){
+ async function saveData(){
 
- localStorage.setItem("mtc_products",JSON.stringify(products));
- localStorage.setItem("mtc_invoices",JSON.stringify(invoices));
+  // Local backup
+  localStorage.setItem(
+    "mtc_products",
+    JSON.stringify(products)
+  );
+
+  localStorage.setItem(
+    "mtc_invoices",
+    JSON.stringify(invoices)
+  );
+
+  // Firebase backup
+  try{
+
+    await setDoc(
+      doc(db, "mtc_data", "main"),
+      {
+        products: products,
+        invoices: invoices,
+        updatedAt: new Date().toISOString()
+      }
+    );
+
+    console.log("MTC data saved to Firebase");
+
+  }catch(error){
+
+    console.error(
+      "Firebase save error:",
+      error
+    );
+
+    alert(
+      "Firebase-এ data save হয়নি!\n\n" +
+      error.message
+    );
+  }
 }
 function backupMTCData(){
 
