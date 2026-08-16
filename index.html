@@ -1,545 +1,1327 @@
-<!doctype html> 
+<!doctype html>
 <html lang="bn">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Morol Tiles City - MTC</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f4f6;color:#222}
-button,input,select{font:inherit}
-.hidden{display:none!important}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f3f4f6;
+  color:#222;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* ================= LOGIN ================= */
 
 .login{
- min-height:100vh;display:flex;align-items:center;justify-content:center;
- background:linear-gradient(135deg,#111827,#b8860b)
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#111827,#b8860b);
 }
+
 .login-box{
- width:92%;max-width:400px;background:#fff;padding:28px;border-radius:18px;
- box-shadow:0 15px 40px #0005;text-align:center
+  width:92%;
+  max-width:400px;
+  background:#fff;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 15px 40px #0005;
+  text-align:center;
 }
-.logo{font-size:42px;font-weight:bold;color:#c79722}
-.login-box h2{margin:5px 0 25px}
-input,select{
- width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccc;
- border-radius:8px;background:#fff
+
+.login-box img{
+  width:110px;
+  height:110px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 10px;
+  border-radius:10px;
 }
+
+.login-box h2{
+  margin:5px 0 10px;
+}
+
+.login-box p{
+  margin:6px 0 18px;
+}
+
+input,
+select{
+  width:100%;
+  padding:12px;
+  margin:6px 0 12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  background:#fff;
+}
+
 .btn{
- border:0;border-radius:8px;padding:11px 16px;background:#b8860b;
- color:#fff;cursor:pointer;font-weight:bold
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
+  background:#b8860b;
+  color:#fff;
+  cursor:pointer;
+  font-weight:bold;
 }
-.btn:hover{opacity:.9}
-.btn.red{background:#dc2626}
-.btn.green{background:#16a34a}
-.btn.blue{background:#2563eb}
+
+.btn:hover{
+  opacity:.9;
+}
+
+.btn.red{
+  background:#dc2626;
+}
+
+.btn.green{
+  background:#16a34a;
+}
+
+.btn.blue{
+  background:#2563eb;
+}
+
+.btn.gray{
+  background:#6b7280;
+}
+
+/* ================= HEADER ================= */
 
 header{
- background:#111827;color:#fff;padding:14px 18px;display:flex;
- justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10
+  background:#111827;
+  color:#fff;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
-header strong{color:#f4c542;font-size:20px}
-.container{max-width:1100px;margin:auto;padding:18px}
+
+header strong{
+  color:#f4c542;
+  font-size:20px;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:18px;
+}
+
+/* ================= NAV ================= */
+
+.nav{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  background:#fff;
+  padding:10px;
+  border-radius:12px;
+  margin-bottom:18px;
+  box-shadow:0 2px 8px #0001;
+}
+
+.nav button{
+  white-space:nowrap;
+  border:0;
+  background:#e5e7eb;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.nav button.active{
+  background:#b8860b;
+  color:#fff;
+}
+
+/* ================= DASHBOARD ================= */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.card{
+  background:#fff;
+  border-radius:12px;
+  padding:18px;
+  box-shadow:0 2px 8px #0001;
+}
+
+.card small{
+  color:#666;
+}
+
+.card b{
+  font-size:25px;
+  display:block;
+  margin-top:8px;
+}
+
+.section{
+  background:#fff;
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 2px 8px #0001;
+}
+
+.section h3{
+  margin-top:0;
+  color:#374151;
+}
+
+/* ================= FORM ================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th,
+td{
+  padding:10px;
+  border-bottom:1px solid #ddd;
+  text-align:left;
+}
+
+th{
+  background:#f3f4f6;
+}
+
 #historyTable td:nth-child(4){
   white-space:nowrap;
 }
-.nav{
- display:flex;gap:8px;overflow:auto;background:#fff;padding:10px;
- border-radius:12px;margin-bottom:18px;box-shadow:0 2px 8px #0001
-}
-.nav button{white-space:nowrap;border:0;background:#e5e7eb;padding:10px 14px;border-radius:8px}
-.nav button.active{background:#b8860b;color:#fff}
 
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.card{
- background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 8px #0001
-}
-.card small{color:#666}.card b{font-size:25px;display:block;margin-top:8px}
-
-.section{
- background:#fff;border-radius:12px;padding:18px;margin-bottom:18px;
- box-shadow:0 2px 8px #0001
-}
-.section h3{margin-top:0;color:#374151}
-
-.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.table-wrap{overflow:auto}
-table{width:100%;border-collapse:collapse;min-width:650px}
-th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left}
-th{background:#f3f4f6}
+/* ================= INVOICE ================= */
 
 .invoice-total{
- text-align:right;font-size:20px;font-weight:bold;margin:15px 0
+  text-align:right;
+  font-size:20px;
+  font-weight:bold;
+  margin:15px 0;
 }
 
-@media(max-width:700px){
- .cards{grid-template-columns:repeat(2,1fr)}
- .form-grid{grid-template-columns:1fr}
- header{font-size:14px}
- .container{padding:10px}
+.summary-box{
+  margin-top:15px;
+  max-width:400px;
+  margin-left:auto;
 }
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:8px 0;
+}
+
+.summary-row input{
+  width:150px;
+  padding:6px;
+  margin:0;
+}
+
+/* ================= LOADING ================= */
+
+#firebaseStatus{
+  text-align:center;
+  font-size:13px;
+  color:#666;
+  margin-top:8px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:700px){
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  header{
+    font-size:14px;
+  }
+
+  header strong{
+    font-size:16px;
+  }
+
+  .container{
+    padding:10px;
+  }
+
+  .nav{
+    margin-bottom:10px;
+  }
+
+  .card{
+    padding:14px;
+  }
+
+  .card b{
+    font-size:21px;
+  }
+
+}
+
 </style>
+
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="loginPage" class="login">
- <div class="login-box">
-  <img src="logo.jpg"
-     style="
-       width:110px;
-       height:110px;
-       object-fit:contain;
-       display:block;
-       margin:0 auto 10px;
-       border-radius:10px;
-     ">
-  <h2>Morol Tiles City</h2>
-  <p>Decoration Your Home</p>
 
-  <input id="username" placeholder="Username">
-  <input id="password" type="password" placeholder="Password">
-<button id="loginButton" class="btn" style="width:100%" type="button" onclick="doLogin()">
-  LOGIN
-</button>
-  
-  <p id="loginMsg" style="color:red"></p>
- </div>
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div id="loginPage" class="login">
+
+  <div class="login-box">
+
+    <img src="logo.jpg" alt="MTC Logo">
+
+    <h2>Morol Tiles City</h2>
+
+    <p>Decoration Your Home</p>
+
+    <input
+      id="username"
+      type="text"
+      placeholder="Username"
+      autocomplete="username"
+    >
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
+
+    <button
+      id="loginButton"
+      class="btn"
+      style="width:100%"
+      type="button"
+    >
+      LOGIN
+    </button>
+
+    <p
+      id="loginMsg"
+      style="color:red;margin-top:12px"
+    ></p>
+
+    <div id="firebaseStatus">
+      Firebase connecting...
+    </div>
+
+  </div>
+
 </div>
 
 
-<!-- APP -->
+<!-- =====================================================
+     APP
+===================================================== -->
+
 <div id="app" class="hidden">
 
 <header>
- <div style="display:flex;align-items:center;gap:10px">
-  <img src="logo.jpg"
-       style="width:42px;height:42px;object-fit:contain;border-radius:6px;background:#fff;padding:2px">
-  <strong>MOROL TILES CITY</strong>
- </div>
 
- <button class="btn red" onclick="logout()">Logout</button>
+  <div style="display:flex;align-items:center;gap:10px">
+
+    <img
+      src="logo.jpg"
+      alt="MTC"
+      style="
+        width:42px;
+        height:42px;
+        object-fit:contain;
+        border-radius:6px;
+        background:#fff;
+        padding:2px
+      "
+    >
+
+    <strong>MOROL TILES CITY</strong>
+
+  </div>
+
+  <button
+    class="btn red"
+    type="button"
+    onclick="logout()"
+  >
+    Logout
+  </button>
+
 </header>
+
 
 <div class="container">
 
- <div class="nav">
-  <button class="active" onclick="showPage('dashboard',this)">📊 Dashboard</button>
-  <button onclick="showPage('products',this)">📦 Products & Stock</button>
-  <button onclick="showPage('sales',this)">🧾 Sales Invoice</button>
-  <button onclick="showPage('history',this)">📋 Sales History</button>
- </div>
+
+<!-- =====================================================
+     NAV
+===================================================== -->
+
+<div class="nav">
+
+  <button
+    class="active"
+    type="button"
+    onclick="showPage('dashboard',this)"
+  >
+    📊 Dashboard
+  </button>
+
+  <button
+    type="button"
+    onclick="showPage('products',this)"
+  >
+    📦 Products & Stock
+  </button>
+
+  <button
+    type="button"
+    onclick="showPage('sales',this)"
+  >
+    🧾 Sales Invoice
+  </button>
+
+  <button
+    type="button"
+    onclick="showPage('history',this)"
+  >
+    📋 Sales History
+  </button>
+
+</div>
 
 
- <!-- DASHBOARD -->
- <div id="dashboard" class="page">
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div id="dashboard" class="page">
 
   <div class="cards">
-   <div class="card">
-    <small>Total Products</small>
-    <b id="totalProducts">0</b>
-   </div>
 
-   <div class="card">
-    <small>Total Stock</small>
-    <b id="totalStock">0</b>
-   </div>
-
-   <div class="card">
-    <small>Total Sales</small>
-    <b id="totalSales">৳0</b>
-   </div>
-
-   <div class="card">
-    <small>Total Invoices</small>
-    <b id="totalInvoices">0</b>
-   </div>
-  </div>
-
-  <div class="section" style="margin-top:18px">
-   <h3>Morol Tiles City</h3>
-   <p>স্বাগতম MTC Management Software-এ।</p>
-   <p>Products & Stock থেকে পণ্য যোগ করুন এবং Sales Invoice থেকে বিক্রয় করুন।</p>
-  </div>
-  <div class="section" style="margin-top:18px; text-align:center">
-
-   <button class="btn blue" onclick="backupMTCData()">
-    💾 Backup MTC Data
-   </button>
-
-  </div>
- </div>
-
-
- <!-- PRODUCTS -->
- <div id="products" class="page hidden">
-
-  <div class="section">
-   <h3>➕ Add New Product</h3>
-
-   <div class="form-grid">
-    <div>
-     <label>Product Name</label>
-     <input id="pName" placeholder="যেমন: 60x60 Floor Tile">
+    <div class="card">
+      <small>Total Products</small>
+      <b id="totalProducts">0</b>
     </div>
 
-    <div>
-     <label>Category</label>
-     <select id="pCategory">
-      <option>Floor Tile</option>
-      <option>Wall Tile</option>
-      <option>Parking Tile</option>
-      <option>Marble</option>
-      <option>Granite</option>
-      <option>Mosaic</option>
-      <option>Sanitary</option>
-      <option>Fittings</option>
-      <option>Other</option>
-     </select>
+    <div class="card">
+      <small>Total Stock</small>
+      <b id="totalStock">0</b>
     </div>
 
-    <div>
-     <label>Unit</label>
-     <select id="pUnit">
-      <option>Box</option>
-      <option>Piece</option>
-      <option>Sqft</option>
-      <option>Set</option>
-     </select>
+    <div class="card">
+      <small>Total Sales</small>
+      <b id="totalSales">৳0</b>
     </div>
 
-    <div>
-     <label>Stock</label>
-     <input id="pStock" type="number" min="0" placeholder="0">
+    <div class="card">
+      <small>Total Invoices</small>
+      <b id="totalInvoices">0</b>
     </div>
 
-    <div>
-     <label>Purchase Price</label>
-     <input id="pPurchase" type="number" min="0" placeholder="0">
-    </div>
-
-    <div>
-     <label>Sale Price</label>
-     <input id="pSale" type="number" min="0" placeholder="0">
-    </div>
-   </div>
-
-   <button class="btn green" onclick="addProduct()">Add Product</button>
   </div>
 
 
-  <div class="section">
-   <h3>📦 Product & Stock List</h3>
+  <div
+    class="section"
+    style="margin-top:18px"
+  >
 
-   <div class="table-wrap">
-    <table>
-     <thead>
-      <tr>
-       <th>#</th>
-       <th>Product</th>
-       <th>Category</th>
-       <th>Unit</th>
-       <th>Stock</th>
-       <th>Sale Price</th>
-       <th>Action</th>
-      </tr>
-     </thead>
+    <h3>Morol Tiles City</h3>
 
-     <tbody id="productTable"></tbody>
-    </table>
-   </div>
+    <p>
+      স্বাগতম MTC Management Software-এ।
+    </p>
+
+    <p>
+      Products & Stock থেকে পণ্য যোগ করুন এবং
+      Sales Invoice থেকে বিক্রয় করুন।
+    </p>
+
   </div>
 
- </div>
 
+  <div
+    class="section"
+    style="
+      margin-top:18px;
+      text-align:center
+    "
+  >
 
- <!-- SALES -->
- <div id="sales" class="page hidden">
-
-  <div class="section">
-   <h3>🧾 New Sales Invoice</h3>
-
-   <div class="form-grid">
-    <div>
-     <label>Customer Name</label>
-     <input id="customerName" placeholder="Customer name">
-    </div>
-
-    <div>
-     <label>Customer Mobile</label>
-     <input id="customerMobile" placeholder="01XXXXXXXXX">
-    </div>
-    <div>
-  <label>Customer Address</label>
-  <input id="customerAddress" placeholder="Customer address">
-     <label>Invoice Date</label>
-   <input id="invoiceDate" type="date">  
-     <script>
-const today = new Date();
-document.getElementById("invoiceDate").value =
-  today.getFullYear() + "-" +
-  String(today.getMonth() + 1).padStart(2, "0") + "-" +
-  String(today.getDate()).padStart(2, "0");
-</script>
-</div>
-   </div>
-
-   <hr>
-
-   <h3>Add Product</h3>
-
-   <select id="saleProduct" onchange="updateSalePrice()"></select>
-
-   <div class="form-grid">
-    <div>
-     <label>Quantity</label>
-     <input id="saleQty" type="number" min="1" value="1">
-    </div>
-
-    <div>
-     <label>Unit Price</label>
-     <input id="salePrice" type="number" min="0">
-    </div>
-   </div>
-
-   <button class="btn blue" onclick="addToInvoice()">Add to Invoice</button>
-
-   <div class="table-wrap" style="margin-top:18px">
-    <table>
-     <thead>
-      <tr>
-       <th>Product</th>
-       <th>Qty</th>
-       <th>Price</th>
-       <th>Total</th>
-       <th>Remove</th>
-      </tr>
-     </thead>
-     <tbody id="invoiceTable"></tbody>
-    </table>
-   </div>
-
-   <div class="invoice-total">
-    Grand Total: ৳<span id="grandTotal">0</span>
-   </div>
-<div style="margin-top:15px;max-width:400px;margin-left:auto">
-
-  <div style="display:flex;justify-content:space-between;margin:8px 0">
-    <b>Discount:</b>
-    <input
-      id="discountAmount"
-      type="number"
-      value="0"
-      min="0"
-      oninput="calculateInvoiceSummary()"
-      style="width:150px;padding:6px"
+    <button
+      class="btn blue"
+      type="button"
+      onclick="backupMTCData()"
     >
-  </div>
-  <div style="display:flex;justify-content:space-between;margin:8px 0">
-    <b>Labour Charge:</b>
-    <input
-      id="labourCharge"
-      type="number"
-      value="0"
-      min="0"
-      oninput="calculateInvoiceSummary()"
-      style="width:150px;padding:6px"
-    >
-  </div>
-  <div style="display:flex;justify-content:space-between;margin:8px 0">
-    <b>Payable Bill:</b>
-    <b>৳<span id="payableBill">0</span></b>
-  </div>
+      💾 Backup MTC Data
+    </button>
 
-  <div style="display:flex;justify-content:space-between;margin:8px 0">
-    <b>Paid Amount:</b>
-    <input
-      id="paidAmount"
-      type="number"
-      value="0"
-      min="0"
-      oninput="calculateInvoiceSummary()"
-      style="width:150px;padding:6px"
-    >
-  </div>
-
-  <div style="display:flex;justify-content:space-between;margin:8px 0">
-    <b>Due:</b>
-    <b>৳<span id="dueAmount">0</span></b>
   </div>
 
 </div>
-   <button class="btn green" onclick="saveInvoice()">💾 Save Invoice</button>
-   <button class="btn" onclick="printInvoice()">🖨️ Print</button>
-
-  </div>
-
- </div>
 
 
- <!-- HISTORY -->
- <div id="history" class="page hidden">
+<!-- =====================================================
+     PRODUCTS
+===================================================== -->
+
+<div id="products" class="page hidden">
 
   <div class="section">
-   <h3>📋 Sales History</h3>
 
-   <div class="table-wrap">
-    <table>
-     <thead>
-      <tr>
-       <th>Invoice</th>
-       <th>Date</th>
-       <th>Customer</th>
-       <th>Mobile</th>
-       <th>Total</th>
-      </tr>
-     </thead>
+    <h3>➕ Add New Product</h3>
 
-     <tbody id="historyTable"></tbody>
-    </table>
-   </div>
+    <div class="form-grid">
+
+      <div>
+
+        <label>Product Name</label>
+
+        <input
+          id="pName"
+          placeholder="যেমন: 60x60 Floor Tile"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>Category</label>
+
+        <select id="pCategory">
+
+          <option>Floor Tile</option>
+          <option>Wall Tile</option>
+          <option>Parking Tile</option>
+          <option>Marble</option>
+          <option>Granite</option>
+          <option>Mosaic</option>
+          <option>Sanitary</option>
+          <option>Fittings</option>
+          <option>Other</option>
+
+        </select>
+
+      </div>
+
+
+      <div>
+
+        <label>Unit</label>
+
+        <select id="pUnit">
+
+          <option>Box</option>
+          <option>Piece</option>
+          <option>Sqft</option>
+          <option>Set</option>
+
+        </select>
+
+      </div>
+
+
+      <div>
+
+        <label>Stock</label>
+
+        <input
+          id="pStock"
+          type="number"
+          min="0"
+          placeholder="0"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>Purchase Price</label>
+
+        <input
+          id="pPurchase"
+          type="number"
+          min="0"
+          placeholder="0"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>Sale Price</label>
+
+        <input
+          id="pSale"
+          type="number"
+          min="0"
+          placeholder="0"
+        >
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn green"
+      type="button"
+      onclick="addProduct()"
+    >
+      Add Product
+    </button>
+
   </div>
 
- </div>
+
+  <div class="section">
+
+    <h3>📦 Product & Stock List</h3>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Unit</th>
+            <th>Stock</th>
+            <th>Sale Price</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="productTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     SALES
+===================================================== -->
+
+<div id="sales" class="page hidden">
+
+  <div class="section">
+
+    <h3>🧾 New Sales Invoice</h3>
+
+
+    <div class="form-grid">
+
+      <div>
+
+        <label>Customer Name</label>
+
+        <input
+          id="customerName"
+          placeholder="Customer name"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>Customer Mobile</label>
+
+        <input
+          id="customerMobile"
+          placeholder="01XXXXXXXXX"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>Customer Address</label>
+
+        <input
+          id="customerAddress"
+          placeholder="Customer address"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>Invoice Date</label>
+
+        <input
+          id="invoiceDate"
+          type="date"
+        >
+
+      </div>
+
+    </div>
+
+
+    <hr>
+
+
+    <h3>Add Product</h3>
+
+
+    <select
+      id="saleProduct"
+      onchange="updateSalePrice()"
+    ></select>
+
+
+    <div class="form-grid">
+
+      <div>
+
+        <label>Quantity</label>
+
+        <input
+          id="saleQty"
+          type="number"
+          min="1"
+          value="1"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>Unit Price</label>
+
+        <input
+          id="salePrice"
+          type="number"
+          min="0"
+        >
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn blue"
+      type="button"
+      onclick="addToInvoice()"
+    >
+      Add to Invoice
+    </button>
+
+
+    <div
+      class="table-wrap"
+      style="margin-top:18px"
+    >
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Remove</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="invoiceTable"></tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="invoice-total">
+
+      Grand Total:
+      ৳<span id="grandTotal">0.00</span>
+
+    </div>
+
+
+    <div class="summary-box">
+
+      <div class="summary-row">
+
+        <b>Discount:</b>
+
+        <input
+          id="discountAmount"
+          type="number"
+          value="0"
+          min="0"
+          oninput="calculateInvoiceSummary()"
+        >
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <b>Labour Charge:</b>
+
+        <input
+          id="labourCharge"
+          type="number"
+          value="0"
+          min="0"
+          oninput="calculateInvoiceSummary()"
+        >
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <b>Payable Bill:</b>
+
+        <b>
+          ৳<span id="payableBill">0.00</span>
+        </b>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <b>Paid Amount:</b>
+
+        <input
+          id="paidAmount"
+          type="number"
+          value="0"
+          min="0"
+          oninput="calculateInvoiceSummary()"
+        >
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <b>Due:</b>
+
+        <b>
+          ৳<span id="dueAmount">0.00</span>
+        </b>
+
+      </div>
+
+    </div>
+
+
+    <div
+      style="
+        margin-top:18px;
+        display:flex;
+        gap:8px;
+        flex-wrap:wrap
+      "
+    >
+
+      <button
+        class="btn green"
+        type="button"
+        onclick="saveInvoice()"
+      >
+        💾 Save Invoice
+      </button>
+
+
+      <button
+        class="btn"
+        type="button"
+        onclick="printInvoice()"
+      >
+        🖨️ Print
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     HISTORY
+===================================================== -->
+
+<div id="history" class="page hidden">
+
+  <div class="section">
+
+    <h3>📋 Sales History</h3>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Invoice</th>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Mobile</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="historyTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 </div>
 </div>
 
 
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAZO1C2bH1qOFyr9_YmYQ-9f7VncfVvjQY",
-    authDomain: "morol-tiles-city.firebaseapp.com",
-    projectId: "morol-tiles-city",
-    storageBucket: "morol-tiles-city.firebasestorage.app",
-    messagingSenderId: "322244319196",
-    appId: "1:322244319196:web:db3764e68d605f683c6119"
-  };
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
-  const firebaseApp = initializeApp(firebaseConfig);
-  const db = getFirestore(firebaseApp);
- console.log("MTC Firebase Connected");
- 
- window.db = db;
-window.doc = doc;
-window.setDoc = setDoc;
- window.getDoc = getDoc;
- console.log("setDoc ready:", typeof window.setDoc);
- window.dispatchEvent(new Event("firebaseReady"));
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyAZO1C2bH1qOFyr9_YmYQ-9f7VncfVvjQY",
+
+  authDomain:
+    "morol-tiles-city.firebaseapp.com",
+
+  projectId:
+    "morol-tiles-city",
+
+  storageBucket:
+    "morol-tiles-city.firebasestorage.app",
+
+  messagingSenderId:
+    "322244319196",
+
+  appId:
+    "1:322244319196:web:db3764e68d605f683c6119"
+
+};
+
+
+try{
+
+  const firebaseApp =
+    initializeApp(firebaseConfig);
+
+  const db =
+    getFirestore(firebaseApp);
+
+
+  window.db = db;
+  window.doc = doc;
+  window.setDoc = setDoc;
+  window.getDoc = getDoc;
+
+  window.firebaseReady = true;
+
+
+  console.log("MTC Firebase Connected");
+
+  console.log(
+    "setDoc ready:",
+    typeof window.setDoc
+  );
+
+
+  const status =
+    document.getElementById("firebaseStatus");
+
+  if(status){
+    status.textContent =
+      "Firebase Connected ✓";
+    status.style.color = "green";
+  }
+
+
+  /*
+   * Classic script ইতিমধ্যে load হয়ে থাকলে
+   * Firebase data initialization শুরু হবে।
+   */
+
+  if(typeof window.initializeMTCFirebase === "function"){
+
+    window.initializeMTCFirebase();
+
+  }
+
+}
+catch(error){
+
+  console.error(
+    "Firebase initialization error:",
+    error
+  );
+
+  window.firebaseReady = false;
+
+  const status =
+    document.getElementById("firebaseStatus");
+
+  if(status){
+
+    status.textContent =
+      "Firebase connection failed";
+
+    status.style.color = "red";
+
+  }
+
+}
+
 </script>
 
- <script>
+
+<!-- =====================================================
+     MAIN JAVASCRIPT
+===================================================== -->
+
+<script>
 
 
-let products=JSON.parse(localStorage.getItem("mtc_products")||"[]");
-let invoices=JSON.parse(localStorage.getItem("mtc_invoices")||"[]");
-let currentInvoice=[];
+/* =====================================================
+   GLOBAL DATA
+===================================================== */
 
-/* LOGIN */
+let products =
+  JSON.parse(
+    localStorage.getItem("mtc_products") || "[]"
+  );
+
+let invoices =
+  JSON.parse(
+    localStorage.getItem("mtc_invoices") || "[]"
+  );
+
+let currentInvoice = [];
+
+let firebaseReady =
+  window.firebaseReady === true;
+
+let firebaseDataLoaded = false;
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
 
 const USERNAME = "admin";
 const PASSWORD = "123456";
 
+
 function doLogin(){
 
-  try{
+  const usernameInput =
+    document.getElementById("username");
 
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const loginPage = document.getElementById("loginPage");
-    const app = document.getElementById("app");
-    const loginMsg = document.getElementById("loginMsg");
+  const passwordInput =
+    document.getElementById("password");
 
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value;
+  const loginPage =
+    document.getElementById("loginPage");
 
-    loginMsg.textContent = "";
+  const app =
+    document.getElementById("app");
 
-    if(username === USERNAME && password === PASSWORD){
+  const loginMsg =
+    document.getElementById("loginMsg");
 
-      /* Login successful */
 
-      loginPage.classList.add("hidden");
-      app.classList.remove("hidden");
+  if(!usernameInput || !passwordInput){
+    return;
+  }
 
-      /* Show Dashboard */
-      document.querySelectorAll(".page").forEach(page=>{
-        page.classList.add("hidden");
-      });
 
-      document.getElementById("dashboard").classList.remove("hidden");
+  const username =
+    usernameInput.value.trim();
 
-      document.querySelectorAll(".nav button").forEach(btn=>{
-        btn.classList.remove("active");
-      });
+  const password =
+    passwordInput.value;
 
-      document.querySelector(".nav button").classList.add("active");
 
-      /* Load current local data immediately */
-      refreshAll();
+  loginMsg.textContent = "";
 
-      /* Then load Firebase data if Firebase is ready */
-      if(
-        typeof window.getDoc === "function" &&
-        typeof window.doc === "function" &&
-        window.db
-      ){
-        loadFirebaseData();
-      }
 
-    }else{
+  if(
+    username !== USERNAME ||
+    password !== PASSWORD
+  ){
 
-      loginMsg.textContent =
-        "Username অথবা Password ভুল!";
+    loginMsg.textContent =
+      "Username অথবা Password ভুল!";
 
-      passwordInput.focus();
-    }
+    passwordInput.focus();
 
-  }catch(error){
+    return;
+  }
 
-    console.error("Login Error:", error);
+
+  /*
+   * Login successful
+   */
+
+  loginPage.classList.add("hidden");
+
+  app.classList.remove("hidden");
+
+
+  /*
+   * Dashboard show
+   */
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page =>
+      page.classList.add("hidden")
+    );
+
+
+  document
+    .getElementById("dashboard")
+    .classList.remove("hidden");
+
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+
+  const firstNav =
+    document.querySelector(".nav button");
+
+  if(firstNav){
+    firstNav.classList.add("active");
+  }
+
+
+  /*
+   * প্রথমে local data দেখাবে।
+   * তারপর Firebase data load হবে।
+   */
+
+  refreshAll();
+
+
+  if(firebaseReady){
+
+    loadFirebaseData();
+
+  }
+  else{
 
     alert(
-      "Login Error:\n\n" +
-      error.message
+      "Login হয়েছে, কিন্তু Firebase এখনো connected নয়।\n\n" +
+      "Internet connection check করুন।"
     );
 
   }
+
 }
 
 
-/* Login button */
+/* =====================================================
+   LOGIN EVENTS
+===================================================== */
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
 
-  const loginButton =
-    document.getElementById("loginButton");
+    const loginButton =
+      document.getElementById("loginButton");
 
-  if(loginButton){
 
-    loginButton.addEventListener("click", doLogin);
+    if(loginButton){
+
+      loginButton.addEventListener(
+        "click",
+        doLogin
+      );
+
+    }
+
+
+    const password =
+      document.getElementById("password");
+
+
+    if(password){
+
+      password.addEventListener(
+        "keydown",
+        function(event){
+
+          if(event.key === "Enter"){
+
+            event.preventDefault();
+
+            doLogin();
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /*
+     * আজকের date
+     */
+
+    setInvoiceToday();
 
   }
+);
 
-  /* Enter key দিয়ে Login */
 
-  document
-    .getElementById("password")
-    .addEventListener("keydown", function(event){
+/* =====================================================
+   INVOICE DATE
+===================================================== */
 
-      if(event.key === "Enter"){
-        doLogin();
-      }
+function setInvoiceToday(){
 
-    });
+  const input =
+    document.getElementById("invoiceDate");
 
-});
+  if(!input){
+    return;
+  }
 
+
+  const today =
+    new Date();
+
+
+  const year =
+    today.getFullYear();
+
+
+  const month =
+    String(
+      today.getMonth()+1
+    ).padStart(2,"0");
+
+
+  const day =
+    String(
+      today.getDate()
+    ).padStart(2,"0");
+
+
+  input.value =
+    year + "-" +
+    month + "-" +
+    day;
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 function logout(){
 
@@ -547,478 +1329,1435 @@ function logout(){
 
 }
 
-/* PAGE */
+
+/* =====================================================
+   PAGE
+===================================================== */
 
 function showPage(id,btn){
 
- document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));
- document.getElementById(id).classList.remove("hidden");
-
- document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));
- btn.classList.add("active");
-
- refreshAll();
-}
+  document
+    .querySelectorAll(".page")
+    .forEach(x =>
+      x.classList.add("hidden")
+    );
 
 
-/* PRODUCT */
-
-function addProduct(){
-
- const name=document.getElementById("pName").value.trim();
- const category=document.getElementById("pCategory").value;
- const unit=document.getElementById("pUnit").value;
- const stock=Number(document.getElementById("pStock").value||0);
- const purchase=Number(document.getElementById("pPurchase").value||0);
- const sale=Number(document.getElementById("pSale").value||0);
-
- if(!name){
-  alert("Product name দিন");
-  return;
- }
-
- products.push({
-  id:Date.now(),
-  name,
-  category,
-  unit,
-  stock,
-  purchase,
-  sale
- });
-
- saveData();
-
- document.getElementById("pName").value="";
- document.getElementById("pStock").value="";
- document.getElementById("pPurchase").value="";
- document.getElementById("pSale").value="";
-
- refreshAll();
-
- alert("Product successfully added!");
-}
+  const page =
+    document.getElementById(id);
 
 
-function updateStock(id){
-
- const p=products.find(x=>x.id===id);
- if(!p)return;
-
- const amount=prompt("বর্তমান stock: "+p.stock+"\nনতুন stock লিখুন:");
-
- if(amount!==null){
-  const n=Number(amount);
-
-  if(!isNaN(n) && n>=0){
-   p.stock=n;
-   saveData();
-   refreshAll();
-   alert("Stock successfully updated!");
-  }else{
-   alert("সঠিক Stock quantity দিন");
+  if(page){
+    page.classList.remove("hidden");
   }
- }
+
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(x =>
+      x.classList.remove("active")
+    );
+
+
+  if(btn){
+    btn.classList.add("active");
+  }
+
+
+  refreshAll();
+
 }
 
 
-function deleteProduct(id){
+/* =====================================================
+   PRODUCT
+===================================================== */
 
- if(!confirm("এই product delete করবেন?"))return;
+async function addProduct(){
 
- products=products.filter(x=>x.id!==id);
+  const name =
+    document
+      .getElementById("pName")
+      .value
+      .trim();
 
- saveData();
- refreshAll();
+
+  const category =
+    document
+      .getElementById("pCategory")
+      .value;
+
+
+  const unit =
+    document
+      .getElementById("pUnit")
+      .value;
+
+
+  const stock =
+    Number(
+      document
+        .getElementById("pStock")
+        .value || 0
+    );
+
+
+  const purchase =
+    Number(
+      document
+        .getElementById("pPurchase")
+        .value || 0
+    );
+
+
+  const sale =
+    Number(
+      document
+        .getElementById("pSale")
+        .value || 0
+    );
+
+
+  if(!name){
+
+    alert(
+      "Product name দিন"
+    );
+
+    return;
+
+  }
+
+
+  if(stock < 0){
+
+    alert(
+      "Stock সঠিক দিন"
+    );
+
+    return;
+
+  }
+
+
+  products.push({
+
+    id:Date.now(),
+
+    name,
+
+    category,
+
+    unit,
+
+    stock,
+
+    purchase,
+
+    sale
+
+  });
+
+
+  await saveData();
+
+
+  document
+    .getElementById("pName")
+    .value = "";
+
+  document
+    .getElementById("pStock")
+    .value = "";
+
+  document
+    .getElementById("pPurchase")
+    .value = "";
+
+  document
+    .getElementById("pSale")
+    .value = "";
+
+
+  refreshAll();
+
+
+  alert(
+    "Product successfully added!"
+  );
+
 }
 
+
+/* =====================================================
+   UPDATE STOCK
+===================================================== */
+
+async function updateStock(id){
+
+  const p =
+    products.find(
+      x => String(x.id) === String(id)
+    );
+
+
+  if(!p){
+    return;
+  }
+
+
+  const amount =
+    prompt(
+      "বর্তমান stock: " +
+      p.stock +
+      "\nনতুন stock লিখুন:"
+    );
+
+
+  if(amount === null){
+    return;
+  }
+
+
+  const n =
+    Number(amount);
+
+
+  if(
+    !isNaN(n) &&
+    n >= 0
+  ){
+
+    p.stock = n;
+
+
+    await saveData();
+
+
+    refreshAll();
+
+
+    alert(
+      "Stock successfully updated!"
+    );
+
+  }
+  else{
+
+    alert(
+      "সঠিক Stock quantity দিন"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   DELETE PRODUCT
+===================================================== */
+
+async function deleteProduct(id){
+
+  if(
+    !confirm(
+      "এই product delete করবেন?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  products =
+    products.filter(
+      x => String(x.id) !== String(id)
+    );
+
+
+  await saveData();
+
+
+  refreshAll();
+
+}
+
+
+/* =====================================================
+   RENDER PRODUCTS
+===================================================== */
 
 function renderProducts(){
 
- const tbody=document.getElementById("productTable");
+  const tbody =
+    document.getElementById(
+      "productTable"
+    );
 
- tbody.innerHTML="";
 
- products.forEach((p,i)=>{
+  if(!tbody){
+    return;
+  }
 
-  tbody.innerHTML+=`
-   <tr>
-    <td>${i+1}</td>
-    <td>${escapeHtml(p.name)}</td>
-    <td>${escapeHtml(p.category)}</td>
-    <td>${escapeHtml(p.unit)}</td>
-    <td><b>${p.stock}</b></td>
-    <td>৳${p.sale}</td>
-    <td>
-     <button class="btn blue" onclick="updateStock(${p.id})">Stock</button>
-     <button class="btn red" onclick="deleteProduct(${p.id})">Delete</button>
-    </td>
-   </tr>
-  `;
- });
+
+  tbody.innerHTML = "";
+
+
+  products.forEach(
+    (p,i)=>{
+
+      tbody.innerHTML += `
+
+        <tr>
+
+          <td>${i+1}</td>
+
+          <td>
+            ${escapeHtml(p.name)}
+          </td>
+
+          <td>
+            ${escapeHtml(p.category)}
+          </td>
+
+          <td>
+            ${escapeHtml(p.unit)}
+          </td>
+
+          <td>
+            <b>${Number(p.stock || 0)}</b>
+          </td>
+
+          <td>
+            ৳${Number(p.sale || 0).toFixed(2)}
+          </td>
+
+          <td>
+
+            <button
+              class="btn blue"
+              type="button"
+              onclick="updateStock('${String(p.id)}')"
+            >
+              Stock
+            </button>
+
+            <button
+              class="btn red"
+              type="button"
+              onclick="deleteProduct('${String(p.id)}')"
+            >
+              Delete
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
 }
 
 
-/* SALES */
+/* =====================================================
+   SALES PRODUCT SELECT
+===================================================== */
 
 function renderProductSelect(){
 
- const select=document.getElementById("saleProduct");
+  const select =
+    document.getElementById(
+      "saleProduct"
+    );
 
- select.innerHTML='<option value="">-- Product Select --</option>';
 
- products.forEach(p=>{
-  if(p.stock>0){
-   select.innerHTML+=`
-    <option value="${p.id}">
-     ${escapeHtml(p.name)} — Stock ${p.stock}
-    </option>
-   `;
+  if(!select){
+    return;
   }
- });
+
+
+  select.innerHTML =
+    '<option value="">-- Product Select --</option>';
+
+
+  products.forEach(
+    p => {
+
+      if(
+        Number(p.stock || 0) > 0
+      ){
+
+        select.innerHTML += `
+
+          <option value="${String(p.id)}">
+
+            ${escapeHtml(p.name)}
+            — Stock ${Number(p.stock || 0)}
+
+          </option>
+
+        `;
+
+      }
+
+    }
+  );
+
 }
 
+
+/* =====================================================
+   SALE PRICE
+===================================================== */
 
 function updateSalePrice(){
 
- const id=Number(document.getElementById("saleProduct").value);
- const p=products.find(x=>x.id===id);
+  const id =
+    document
+      .getElementById("saleProduct")
+      .value;
 
- if(p){
-  document.getElementById("salePrice").value=p.sale;
- }
+
+  const p =
+    products.find(
+      x => String(x.id) === String(id)
+    );
+
+
+  const priceInput =
+    document.getElementById(
+      "salePrice"
+    );
+
+
+  if(p){
+
+    priceInput.value =
+      Number(p.sale || 0);
+
+  }
+  else{
+
+    priceInput.value = "";
+
+  }
+
 }
 
+
+/* =====================================================
+   ADD TO INVOICE
+===================================================== */
 
 function addToInvoice(){
 
- const id=Number(document.getElementById("saleProduct").value);
- const qty=Number(document.getElementById("saleQty").value||0);
- const price=Number(document.getElementById("salePrice").value||0);
+  const id =
+    document
+      .getElementById("saleProduct")
+      .value;
 
- const p=products.find(x=>x.id===id);
 
- if(!p){
-  alert("Product select করুন");
-  return;
- }
+  const qty =
+    Number(
+      document
+        .getElementById("saleQty")
+        .value || 0
+    );
 
- if(qty<=0){
-  alert("Quantity সঠিক দিন");
-  return;
- }
 
- if(qty>p.stock){
-  alert("Stock পর্যাপ্ত নেই। বর্তমান stock: "+p.stock);
-  return;
- }
+  const price =
+    Number(
+      document
+        .getElementById("salePrice")
+        .value || 0
+    );
 
- currentInvoice.push({
-  productId:p.id,
-  name:p.name,
-  qty,
-  price,
-  total:qty*price
- });
 
- renderInvoice();
+  const p =
+    products.find(
+      x => String(x.id) === String(id)
+    );
+
+
+  if(!p){
+
+    alert(
+      "Product select করুন"
+    );
+
+    return;
+
+  }
+
+
+  if(qty <= 0){
+
+    alert(
+      "Quantity সঠিক দিন"
+    );
+
+    return;
+
+  }
+
+
+  if(price < 0){
+
+    alert(
+      "Unit Price সঠিক দিন"
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * একই product আগে invoice-এ থাকলে
+   * আলাদা line না করে quantity যোগ করবে।
+   */
+
+  const existing =
+    currentInvoice.find(
+      x =>
+        String(x.productId) ===
+        String(p.id)
+    );
+
+
+  const existingQty =
+    existing
+      ? Number(existing.qty || 0)
+      : 0;
+
+
+  if(
+    existingQty + qty >
+    Number(p.stock || 0)
+  ){
+
+    alert(
+      "Stock পর্যাপ্ত নেই। বর্তমান stock: " +
+      p.stock
+    );
+
+    return;
+
+  }
+
+
+  if(existing){
+
+    existing.qty =
+      existingQty + qty;
+
+    existing.price =
+      price;
+
+    existing.total =
+      existing.qty * existing.price;
+
+  }
+  else{
+
+    currentInvoice.push({
+
+      productId:p.id,
+
+      name:p.name,
+
+      qty,
+
+      price,
+
+      total:qty * price
+
+    });
+
+  }
+
+
+  renderInvoice();
+
+
+  document
+    .getElementById("saleQty")
+    .value = 1;
+
 }
 
+
+/* =====================================================
+   REMOVE INVOICE ITEM
+===================================================== */
 
 function removeInvoiceItem(index){
 
- currentInvoice.splice(index,1);
- renderInvoice();
+  currentInvoice.splice(
+    index,
+    1
+  );
+
+
+  renderInvoice();
+
 }
 
+
+/* =====================================================
+   RENDER INVOICE
+===================================================== */
 
 function renderInvoice(){
 
- const tbody=document.getElementById("invoiceTable");
+  const tbody =
+    document.getElementById(
+      "invoiceTable"
+    );
 
- tbody.innerHTML="";
 
- let total=0;
+  if(!tbody){
+    return;
+  }
 
- currentInvoice.forEach((item,i)=>{
 
-  total+=item.total;
+  tbody.innerHTML = "";
 
-  tbody.innerHTML+=`
-   <tr>
-    <td>${escapeHtml(item.name)}</td>
-    <td>${item.qty}</td>
-    <td>৳${item.price}</td>
-    <td>৳${item.total}</td>
-    <td>
-     <button class="btn red" onclick="removeInvoiceItem(${i})">X</button>
-    </td>
-   </tr>
-  `;
- });
 
- document.getElementById("grandTotal").textContent=total;
+  let total = 0;
 
-calculateInvoiceSummary();
+
+  currentInvoice.forEach(
+    (item,i)=>{
+
+      total +=
+        Number(item.total || 0);
+
+
+      tbody.innerHTML += `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(item.name)}
+          </td>
+
+          <td>
+            ${Number(item.qty || 0)}
+          </td>
+
+          <td>
+            ৳${Number(item.price || 0).toFixed(2)}
+          </td>
+
+          <td>
+            ৳${Number(item.total || 0).toFixed(2)}
+          </td>
+
+          <td>
+
+            <button
+              class="btn red"
+              type="button"
+              onclick="removeInvoiceItem(${i})"
+            >
+              X
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
+
+  document
+    .getElementById("grandTotal")
+    .textContent =
+      total.toFixed(2);
+
+
+  calculateInvoiceSummary();
+
 }
+
+
+/* =====================================================
+   CALCULATE INVOICE
+===================================================== */
 
 function calculateInvoiceSummary(){
 
- const grandTotal =
-  currentInvoice.reduce((s,x)=>s+Number(x.total||0),0);
+  const grandTotal =
+    currentInvoice.reduce(
+      (sum,item)=>
+        sum + Number(item.total || 0),
+      0
+    );
 
- let discount =
-  Number(document.getElementById("discountAmount").value||0);
 
- let labour =
-  Number(document.getElementById("labourCharge").value||0);
+  const discountInput =
+    document.getElementById(
+      "discountAmount"
+    );
 
- let paid =
-  Number(document.getElementById("paidAmount").value||0);
 
- if(discount < 0) discount = 0;
- if(labour < 0) labour = 0;
- if(paid < 0) paid = 0;
+  const labourInput =
+    document.getElementById(
+      "labourCharge"
+    );
 
- if(discount > grandTotal){
-  discount = grandTotal;
-  document.getElementById("discountAmount").value = discount;
- }
 
- const payable = grandTotal - discount + labour;
+  const paidInput =
+    document.getElementById(
+      "paidAmount"
+    );
 
- if(paid > payable){
-  paid = payable;
-  document.getElementById("paidAmount").value = paid;
- }
 
- const due = payable - paid;
+  if(
+    !discountInput ||
+    !labourInput ||
+    !paidInput
+  ){
 
- document.getElementById("grandTotal").textContent =
-  grandTotal.toFixed(2);
+    return;
 
- document.getElementById("payableBill").textContent =
-  payable.toFixed(2);
-
- document.getElementById("dueAmount").textContent =
-  due.toFixed(2);
-}
-function saveInvoice(){
-
- if(currentInvoice.length===0){
-  alert("Invoice-এ product যোগ করুন");
-  return;
- }
-
- const customer =
-  document.getElementById("customerName").value.trim() ||
-  "Walk-in Customer";
-
- const mobile =
-  document.getElementById("customerMobile").value.trim();
-
- const address =
-  document.getElementById("customerAddress").value.trim();
-
- const grandTotal =
-  currentInvoice.reduce((s,x)=>s+Number(x.total||0),0);
-
- let discount =
-  Number(document.getElementById("discountAmount").value||0);
-
- let labour =
-  Number(document.getElementById("labourCharge").value||0);
-
- if(discount < 0) discount = 0;
- if(labour < 0) labour = 0;
-
- if(discount > grandTotal){
-  discount = grandTotal;
-  document.getElementById("discountAmount").value = discount;
- }
-
- const payable =
-  grandTotal - discount + labour;
-let paid =
-  Number(document.getElementById("paidAmount").value||0);
-
-if(paid < 0) paid = 0;
-
-if(paid > payable){
-  paid = payable;
-  document.getElementById("paidAmount").value = paid;
-}
-
-const due = payable - paid;
- /* reduce stock */
-
- currentInvoice.forEach(item=>{
-
-  const p=products.find(x=>x.id===item.productId);
-
-  if(p){
-   p.stock-=item.qty;
   }
 
- });
 
- const invoice={
+  let discount =
+    Number(
+      discountInput.value || 0
+    );
 
-  id:"MTC-"+Date.now(),
 
-  date:document.getElementById("invoiceDate").value,
+  let labour =
+    Number(
+      labourInput.value || 0
+    );
 
-  customer,
 
-  mobile,
+  let paid =
+    Number(
+      paidInput.value || 0
+    );
 
-  address,
 
-  items:[...currentInvoice],
+  if(discount < 0){
+    discount = 0;
+  }
 
-  grandTotal,
-paidAmount:paid,
-dueAmount:due,
-  discount,
+  if(labour < 0){
+    labour = 0;
+  }
 
-  labourCharge:labour,
+  if(paid < 0){
+    paid = 0;
+  }
 
-  total:payable
 
- };
+  if(
+    discount >
+    grandTotal
+  ){
 
- invoices.unshift(invoice);
+    discount =
+      grandTotal;
 
- saveData();
+    discountInput.value =
+      discount;
 
- alert(
-  "Invoice saved successfully!\n\n"+
-  "Invoice No: "+invoice.id+
-  "\nPayable Bill: ৳"+payable.toFixed(2)
- );
+  }
 
- currentInvoice=[];
 
- document.getElementById("customerName").value="";
- document.getElementById("customerMobile").value="";
- document.getElementById("customerAddress").value="";
+  const payable =
+    grandTotal -
+    discount +
+    labour;
 
- document.getElementById("discountAmount").value="0";
- document.getElementById("labourCharge").value="0";
 
- renderInvoice();
+  if(paid > payable){
 
- refreshAll();
+    paid =
+      payable;
+
+    paidInput.value =
+      paid;
+
+  }
+
+
+  const due =
+    payable - paid;
+
+
+  document
+    .getElementById("grandTotal")
+    .textContent =
+      grandTotal.toFixed(2);
+
+
+  document
+    .getElementById("payableBill")
+    .textContent =
+      payable.toFixed(2);
+
+
+  document
+    .getElementById("dueAmount")
+    .textContent =
+      due.toFixed(2);
 
 }
+
+
+/* =====================================================
+   SAVE INVOICE
+===================================================== */
+
+async function saveInvoice(){
+
+  if(
+    currentInvoice.length === 0
+  ){
+
+    alert(
+      "Invoice-এ product যোগ করুন"
+    );
+
+    return;
+
+  }
+
+
+  const customer =
+    document
+      .getElementById("customerName")
+      .value
+      .trim() ||
+      "Walk-in Customer";
+
+
+  const mobile =
+    document
+      .getElementById("customerMobile")
+      .value
+      .trim();
+
+
+  const address =
+    document
+      .getElementById("customerAddress")
+      .value
+      .trim();
+
+
+  const date =
+    document
+      .getElementById("invoiceDate")
+      .value ||
+      getTodayString();
+
+
+  const grandTotal =
+    currentInvoice.reduce(
+      (sum,item)=>
+        sum + Number(item.total || 0),
+      0
+    );
+
+
+  let discount =
+    Number(
+      document
+        .getElementById("discountAmount")
+        .value || 0
+    );
+
+
+  let labour =
+    Number(
+      document
+        .getElementById("labourCharge")
+        .value || 0
+    );
+
+
+  let paid =
+    Number(
+      document
+        .getElementById("paidAmount")
+        .value || 0
+    );
+
+
+  if(discount < 0){
+    discount = 0;
+  }
+
+
+  if(labour < 0){
+    labour = 0;
+  }
+
+
+  if(paid < 0){
+    paid = 0;
+  }
+
+
+  if(discount > grandTotal){
+
+    discount =
+      grandTotal;
+
+    document
+      .getElementById("discountAmount")
+      .value =
+        discount;
+
+  }
+
+
+  const payable =
+    grandTotal -
+    discount +
+    labour;
+
+
+  if(paid > payable){
+
+    paid =
+      payable;
+
+    document
+      .getElementById("paidAmount")
+      .value =
+        paid;
+
+  }
+
+
+  const due =
+    payable - paid;
+
+
+  /*
+   * Stock validation আবার করা হচ্ছে।
+   */
+
+  for(
+    const item of currentInvoice
+  ){
+
+    const p =
+      products.find(
+        x =>
+          String(x.id) ===
+          String(item.productId)
+      );
+
+
+    if(!p){
+
+      alert(
+        "Product পাওয়া যায়নি: " +
+        item.name
+      );
+
+      return;
+
+    }
+
+
+    if(
+      Number(item.qty || 0) >
+      Number(p.stock || 0)
+    ){
+
+      alert(
+        item.name +
+        " এর stock পর্যাপ্ত নেই।"
+      );
+
+      return;
+
+    }
+
+  }
+
+
+  /*
+   * Stock reduce
+   */
+
+  currentInvoice.forEach(
+    item => {
+
+      const p =
+        products.find(
+          x =>
+            String(x.id) ===
+            String(item.productId)
+        );
+
+
+      if(p){
+
+        p.stock =
+          Number(p.stock || 0) -
+          Number(item.qty || 0);
+
+      }
+
+    }
+  );
+
+
+  const invoice = {
+
+    id:
+      "MTC-" +
+      Date.now(),
+
+    date,
+
+    customer,
+
+    mobile,
+
+    address,
+
+    items:
+      JSON.parse(
+        JSON.stringify(
+          currentInvoice
+        )
+      ),
+
+    grandTotal,
+
+    paidAmount:paid,
+
+    dueAmount:due,
+
+    discount,
+
+    labourCharge:labour,
+
+    total:payable,
+
+    returned:false,
+
+    returnStatus:""
+
+  };
+
+
+  invoices.unshift(
+    invoice
+  );
+
+
+  /*
+   * Local + Firebase save
+   */
+
+  const saved =
+    await saveData();
+
+
+  refreshAll();
+
+
+  if(saved){
+
+    alert(
+      "Invoice saved successfully!\n\n" +
+      "Invoice No: " +
+      invoice.id +
+      "\nPayable Bill: ৳" +
+      payable.toFixed(2)
+    );
+
+  }
+  else{
+
+    alert(
+      "Invoice local device-এ save হয়েছে,\n" +
+      "কিন্তু Firebase-এ save হয়নি।\n\n" +
+      "Internet/Firebase connection check করুন।"
+    );
+
+  }
+
+
+  /*
+   * Clear invoice
+   */
+
+  currentInvoice = [];
+
+
+  document
+    .getElementById("customerName")
+    .value = "";
+
+
+  document
+    .getElementById("customerMobile")
+    .value = "";
+
+
+  document
+    .getElementById("customerAddress")
+    .value = "";
+
+
+  document
+    .getElementById("discountAmount")
+    .value = "0";
+
+
+  document
+    .getElementById("labourCharge")
+    .value = "0";
+
+
+  document
+    .getElementById("paidAmount")
+    .value = "0";
+
+
+  setInvoiceToday();
+
+
+  renderInvoice();
+
+}
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
 
 function renderHistory(){
 
- const tbody=document.getElementById("historyTable");
+  const tbody =
+    document.getElementById(
+      "historyTable"
+    );
 
- tbody.innerHTML="";
 
- invoices.forEach(inv=>{
+  if(!tbody){
+    return;
+  }
 
-  tbody.innerHTML+=`
-   <tr>
-    <td>${inv.id}</td>
-    <td>${inv.date}</td>
-    <td>${escapeHtml(inv.customer)}</td>
-    <td>${escapeHtml(inv.mobile||"")}</td>
-    <td><b>৳${inv.total}</b></td>
-    <td>
 
-  <button class="btn" onclick="previewInvoice('${inv.id}')">
-    👁️ Preview
-  </button>
+  tbody.innerHTML = "";
 
-  <button class="btn" style="background:#e67e22;color:white"
-          onclick="salesReturn('${inv.id}')">
-    ↩️ Sales Return
-  </button>
 
-</td>
-   </tr>
-  `;
- });
+  if(
+    invoices.length === 0
+  ){
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="6"
+          style="text-align:center"
+        >
+          এখনো কোনো Sales Invoice নেই।
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+  invoices.forEach(
+    inv => {
+
+      tbody.innerHTML += `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(inv.id)}
+          </td>
+
+          <td>
+            ${escapeHtml(inv.date || "")}
+          </td>
+
+          <td>
+            ${escapeHtml(inv.customer || "")}
+          </td>
+
+          <td>
+            ${escapeHtml(inv.mobile || "")}
+          </td>
+
+          <td>
+            <b>
+              ৳${Number(inv.total || 0).toFixed(2)}
+            </b>
+          </td>
+
+          <td>
+
+            <button
+              class="btn"
+              type="button"
+              onclick="previewInvoice('${escapeJs(inv.id)}')"
+            >
+              👁️ Preview
+            </button>
+
+
+            <button
+              class="btn"
+              style="background:#e67e22"
+              type="button"
+              onclick="salesReturn('${escapeJs(inv.id)}')"
+            >
+              ↩️ Sales Return
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
 }
+
+
+/* =====================================================
+   SALES RETURN
+===================================================== */
+
 function salesReturn(id){
 
-  const inv = invoices.find(x => String(x.id) === String(id));
+  const inv =
+    invoices.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
 
   if(!inv){
-    alert("Invoice not found");
+
+    alert(
+      "Invoice not found"
+    );
+
     return;
+
   }
 
-  const items = inv.items || inv.products || [];
 
-  if(!items.length){
-    alert("এই Invoice-এ কোনো Product পাওয়া যায়নি!");
+  const items =
+    inv.items || [];
+
+
+  if(
+    !Array.isArray(items) ||
+    items.length === 0
+  ){
+
+    alert(
+      "এই Invoice-এ কোনো Product পাওয়া যায়নি!"
+    );
+
     return;
+
   }
+
 
   let returnRows = "";
 
-  items.forEach((item, index) => {
 
-    const name = item.name || item.product || "";
-    const soldQty = Number(item.qty || item.quantity || 0);
-    const alreadyReturned = Number(item.returnedQty || 0);
-    const remainingQty = Math.max(0, soldQty - alreadyReturned);
+  items.forEach(
+    (item,index)=>{
 
-    if(remainingQty > 0){
+      const name =
+        item.name || "";
 
-      returnRows += `
-        <div style="padding:12px;border-bottom:1px solid #ddd">
-          <b>${escapeHtml(name)}</b><br>
-          Sold: ${soldQty} &nbsp; | &nbsp;
-          Already Returned: ${alreadyReturned} &nbsp; | &nbsp;
-          Remaining: ${remainingQty}<br><br>
 
-          <label>
-            <b>Return Qty:</b>
-            <input
-              type="number"
-              id="returnQty_${index}"
-              min="0"
-              max="${remainingQty}"
-              value="0"
-              style="width:90px;padding:7px"
-            >
-          </label>
-        </div>
-      `;
+      const soldQty =
+        Number(
+          item.qty || 0
+        );
+
+
+      const alreadyReturned =
+        Number(
+          item.returnedQty || 0
+        );
+
+
+      const remainingQty =
+        Math.max(
+          0,
+          soldQty -
+          alreadyReturned
+        );
+
+
+      if(
+        remainingQty > 0
+      ){
+
+        returnRows += `
+
+          <div
+            style="
+              padding:12px;
+              border-bottom:1px solid #ddd
+            "
+          >
+
+            <b>
+              ${escapeHtml(name)}
+            </b>
+
+            <br>
+
+            Sold:
+            ${soldQty}
+
+            &nbsp; | &nbsp;
+
+            Already Returned:
+            ${alreadyReturned}
+
+            &nbsp; | &nbsp;
+
+            Remaining:
+            ${remainingQty}
+
+            <br><br>
+
+
+            <label>
+
+              <b>
+                Return Qty:
+              </b>
+
+              <input
+                type="number"
+                id="returnQty_${index}"
+                min="0"
+                max="${remainingQty}"
+                value="0"
+                style="
+                  width:90px;
+                  padding:7px
+                "
+              >
+
+            </label>
+
+          </div>
+
+        `;
+
+      }
+
     }
-  });
-
-  if(!returnRows){
-    alert("এই Invoice-এর কোনো পণ্য Return করার জন্য বাকি নেই!");
-    return;
-  }
-
-  const returnDate = prompt(
-    "Return Date লিখুন (DD-MM-YYYY):",
-    "11-08-2026"
   );
 
-  if(!returnDate) return;
 
-  const returnWindow = window.open("", "_blank");
+  if(!returnRows){
 
-  if(!returnWindow){
-    alert("Return window খুলতে পারেনি। Browser popup অনুমতি দিন।");
+    alert(
+      "এই Invoice-এর কোনো পণ্য Return করার জন্য বাকি নেই!"
+    );
+
+    return;
+
+  }
+
+
+  const returnDate =
+    prompt(
+      "Return Date লিখুন (DD-MM-YYYY):",
+      formatDateBD(new Date())
+    );
+
+
+  if(!returnDate){
     return;
   }
 
+
+  const returnWindow =
+    window.open(
+      "",
+      "_blank"
+    );
+
+
+  if(!returnWindow){
+
+    alert(
+      "Return window খুলতে পারেনি। Browser popup অনুমতি দিন।"
+    );
+
+    return;
+
+  }
+
+
+  const safeInvoiceId =
+    escapeHtml(inv.id);
+
+  const safeInvoiceDate =
+    escapeHtml(inv.date || "");
+
+  const safeReturnDate =
+    escapeHtml(returnDate);
+
+
   returnWindow.document.write(`
+
     <!doctype html>
-    <html>
+
+    <html lang="bn">
+
     <head>
+
       <meta charset="UTF-8">
+
+      <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1"
+      >
+
       <title>Sales Return</title>
+
+
       <style>
+
         body{
           font-family:Arial,sans-serif;
           padding:20px;
@@ -1042,8 +2781,11 @@ function salesReturn(id){
           margin-top:20px;
           cursor:pointer;
         }
+
       </style>
+
     </head>
+
 
     <body>
 
@@ -1059,502 +2801,734 @@ function salesReturn(id){
 
         <hr>
 
-        <p>
-          <b>Invoice:</b> ${inv.id}
-        </p>
 
         <p>
-          <b>Invoice Date:</b> ${inv.date}
+          <b>Invoice:</b>
+          ${safeInvoiceId}
         </p>
 
+
         <p>
-          <b>Return Date:</b> ${escapeHtml(returnDate)}
+          <b>Invoice Date:</b>
+          ${safeInvoiceDate}
         </p>
+
+
+        <p>
+          <b>Return Date:</b>
+          ${safeReturnDate}
+        </p>
+
 
         <hr>
 
+
         ${returnRows}
 
-        <button onclick="confirmReturn()">
+
+        <button
+          type="button"
+          onclick="confirmReturn()"
+        >
           ↩️ Confirm Sales Return
         </button>
 
       </div>
 
+
       <script>
 
         function confirmReturn(){
 
-          if(!confirm(
-            "আপনি যে Return Quantity দিয়েছেন সেগুলো কি Stock-এ ফেরত যোগ করবেন?"
-          )){
+          if(
+            !confirm(
+              "আপনি যে Return Quantity দিয়েছেন সেগুলো কি Stock-এ ফেরত যোগ করবেন?"
+            )
+          ){
+
             return;
+
           }
 
-          
-          window.opener.completeSalesReturn(
-            "${String(inv.id).replace(/"/g, '\\"')}",
-            "${String(returnDate).replace(/"/g, '\\"')}",
-            [
-              ${items.map((item, index) => {
 
-                const name = item.name || item.product || "";
-                return `{
-                  index:${index},
-                  name:${JSON.stringify(name)},
-                  returnQty:Number(
-                    document.getElementById("returnQty_${index}")?.value || 0
-                  )
-                }`;
-              }).join(",")}
-            ]
+          const returnedItems = [];
+
+
+          ${items.map(
+            (item,index)=>`
+
+              returnedItems.push({
+
+                index:${index},
+
+                returnQty:Number(
+                  document
+                    .getElementById("returnQty_${index}")
+                    ?.value || 0
+                )
+
+              });
+
+            `
+          ).join("")}
+
+
+          if(
+            !window.opener ||
+            typeof window.opener.completeSalesReturn !== "function"
+          ){
+
+            alert(
+              "মূল MTC window পাওয়া যায়নি।"
+            );
+
+            return;
+
+          }
+
+
+          window.opener.completeSalesReturn(
+
+            ${JSON.stringify(String(inv.id))},
+
+            ${JSON.stringify(String(returnDate))},
+
+            returnedItems
+
           );
 
+
           window.close();
+
         }
 
       <\/script>
 
     </body>
+
     </html>
+
   `);
 
+
   returnWindow.document.close();
+
 }
 
 
-function completeSalesReturn(invoiceId, returnDate, returnedItems){
+/* =====================================================
+   COMPLETE SALES RETURN
+===================================================== */
 
-  const inv = invoices.find(
-    x => String(x.id) === String(invoiceId)
-  );
+async function completeSalesReturn(
+  invoiceId,
+  returnDate,
+  returnedItems
+){
+
+  const inv =
+    invoices.find(
+      x =>
+        String(x.id) ===
+        String(invoiceId)
+    );
+
 
   if(!inv){
-    alert("Invoice not found");
+
+    alert(
+      "Invoice not found"
+    );
+
     return;
+
   }
 
-  const items = inv.items || inv.products || [];
+
+  const items =
+    inv.items || [];
+
 
   let totalReturned = 0;
 
-  returnedItems.forEach(data => {
 
-    const item = items[data.index];
+  for(
+    const data of returnedItems
+  ){
 
-    if(!item) return;
+    const item =
+      items[data.index];
 
-    const name = item.name || item.product || "";
 
-    const soldQty = Number(
-      item.qty || item.quantity || 0
-    );
+    if(!item){
+      continue;
+    }
 
-    const alreadyReturned = Number(
-      item.returnedQty || 0
-    );
 
-    const remainingQty = Math.max(
-      0,
-      soldQty - alreadyReturned
-    );
+    const soldQty =
+      Number(
+        item.qty || 0
+      );
 
-    const returnQty = Number(
-      data.returnQty || 0
-    );
 
-    if(returnQty <= 0) return;
+    const alreadyReturned =
+      Number(
+        item.returnedQty || 0
+      );
 
-    if(returnQty > remainingQty){
+
+    const remainingQty =
+      Math.max(
+        0,
+        soldQty -
+        alreadyReturned
+      );
+
+
+    let returnQty =
+      Number(
+        data.returnQty || 0
+      );
+
+
+    if(returnQty <= 0){
+      continue;
+    }
+
+
+    if(
+      returnQty >
+      remainingQty
+    ){
+
       alert(
-        name +
+        (item.name || "Product") +
         " এর সর্বোচ্চ Return Qty হলো " +
         remainingQty
       );
+
       return;
+
     }
 
-    const product = products.find(p =>
-      String(p.name || "").trim().toLowerCase() ===
-      String(name).trim().toLowerCase()
-    );
 
-    if(!product) return;
+    /*
+     * Product ID দিয়ে আগে খুঁজবে।
+     * পুরনো data হলে name দিয়েও খুঁজবে।
+     */
+
+    let product =
+      products.find(
+        p =>
+          String(p.id) ===
+          String(item.productId)
+      );
+
+
+    if(!product){
+
+      product =
+        products.find(
+          p =>
+            String(p.name || "")
+              .trim()
+              .toLowerCase() ===
+            String(item.name || "")
+              .trim()
+              .toLowerCase()
+        );
+
+    }
+
+
+    if(!product){
+
+      alert(
+        "Product পাওয়া যায়নি: " +
+        (item.name || "")
+      );
+
+      return;
+
+    }
+
 
     product.stock =
-      Number(product.stock || 0) + returnQty;
+      Number(product.stock || 0) +
+      returnQty;
+
 
     item.returnedQty =
-      alreadyReturned + returnQty;
+      alreadyReturned +
+      returnQty;
 
-    totalReturned += returnQty;
-  });
 
-  if(totalReturned <= 0){
-    alert("কোনো Return Quantity দেওয়া হয়নি!");
-    return;
+    totalReturned +=
+      returnQty;
+
   }
 
-  const allReturned = items.every(item => {
 
-    const soldQty = Number(
-      item.qty || item.quantity || 0
+  if(
+    totalReturned <= 0
+  ){
+
+    alert(
+      "কোনো Return Quantity দেওয়া হয়নি!"
     );
 
-    const returnedQty = Number(
-      item.returnedQty || 0
+    return;
+
+  }
+
+
+  const allReturned =
+    items.every(
+      item => {
+
+        const soldQty =
+          Number(
+            item.qty || 0
+          );
+
+
+        const returnedQty =
+          Number(
+            item.returnedQty || 0
+          );
+
+
+        return (
+          returnedQty >=
+          soldQty
+        );
+
+      }
     );
 
-    return returnedQty >= soldQty;
-  });
 
-  inv.returned = true;
-  inv.returnDate = returnDate;
+  inv.returned =
+    true;
 
-  inv.returnStatus = allReturned
-    ? "Returned"
-    : "Partially Returned";
 
-  localStorage.setItem(
-    "products",
-    JSON.stringify(products)
-  );
+  inv.returnDate =
+    returnDate;
 
-  localStorage.setItem(
-    "invoices",
-    JSON.stringify(invoices)
-  );
+
+  inv.returnStatus =
+    allReturned
+      ? "Returned"
+      : "Partially Returned";
+
+
+  /*
+   * Firebase + LocalStorage save
+   */
+
+  await saveData();
+
+
+  refreshAll();
+
 
   alert(
     "✅ Sales Return সফল হয়েছে!\n\n" +
-    "Return Qty: " + totalReturned +
-    "\nReturn Date: " + returnDate
+    "Return Qty: " +
+    totalReturned +
+    "\nReturn Date: " +
+    returnDate
   );
 
-  if(typeof renderSalesHistory === "function"){
-    renderSalesHistory();
-  }
 }
+
+
+/* =====================================================
+   PREVIEW INVOICE
+===================================================== */
 
 function previewInvoice(id){
 
- const inv = invoices.find(x => String(x.id) === String(id));
-
- if(!inv){
-   alert("Invoice not found");
-   return;
- }
-
- const items = inv.items || inv.products || [];
-
- let rows = "";
-
- items.forEach(item => {
-
-   const name = item.name || item.product || "";
-   const qty = Number(item.qty || item.quantity || 0);
-   const price = Number(item.price || item.unitPrice || 0);
-   const total = qty * price;
-
-   rows += `
-    <tr>
-      <td class="product-name">${escapeHtml(name)}</td>
-      <td>${qty}</td>
-      <td>৳${price.toFixed(2)}</td>
-      <td>৳${total.toFixed(2)}</td>
-    </tr>
-   `;
- });
+  const inv =
+    invoices.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
 
 
- const win = window.open("", "_blank");
+  if(!inv){
 
- if(!win){
-   alert("Please allow pop-ups for this site.");
-   return;
- }
+    alert(
+      "Invoice not found"
+    );
+
+    return;
+
+  }
 
 
- win.document.write(`
+  const items =
+    inv.items || [];
+
+
+  let rows = "";
+
+
+  items.forEach(
+    item => {
+
+      const name =
+        item.name || "";
+
+
+      const qty =
+        Number(
+          item.qty || 0
+        );
+
+
+      const price =
+        Number(
+          item.price || 0
+        );
+
+
+      const total =
+        qty * price;
+
+
+      rows += `
+
+        <tr>
+
+          <td class="product-name">
+            ${escapeHtml(name)}
+          </td>
+
+          <td>
+            ${qty}
+          </td>
+
+          <td>
+            ৳${price.toFixed(2)}
+          </td>
+
+          <td>
+            ৳${total.toFixed(2)}
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
+
+  const win =
+    window.open(
+      "",
+      "_blank"
+    );
+
+
+  if(!win){
+
+    alert(
+      "Please allow pop-ups for this site."
+    );
+
+    return;
+
+  }
+
+
+  win.document.write(`
+
 <!DOCTYPE html>
+
 <html lang="bn">
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
 
 <title>MTC Invoice</title>
+
 
 <style>
 
 *{
- box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 html,
 body{
- margin:0;
- padding:0;
- width:100%;
- min-width:0;
+  margin:0;
+  padding:0;
+  width:100%;
+  min-width:0;
 }
 
 body{
- font-family:Arial,sans-serif;
- background:#fff;
- color:#222;
- padding:10px;
- font-size:14px;
+  font-family:Arial,sans-serif;
+  background:#fff;
+  color:#222;
+  padding:10px;
+  font-size:14px;
 }
 
 .invoice-page{
- width:100%;
- max-width:100%;
- margin:0 auto;
- background:#fff;
+  width:100%;
+  max-width:800px;
+  margin:0 auto;
 }
 
 .invoice-header{
- width:100%;
- display:flex;
- align-items:center;
- gap:12px;
- border-bottom:2px solid #b8860b;
- padding-bottom:10px;
- margin-bottom:12px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-bottom:2px solid #b8860b;
+  padding-bottom:10px;
+  margin-bottom:12px;
 }
 
 .invoice-logo{
- width:75px;
- height:75px;
- flex:0 0 75px;
- object-fit:contain;
- border-radius:8px;
- background:#fffaf0;
- padding:4px;
+  width:75px;
+  height:75px;
+  flex:0 0 75px;
+  object-fit:contain;
+  border-radius:8px;
+  background:#fffaf0;
+  padding:4px;
 }
 
 .company-info{
- flex:1;
- min-width:0;
+  flex:1;
+  min-width:0;
 }
 
 .company-info h1{
- margin:0;
- color:#b8860b;
- font-size:24px;
- white-space:nowrap;
+  margin:0;
+  color:#b8860b;
+  font-size:23px;
+  line-height:1.15;
+  white-space:nowrap;
 }
 
 .slogan{
- margin:3px 0;
- font-size:13px;
- font-weight:bold;
+  margin:3px 0;
+  font-size:13px;
+  font-weight:bold;
 }
 
 .address{
- margin:3px 0;
- font-size:12px;
+  margin:3px 0;
+  font-size:12px;
+  line-height:1.35;
 }
 
-.company-mobile{
- margin:3px 0;
- font-size:12px;
- font-weight:bold;
- white-space:nowrap;
+.mobile{
+  margin:3px 0;
+  font-size:12px;
+  font-weight:bold;
+  white-space:nowrap;
 }
 
 .invoice-title{
- text-align:right;
- color:#b8860b;
- font-size:20px;
- font-weight:bold;
- margin-bottom:12px;
+  text-align:center;
+  color:#b8860b;
+  font-size:21px;
+  font-weight:bold;
+  margin:10px 0 12px;
+}
+
+.customer-info{
+  margin-bottom:12px;
 }
 
 .customer-info p{
- margin:5px 0;
+  margin:5px 0;
+  line-height:1.4;
 }
 
 .customer-mobile{
- white-space:nowrap;
+  white-space:nowrap;
 }
 
 .invoice-table{
- width:100%;
- border-collapse:collapse;
- margin-top:15px;
- table-layout:auto;
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  margin-top:12px;
 }
 
 .invoice-table th,
 .invoice-table td{
- border:1px solid #999;
- padding:7px;
- text-align:left;
+  border:1px solid #999;
+  padding:7px 5px;
+  text-align:center;
+  vertical-align:middle;
+  word-wrap:break-word;
 }
 
 .invoice-table th{
- background:#eee;
+  background:#eee;
+  font-weight:bold;
+}
+
+.invoice-table th:first-child,
+.invoice-table td:first-child{
+  width:45%;
+  text-align:left;
 }
 
 .invoice-table th:nth-child(2),
 .invoice-table td:nth-child(2){
- text-align:center;
- width:55px;
+  width:15%;
 }
 
 .invoice-table th:nth-child(3),
-.invoice-table td:nth-child(3){
- text-align:right;
- width:90px;
- white-space:nowrap;
-}
-
+.invoice-table td:nth-child(3),
 .invoice-table th:nth-child(4),
 .invoice-table td:nth-child(4){
- text-align:right;
- width:95px;
- white-space:nowrap;
+  width:20%;
 }
 
 .product-name{
- word-break:normal;
- overflow-wrap:break-word;
+  text-align:left;
+  overflow-wrap:break-word;
 }
 
 .summary{
- width:320px;
- max-width:100%;
- margin-left:auto;
- margin-top:18px;
+  width:100%;
+  max-width:340px;
+  margin-left:auto;
+  margin-top:15px;
 }
 
 .summary p{
- text-align:right;
- margin:6px 0;
+  text-align:right;
+  margin:5px 0;
+  font-size:14px;
 }
 
 .payable{
- font-size:18px;
- font-weight:bold;
- color:#b8860b;
- border-top:2px solid #999;
- padding-top:8px;
+  font-size:18px !important;
+  font-weight:bold;
+  color:#b8860b;
+  border-top:2px solid #999;
+  padding-top:7px;
 }
 
 .due{
- font-size:18px;
- font-weight:bold;
+  font-size:18px !important;
+  font-weight:bold;
 }
 
 .terms{
- margin-top:18px;
- padding-top:10px;
- border-top:1px solid #ccc;
- font-size:12px;
- line-height:1.6;
+  margin-top:22px;
+  padding-top:10px;
+  border-top:1px solid #bbb;
+  font-size:12px;
+  line-height:1.6;
 }
 
-.signature-area{
- display:flex;
- justify-content:space-between;
- align-items:flex-end;
- margin-top:65px;
- padding:0 10px;
+.signatures{
+  display:flex;
+  justify-content:space-between;
+  margin-top:55px;
+  gap:30px;
 }
 
 .signature{
- width:40%;
- text-align:center;
-}
-
-.signature-space{
- height:45px;
+  width:42%;
+  text-align:center;
+  font-size:13px;
 }
 
 .signature-line{
- border-top:1px solid #000;
- padding-top:6px;
- font-size:12px;
-}
-
-.authority-name{
- margin-top:4px;
- font-size:12px;
+  border-top:1px solid #555;
+  margin-bottom:7px;
 }
 
 
-@media(max-width:600px){
+@media print{
 
- body{
-   padding:8px;
-   font-size:13px;
- }
+  body{
+    padding:8mm;
+  }
 
- .invoice-logo{
-   width:60px;
-   height:60px;
-   flex:0 0 60px;
- }
+  .invoice-page{
+    max-width:none;
+  }
 
- .company-info h1{
-   font-size:18px;
- }
+  .terms,
+  .signatures{
+    page-break-inside:avoid;
+  }
 
- .slogan{
-   font-size:10px;
- }
+}
 
- .address,
- .company-mobile{
-   font-size:10px;
- }
 
- .invoice-title{
-   font-size:17px;
- }
+@media(max-width:480px){
 
- .invoice-table th,
- .invoice-table td{
-   padding:5px 4px;
-   font-size:11px;
- }
+  body{
+    padding:10px;
+    font-size:13px;
+  }
 
- .invoice-table th:nth-child(2),
- .invoice-table td:nth-child(2){
-   width:38px;
- }
+  .invoice-logo{
+    width:65px;
+    height:65px;
+    flex-basis:65px;
+  }
 
- .invoice-table th:nth-child(3),
- .invoice-table td:nth-child(3){
-   width:65px;
- }
+  .company-info h1{
+    font-size:20px;
+  }
 
- .invoice-table th:nth-child(4),
- .invoice-table td:nth-child(4){
-   width:75px;
- }
+  .slogan{
+    font-size:12px;
+  }
 
- .summary{
-   width:100%;
- }
+  .address,
+  .mobile{
+    font-size:11px;
+  }
 
- .signature-area{
-   margin-top:50px;
-   padding:0 5px;
- }
+  .invoice-title{
+    font-size:19px;
+  }
 
- .signature{
-   width:42%;
- }
+  .invoice-table th,
+  .invoice-table td{
+    padding:6px 3px;
+    font-size:12px;
+  }
 
- .terms{
-   font-size:11px;
- }
+  .summary p{
+    font-size:13px;
+  }
+
+  .payable,
+  .due{
+    font-size:16px !important;
+  }
+
+  .terms{
+    font-size:11px;
+  }
+
+  .signatures{
+    margin-top:35px;
+  }
 
 }
 
@@ -1568,907 +3542,1579 @@ body{
 <div class="invoice-page">
 
 
-<!-- HEADER -->
-
 <div class="invoice-header">
 
- <img
-   src="logo.jpg"
-   class="invoice-logo"
- >
+  <img
+    src="logo.jpg"
+    class="invoice-logo"
+    alt="MTC"
+  >
 
- <div class="company-info">
 
-   <h1>MOROL TILES CITY</h1>
+  <div class="company-info">
 
-   <p class="slogan">
-     Decoration Your Home
-   </p>
+    <h1>
+      MOROL TILES CITY
+    </h1>
 
-   <p class="address">
-     বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা,
-     যশোর রোড, সাতক্ষীরা
-   </p>
 
-   <p class="company-mobile">
-     মোবাইল: 01911-786336, 01912-709914
-   </p>
+    <p class="slogan">
+      Decoration Your Home
+    </p>
 
- </div>
+
+    <p class="address">
+      বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা,
+      যশোর রোড, সাতক্ষীরা
+    </p>
+
+
+    <p class="mobile">
+      মোবাইল: 01911-786336, 01912-709914
+    </p>
+
+  </div>
 
 </div>
 
-
-<!-- TITLE -->
 
 <div class="invoice-title">
- SALES INVOICE
+  SALES INVOICE
 </div>
 
-
-<!-- CUSTOMER -->
 
 <div class="customer-info">
 
- <p>
-   <b>Invoice:</b> ${escapeHtml(inv.id)}
- </p>
+  <p>
+    <b>Invoice:</b>
+    ${escapeHtml(inv.id)}
+  </p>
 
- <p>
-   <b>Date:</b> ${escapeHtml(inv.date || "")}
- </p>
 
- <p>
-   <b>Customer:</b>
-   ${escapeHtml(inv.customer || "Walk-in Customer")}
- </p>
+  <p>
+    <b>Date:</b>
+    ${escapeHtml(inv.date || "")}
+  </p>
 
- <p class="customer-mobile">
-   <b>Mobile:</b>
-   ${escapeHtml(inv.mobile || "")}
- </p>
 
- <p>
-   <b>Address:</b>
-   ${escapeHtml(inv.address || "")}
- </p>
+  <p>
+    <b>Customer:</b>
+    ${escapeHtml(
+      inv.customer ||
+      "Walk-in Customer"
+    )}
+  </p>
+
+
+  <p class="customer-mobile">
+    <b>Mobile:</b>
+    ${escapeHtml(inv.mobile || "")}
+  </p>
+
+
+  <p>
+    <b>Address:</b>
+    ${escapeHtml(inv.address || "")}
+  </p>
 
 </div>
 
-
-<!-- PRODUCT TABLE -->
 
 <table class="invoice-table">
 
- <thead>
+  <thead>
 
-  <tr>
+    <tr>
 
-   <th>Product</th>
-   <th>Qty</th>
-   <th>Unit Price</th>
-   <th>Total</th>
-
-  </tr>
-
- </thead>
-
- <tbody>
-
-  ${rows}
-
- </tbody>
-
-</table>
-
-
-<!-- SUMMARY -->
-
-<div class="summary">
-
- <p>
-   Grand Total:
-   ৳${Number(inv.grandTotal || 0).toFixed(2)}
- </p>
-
- <p>
-   Discount:
-   ৳${Number(inv.discount || 0).toFixed(2)}
- </p>
-
- <p>
-   Labour Charge:
-   ৳${Number(inv.labourCharge || 0).toFixed(2)}
- </p>
-
- <p class="payable">
-   Payable Bill:
-   ৳${Number(inv.total || 0).toFixed(2)}
- </p>
-
- <p>
-   Paid Amount:
-   ৳${Number(inv.paidAmount || 0).toFixed(2)}
- </p>
-
- <p class="due">
-   Due Amount:
-   ৳${Number(inv.dueAmount || 0).toFixed(2)}
- </p>
-<div class="terms">
-  
-</div>
-</div>
-
-
-<!-- TERMS -->
-
-<div class="terms">
-
- <div>
-   ★ বি গ্রেড ও বিদেশী পন্য ফেরত ও পরিবর্তনযোগ্য নহে।
- </div>
-
- <div>
-   ★ এ গ্রেড ক্রয়কৃত বেচে যাওয়া পন্য ১৫ দিনের মধ্যে
-   ১০% কর্তনে ফেরত নেওয়া হবে।
- </div>
-
-</div>
-
-
-<!-- SIGNATURE -->
-
-<div class="signature-area">
-
- <div class="signature">
-
-   <div class="signature-space"></div>
-
-   <div class="signature-line">
-     Customer Signature
-   </div>
-
- </div>
-
-
- <div class="signature">
-
-   <div class="signature-space"></div>
-
-   <div class="signature-line">
-     Authorized Signature
-   </div>
-
-   <div class="authority-name">
-     Morol Tiles City
-   </div>
-
- </div>
-
-</div>
-
-
-</div>
-
-
-<script>
-
-/* Force mobile width immediately */
-
-document.documentElement.style.width = "100%";
-document.body.style.width = "100%";
-
-<\/script>
-
-
-</body>
-
-</html>
- `);
-
-
- win.document.close();
-
-
- /* Force Chrome to recalculate the mobile layout */
-
- setTimeout(function(){
-
-   try{
-
-     win.document.documentElement.style.width = "100vw";
-     win.document.body.style.width = "100vw";
-
-     win.document.body.style.minWidth = "0";
-
-   }catch(e){}
-
- },100);
-
-}
-/* DASHBOARD */
-
-function updateDashboard(){
-
- const totalStock=products.reduce((s,p)=>s+Number(p.stock||0),0);
- const totalSales=invoices.reduce((s,i)=>s+Number(i.total||0),0);
-
- document.getElementById("totalProducts").textContent=products.length;
- document.getElementById("totalStock").textContent=totalStock.toFixed(2);
-document.getElementById("totalSales").textContent="৳"+totalSales.toFixed(2);
- document.getElementById("totalInvoices").textContent=invoices.length;
-}
-
-
-/* PRINT */
-
-function printInvoice(){
-
- if(currentInvoice.length===0){
-  alert("Print করার আগে invoice-এ product যোগ করুন");
-  return;
- }
-
- let grandTotal=currentInvoice.reduce((s,x)=>s+x.total,0);
-
- let discount=Number(document.getElementById("discountAmount").value)||0;
-
- let labour=Number(document.getElementById("labourCharge").value)||0;
-
- let payable=grandTotal-discount+labour;
-
- let paid=Number(document.getElementById("paidAmount").value)||0;
-
- let due=payable-paid;
-
- let rows=currentInvoice.map(x=>`
-  <tr>
-   <td class="product">${escapeHtml(x.name)}</td>
-   <td>${x.qty}</td>
-   <td>৳${Number(x.price).toFixed(2)}</td>
-   <td>৳${Number(x.total).toFixed(2)}</td>
-  </tr>
- `).join("");
-
- let customerName =
-   escapeHtml(document.getElementById("customerName").value||"Walk-in Customer");
-
- let customerMobile =
-   escapeHtml(document.getElementById("customerMobile").value||"");
-
- let customerAddress =
-   escapeHtml(document.getElementById("customerAddress").value||"");
-
-
- /*
-  * নতুন invoice page
-  * width/height popup ব্যবহার করা হয়নি,
-  * যাতে মোবাইলে page ছোট হয়ে এক কোনায় না থাকে।
-  */
-
- let w=window.open("","_blank");
-
- if(!w){
-  alert("Invoice page open করা যাচ্ছে না। Browser popup permission check করুন।");
-  return;
- }
-
- w.document.write(`
-  <!DOCTYPE html>
-  <html lang="bn">
-
-  <head>
-
-   <meta charset="UTF-8">
-
-   <meta name="viewport"
-         content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-   <title>MTC Invoice</title>
-
-   <style>
-
-    *{
-     box-sizing:border-box;
-    }
-
-    html,body{
-     margin:0;
-     padding:0;
-     width:100%;
-     min-width:0;
-    }
-
-    body{
-     font-family:Arial,sans-serif;
-     background:#fff;
-     color:#222;
-     padding:15px;
-     font-size:14px;
-    }
-.phone{
-  white-space:nowrap;
-  font-size:13px;
-}
-    .invoice-page{
-     width:100%;
-     max-width:800px;
-     margin:0 auto;
-    }
-
-    .invoice-header{
-     width:100%;
-     display:flex;
-     align-items:center;
-     gap:12px;
-     border-bottom:2px solid #b8860b;
-     padding-bottom:10px;
-     margin-bottom:12px;
-    }
-
-    .invoice-logo{
-     width:75px;
-     height:75px;
-     flex:0 0 75px;
-     object-fit:contain;
-     border-radius:8px;
-     background:#fffaf0;
-     padding:4px;
-    }
-
-    .company-info{
-     flex:1;
-     min-width:0;
-    }
-
-    .company-info h1{
-     margin:0;
-     color:#b8860b;
-     font-size:23px;
-     line-height:1.15;
-     white-space:nowrap;
-    }
-
-    .slogan{
-     margin:3px 0;
-     font-size:13px;
-     font-weight:bold;
-    }
-
-    .address{
-     margin:3px 0;
-     font-size:12px;
-     line-height:1.35;
-    }
-
-    .mobile{
-     margin:3px 0;
-     font-size:12px;
-     font-weight:bold;
-     white-space:normal;
-     overflow-wrap:normal;
-     word-break:normal;
-    }
-
-    .invoice-title{
-     text-align:center;
-     color:#b8860b;
-     font-size:21px;
-     font-weight:bold;
-     margin:10px 0 12px;
-    }
-
-    .customer-info{
-     margin-bottom:12px;
-    }
-
-    .customer-info p{
-     margin:5px 0;
-     line-height:1.4;
-    }
-
-    .customer-mobile{
-     white-space:nowrap;
-    }
-
-    table{
-     width:100%;
-     border-collapse:collapse;
-     table-layout:fixed;
-     margin-top:12px;
-    }
-
-    th,td{
-     border:1px solid #999;
-     padding:7px 5px;
-     text-align:center;
-     vertical-align:middle;
-     word-wrap:break-word;
-    }
-
-    th{
-     background:#eee;
-     font-weight:bold;
-    }
-
-    th:first-child,
-    td:first-child{
-     width:45%;
-     text-align:left;
-    }
-
-    th:nth-child(2),
-    td:nth-child(2){
-     width:15%;
-    }
-
-    th:nth-child(3),
-    td:nth-child(3),
-    th:nth-child(4),
-    td:nth-child(4){
-     width:20%;
-    }
-
-    .product{
-     text-align:left;
-    }
-
-    .summary{
-     width:100%;
-     max-width:340px;
-     margin-left:auto;
-     margin-top:15px;
-    }
-
-    .summary p{
-     text-align:right;
-     margin:5px 0;
-     font-size:14px;
-    }
-
-    .payable{
-     font-size:18px !important;
-     font-weight:bold;
-     color:#b8860b;
-     border-top:2px solid #999;
-     padding-top:7px;
-     margin-top:7px !important;
-    }
-
-    .due{
-     font-size:18px !important;
-     font-weight:bold;
-    }
-
-    .terms{
-     margin-top:22px;
-     padding-top:10px;
-     border-top:1px solid #bbb;
-     font-size:12px;
-     line-height:1.6;
-    }
-
-    .terms p{
-     margin:2px 0;
-    }
-
-    .signatures{
-     display:flex;
-     justify-content:space-between;
-     margin-top:45px;
-     gap:30px;
-    }
-
-    .signature{
-     width:42%;
-     text-align:center;
-     font-size:13px;
-    }
-
-    .signature-line{
-     border-top:1px solid #555;
-     margin-bottom:7px;
-    }
-
-    @media print{
-
-     body{
-      padding:8mm;
-     }
-
-     .invoice-page{
-      max-width:none;
-     }
-
-     .terms{
-      page-break-inside:avoid;
-     }
-
-     .signatures{
-      page-break-inside:avoid;
-     }
-
-    }
-
-    @media(max-width:480px){
-
-     body{
-      padding:10px;
-      font-size:13px;
-     }
-
-     .invoice-logo{
-      width:65px;
-      height:65px;
-      flex-basis:65px;
-     }
-
-     .company-info h1{
-      font-size:20px;
-     }
-
-     .slogan{
-      font-size:12px;
-     }
-
-     .address,
-     .mobile{
-      font-size:11px;
-     }
-
-     .invoice-title{
-      font-size:19px;
-     }
-
-     th,td{
-      padding:6px 3px;
-      font-size:12px;
-     }
-
-     .summary p{
-      font-size:13px;
-     }
-
-     .payable,
-     .due{
-      font-size:16px !important;
-     }
-
-     .terms{
-      font-size:11px;
-     }
-
-     .signatures{
-      margin-top:35px;
-     }
-
-    }
-
-   </style>
-
-  </head>
-
-  <body>
-
-   <div class="invoice-page">
-
-    <div class="invoice-header">
-
-     <img src="logo.jpg" class="invoice-logo">
-
-     <div class="company-info">
-
-      <h1>MOROL TILES CITY</h1>
-
-      <p class="slogan">
-       Decoration Your Home
-      </p>
-
-      <p class="address">
-       বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা, যশোর রোড, সাতক্ষীরা
-      </p>
-
-      <p class="mobile">
-       মোবাইল: 01911-786336, 01912-709914
-      </p>
-
-     </div>
-
-    </div>
-
-
-    <div class="invoice-title">
-     SALES INVOICE
-    </div>
-
-
-    <div class="customer-info">
-
-     <p>
-      <strong>Customer:</strong>
-      ${customerName}
-     </p>
-
-     <p class="customer-mobile">
-      <strong>Mobile:</strong>
-      ${customerMobile}
-     </p>
-<p class="customer-mobile">
-  <strong>Mobile:</strong>
-  <span class="phone">${customerMobile}</span>
-</p>
-     <p>
-      <strong>Address:</strong>
-      ${customerAddress}
-     </p>
-
-    </div>
-
-
-    <table>
-
-     <tr>
       <th>Product</th>
       <th>Qty</th>
       <th>Unit Price</th>
       <th>Total</th>
-     </tr>
 
-     ${rows}
+    </tr>
 
-    </table>
-
-
-    <div class="summary">
-
-     <p>
-      Grand Total: ৳${grandTotal.toFixed(2)}
-     </p>
-
-     <p>
-      Discount: ৳${discount.toFixed(2)}
-     </p>
-
-     <p>
-      Labour Charge: ৳${labour.toFixed(2)}
-     </p>
-
-     <p class="payable">
-      Payable Bill: ৳${payable.toFixed(2)}
-     </p>
-
-     <p>
-      Paid Amount: ৳${paid.toFixed(2)}
-     </p>
-
-     <p class="due">
-      Due Amount: ৳${due.toFixed(2)}
-     </p>
-
-    </div>
+  </thead>
 
 
-    
+  <tbody>
+
+    ${rows}
+
+  </tbody>
+
+</table>
 
 
-    <div class="signatures">
+<div class="summary">
 
-     <div class="signature">
+  <p>
+    Grand Total:
+    ৳${Number(
+      inv.grandTotal || 0
+    ).toFixed(2)}
+  </p>
 
-      <div class="signature-line"></div>
 
-      Customer Signature
+  <p>
+    Discount:
+    ৳${Number(
+      inv.discount || 0
+    ).toFixed(2)}
+  </p>
 
-     </div>
+
+  <p>
+    Labour Charge:
+    ৳${Number(
+      inv.labourCharge || 0
+    ).toFixed(2)}
+  </p>
 
 
-     <div class="signature">
+  <p class="payable">
+    Payable Bill:
+    ৳${Number(
+      inv.total || 0
+    ).toFixed(2)}
+  </p>
 
-      <div class="signature-line"></div>
 
-      Authorized Signature<br>
+  <p>
+    Paid Amount:
+    ৳${Number(
+      inv.paidAmount || 0
+    ).toFixed(2)}
+  </p>
 
-      Morol Tiles City
 
-     </div>
+  <p class="due">
+    Due Amount:
+    ৳${Number(
+      inv.dueAmount || 0
+    ).toFixed(2)}
+  </p>
 
-    </div>
+</div>
 
-   </div>
 
-  </body>
+<div class="terms">
 
-  </html>
- `);
+  <div>
+    ★ বি গ্রেড ও বিদেশী পন্য ফেরত ও পরিবর্তনযোগ্য নহে।
+  </div>
 
- w.document.close();
+  <div>
+    ★ এ গ্রেড ক্রয়কৃত বেচে যাওয়া পন্য ১৫ দিনের মধ্যে
+    ১০% কর্তনে ফেরত নেওয়া হবে।
+  </div>
 
- setTimeout(function(){
-  w.focus();
-  w.print();
- },500);
+</div>
+
+
+<div class="signatures">
+
+  <div class="signature">
+
+    <div
+      style="height:45px"
+    ></div>
+
+    <div class="signature-line"></div>
+
+    Customer Signature
+
+  </div>
+
+
+  <div class="signature">
+
+    <div
+      style="height:45px"
+    ></div>
+
+    <div class="signature-line"></div>
+
+    Authorized Signature
+
+    <br>
+
+    Morol Tiles City
+
+  </div>
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>
+
+  `);
+
+
+  win.document.close();
 
 }
-   
-/* STORAGE */
+
+
+/* =====================================================
+   PRINT NEW INVOICE
+===================================================== */
+
+function printInvoice(){
+
+  if(
+    currentInvoice.length === 0
+  ){
+
+    alert(
+      "Print করার আগে invoice-এ product যোগ করুন"
+    );
+
+    return;
+
+  }
+
+
+  const grandTotal =
+    currentInvoice.reduce(
+      (sum,item)=>
+        sum + Number(item.total || 0),
+      0
+    );
+
+
+  let discount =
+    Number(
+      document
+        .getElementById("discountAmount")
+        .value || 0
+    );
+
+
+  let labour =
+    Number(
+      document
+        .getElementById("labourCharge")
+        .value || 0
+    );
+
+
+  let paid =
+    Number(
+      document
+        .getElementById("paidAmount")
+        .value || 0
+    );
+
+
+  if(discount < 0){
+    discount = 0;
+  }
+
+
+  if(labour < 0){
+    labour = 0;
+  }
+
+
+  if(discount > grandTotal){
+    discount = grandTotal;
+  }
+
+
+  const payable =
+    grandTotal -
+    discount +
+    labour;
+
+
+  if(paid < 0){
+    paid = 0;
+  }
+
+
+  if(paid > payable){
+    paid = payable;
+  }
+
+
+  const due =
+    payable - paid;
+
+
+  const rows =
+    currentInvoice
+      .map(
+        x => `
+
+          <tr>
+
+            <td class="product">
+              ${escapeHtml(x.name)}
+            </td>
+
+            <td>
+              ${Number(x.qty || 0)}
+            </td>
+
+            <td>
+              ৳${Number(
+                x.price || 0
+              ).toFixed(2)}
+            </td>
+
+            <td>
+              ৳${Number(
+                x.total || 0
+              ).toFixed(2)}
+            </td>
+
+          </tr>
+
+        `
+      )
+      .join("");
+
+
+  const customerName =
+    escapeHtml(
+      document
+        .getElementById("customerName")
+        .value ||
+      "Walk-in Customer"
+    );
+
+
+  const customerMobile =
+    escapeHtml(
+      document
+        .getElementById("customerMobile")
+        .value || ""
+    );
+
+
+  const customerAddress =
+    escapeHtml(
+      document
+        .getElementById("customerAddress")
+        .value || ""
+    );
+
+
+  const invoiceDate =
+    escapeHtml(
+      document
+        .getElementById("invoiceDate")
+        .value ||
+      getTodayString()
+    );
+
+
+  const w =
+    window.open(
+      "",
+      "_blank"
+    );
+
+
+  if(!w){
+
+    alert(
+      "Invoice page open করা যাচ্ছে না। Browser popup permission check করুন।"
+    );
+
+    return;
+
+  }
+
+
+  w.document.write(`
+
+<!DOCTYPE html>
+
+<html lang="bn">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+
+<title>MTC Invoice</title>
+
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-width:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#fff;
+  color:#222;
+  padding:15px;
+  font-size:14px;
+}
+
+.invoice-page{
+  width:100%;
+  max-width:800px;
+  margin:0 auto;
+}
+
+.invoice-header{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-bottom:2px solid #b8860b;
+  padding-bottom:10px;
+  margin-bottom:12px;
+}
+
+.invoice-logo{
+  width:75px;
+  height:75px;
+  flex:0 0 75px;
+  object-fit:contain;
+  border-radius:8px;
+  background:#fffaf0;
+  padding:4px;
+}
+
+.company-info{
+  flex:1;
+  min-width:0;
+}
+
+.company-info h1{
+  margin:0;
+  color:#b8860b;
+  font-size:23px;
+  line-height:1.15;
+  white-space:nowrap;
+}
+
+.slogan{
+  margin:3px 0;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.address{
+  margin:3px 0;
+  font-size:12px;
+  line-height:1.35;
+}
+
+.mobile{
+  margin:3px 0;
+  font-size:12px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.invoice-title{
+  text-align:center;
+  color:#b8860b;
+  font-size:21px;
+  font-weight:bold;
+  margin:10px 0 12px;
+}
+
+.customer-info{
+  margin-bottom:12px;
+}
+
+.customer-info p{
+  margin:5px 0;
+  line-height:1.4;
+}
+
+.customer-mobile{
+  white-space:nowrap;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  margin-top:12px;
+}
+
+th,
+td{
+  border:1px solid #999;
+  padding:7px 5px;
+  text-align:center;
+  vertical-align:middle;
+  word-wrap:break-word;
+}
+
+th{
+  background:#eee;
+  font-weight:bold;
+}
+
+th:first-child,
+td:first-child{
+  width:45%;
+  text-align:left;
+}
+
+th:nth-child(2),
+td:nth-child(2){
+  width:15%;
+}
+
+th:nth-child(3),
+td:nth-child(3),
+th:nth-child(4),
+td:nth-child(4){
+  width:20%;
+}
+
+.product{
+  text-align:left;
+  overflow-wrap:break-word;
+}
+
+.summary{
+  width:100%;
+  max-width:340px;
+  margin-left:auto;
+  margin-top:15px;
+}
+
+.summary p{
+  text-align:right;
+  margin:5px 0;
+  font-size:14px;
+}
+
+.payable{
+  font-size:18px !important;
+  font-weight:bold;
+  color:#b8860b;
+  border-top:2px solid #999;
+  padding-top:7px;
+}
+
+.due{
+  font-size:18px !important;
+  font-weight:bold;
+}
+
+.terms{
+  margin-top:22px;
+  padding-top:10px;
+  border-top:1px solid #bbb;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.signatures{
+  display:flex;
+  justify-content:space-between;
+  margin-top:55px;
+  gap:30px;
+}
+
+.signature{
+  width:42%;
+  text-align:center;
+  font-size:13px;
+}
+
+.signature-line{
+  border-top:1px solid #555;
+  margin-bottom:7px;
+}
+
+@media print{
+
+  body{
+    padding:8mm;
+  }
+
+  .invoice-page{
+    max-width:none;
+  }
+
+  .terms,
+  .signatures{
+    page-break-inside:avoid;
+  }
+
+}
+
+@media(max-width:480px){
+
+  body{
+    padding:10px;
+    font-size:13px;
+  }
+
+  .invoice-logo{
+    width:65px;
+    height:65px;
+    flex-basis:65px;
+  }
+
+  .company-info h1{
+    font-size:20px;
+  }
+
+  .slogan{
+    font-size:12px;
+  }
+
+  .address,
+  .mobile{
+    font-size:11px;
+  }
+
+  .invoice-title{
+    font-size:19px;
+  }
+
+  th,
+  td{
+    padding:6px 3px;
+    font-size:12px;
+  }
+
+  .summary p{
+    font-size:13px;
+  }
+
+  .payable,
+  .due{
+    font-size:16px !important;
+  }
+
+  .terms{
+    font-size:11px;
+  }
+
+  .signatures{
+    margin-top:35px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="invoice-page">
+
+
+<div class="invoice-header">
+
+  <img
+    src="logo.jpg"
+    class="invoice-logo"
+    alt="MTC"
+  >
+
+
+  <div class="company-info">
+
+    <h1>
+      MOROL TILES CITY
+    </h1>
+
+
+    <p class="slogan">
+      Decoration Your Home
+    </p>
+
+
+    <p class="address">
+      বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা,
+      যশোর রোড, সাতক্ষীরা
+    </p>
+
+
+    <p class="mobile">
+      মোবাইল: 01911-786336, 01912-709914
+    </p>
+
+  </div>
+
+</div>
+
+
+<div class="invoice-title">
+  SALES INVOICE
+</div>
+
+
+<div class="customer-info">
+
+  <p>
+    <strong>Invoice:</strong>
+    ${escapeHtml(invoiceDate)}
+  </p>
+
+  <p>
+    <strong>Date:</strong>
+    ${escapeHtml(invoiceDate)}
+  </p>
+
+  <p>
+    <strong>Customer:</strong>
+    ${customerName}
+  </p>
+
+  <p class="customer-mobile">
+    <strong>Mobile:</strong>
+    ${customerMobile}
+  </p>
+
+  <p>
+    <strong>Address:</strong>
+    ${customerAddress}
+  </p>
+
+</div>
+
+
+<table>
+
+  <tr>
+
+    <th>Product</th>
+    <th>Qty</th>
+    <th>Unit Price</th>
+    <th>Total</th>
+
+  </tr>
+
+  ${rows}
+
+</table>
+
+
+<div class="summary">
+
+  <p>
+    Grand Total:
+    ৳${grandTotal.toFixed(2)}
+  </p>
+
+  <p>
+    Discount:
+    ৳${discount.toFixed(2)}
+  </p>
+
+  <p>
+    Labour Charge:
+    ৳${labour.toFixed(2)}
+  </p>
+
+  <p class="payable">
+    Payable Bill:
+    ৳${payable.toFixed(2)}
+  </p>
+
+  <p>
+    Paid Amount:
+    ৳${paid.toFixed(2)}
+  </p>
+
+  <p class="due">
+    Due Amount:
+    ৳${due.toFixed(2)}
+  </p>
+
+</div>
+
+
+<div class="terms">
+
+  <div>
+    ★ বি গ্রেড ও বিদেশী পন্য ফেরত ও পরিবর্তনযোগ্য নহে।
+  </div>
+
+  <div>
+    ★ এ গ্রেড ক্রয়কৃত বেচে যাওয়া পন্য ১৫ দিনের মধ্যে
+    ১০% কর্তনে ফেরত নেওয়া হবে।
+  </div>
+
+</div>
+
+
+<div class="signatures">
+
+  <div class="signature">
+
+    <div style="height:45px"></div>
+
+    <div class="signature-line"></div>
+
+    Customer Signature
+
+  </div>
+
+
+  <div class="signature">
+
+    <div style="height:45px"></div>
+
+    <div class="signature-line"></div>
+
+    Authorized Signature
+
+    <br>
+
+    Morol Tiles City
+
+  </div>
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>
+
+  `);
+
+
+  w.document.close();
+
+
+  setTimeout(
+    function(){
+
+      try{
+
+        w.focus();
+
+        w.print();
+
+      }
+      catch(error){
+
+        console.error(
+          "Print error:",
+          error
+        );
+
+      }
+
+    },
+    500
+  );
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function updateDashboard(){
+
+  const totalStock =
+    products.reduce(
+      (sum,p)=>
+        sum + Number(p.stock || 0),
+      0
+    );
+
+
+  const totalSales =
+    invoices.reduce(
+      (sum,i)=>
+        sum + Number(i.total || 0),
+      0
+    );
+
+
+  const totalProducts =
+    document.getElementById(
+      "totalProducts"
+    );
+
+
+  const totalStockEl =
+    document.getElementById(
+      "totalStock"
+    );
+
+
+  const totalSalesEl =
+    document.getElementById(
+      "totalSales"
+    );
+
+
+  const totalInvoices =
+    document.getElementById(
+      "totalInvoices"
+    );
+
+
+  if(totalProducts){
+
+    totalProducts.textContent =
+      products.length;
+
+  }
+
+
+  if(totalStockEl){
+
+    totalStockEl.textContent =
+      totalStock.toFixed(2);
+
+  }
+
+
+  if(totalSalesEl){
+
+    totalSalesEl.textContent =
+      "৳" +
+      totalSales.toFixed(2);
+
+  }
+
+
+  if(totalInvoices){
+
+    totalInvoices.textContent =
+      invoices.length;
+
+  }
+
+}
+
+
+/* =====================================================
+   FIREBASE LOAD
+===================================================== */
+
 async function loadFirebaseData(){
+
+  if(!firebaseReady){
+
+    console.log(
+      "Firebase is not ready yet."
+    );
+
+    return false;
+
+  }
+
 
   try{
 
-    const snap = await window.getDoc(
-      window.doc(window.db, "mtc_data", "main")
-    );
+    const snap =
+      await window.getDoc(
+        window.doc(
+          window.db,
+          "mtc_data",
+          "main"
+        )
+      );
+
 
     if(snap.exists()){
 
-      const data = snap.data();
+      const data =
+        snap.data();
 
-      if(Array.isArray(data.products)){
-        products = data.products;
+
+      /*
+       * Firebase data authoritative।
+       */
+
+      if(
+        Array.isArray(
+          data.products
+        )
+      ){
+
+        products =
+          data.products;
 
         localStorage.setItem(
           "mtc_products",
-          JSON.stringify(products)
+          JSON.stringify(
+            products
+          )
         );
+
       }
 
-      if(Array.isArray(data.invoices)){
-        invoices = data.invoices;
+
+      if(
+        Array.isArray(
+          data.invoices
+        )
+      ){
+
+        invoices =
+          data.invoices;
 
         localStorage.setItem(
           "mtc_invoices",
-          JSON.stringify(invoices)
+          JSON.stringify(
+            invoices
+          )
         );
+
       }
+
+
+      firebaseDataLoaded = true;
+
 
       refreshAll();
 
-      console.log("MTC data loaded from Firebase");
 
-    }else{
+      console.log(
+        "MTC data loaded from Firebase"
+      );
 
-      console.log("Firebase data not found");
+
+      return true;
 
     }
 
-  }catch(error){
+
+    /*
+     * Firebase document নেই।
+     * তাহলে local data থাকলে Firebase-এ upload।
+     */
+
+    console.log(
+      "Firebase data not found. Creating initial data..."
+    );
+
+
+    if(
+      products.length > 0 ||
+      invoices.length > 0
+    ){
+
+      await saveData();
+
+    }
+
+
+    firebaseDataLoaded = true;
+
+
+    return true;
+
+  }
+  catch(error){
 
     console.error(
       "Firebase load error:",
       error
     );
 
+
     alert(
       "Firebase থেকে data load হয়নি!\n\n" +
       error.message
     );
-  }
-}
- async function saveData(){
 
-  // Local backup
+
+    return false;
+
+  }
+
+}
+
+
+/* =====================================================
+   FIREBASE SAVE
+===================================================== */
+
+async function saveData(){
+
+  /*
+   * প্রথমে LocalStorage backup
+   */
+
   localStorage.setItem(
     "mtc_products",
-    JSON.stringify(products)
+    JSON.stringify(
+      products
+    )
   );
+
 
   localStorage.setItem(
     "mtc_invoices",
-    JSON.stringify(invoices)
+    JSON.stringify(
+      invoices
+    )
   );
 
-  // Firebase backup
+
+  /*
+   * Firebase ready না হলে
+   * local save থাকবে।
+   */
+
+  if(
+    !window.db ||
+    typeof window.doc !== "function" ||
+    typeof window.setDoc !== "function"
+  ){
+
+    console.warn(
+      "Firebase not ready. Local data saved only."
+    );
+
+    return false;
+
+  }
+
+
   try{
 
     await window.setDoc(
-  window.doc(window.db, "mtc_data", "main"),
+
+      window.doc(
+        window.db,
+        "mtc_data",
+        "main"
+      ),
+
       {
-        products: products,
-        invoices: invoices,
-        updatedAt: new Date().toISOString()
+
+        products:
+          products,
+
+        invoices:
+          invoices,
+
+        updatedAt:
+          new Date().toISOString()
+
       }
+
     );
 
-    console.log("MTC data saved to Firebase");
 
-  }catch(error){
+    console.log(
+      "MTC data saved to Firebase"
+    );
+
+
+    return true;
+
+  }
+  catch(error){
 
     console.error(
       "Firebase save error:",
       error
     );
 
+
     alert(
       "Firebase-এ data save হয়নি!\n\n" +
       error.message
     );
+
+
+    return false;
+
   }
+
 }
-function backupMTCData(){
 
- const backup = {
-   products: JSON.parse(localStorage.getItem("mtc_products") || "[]"),
-   invoices: JSON.parse(localStorage.getItem("mtc_invoices") || "[]"),
-   backupDate: new Date().toISOString()
- };
 
- const blob = new Blob(
-   [JSON.stringify(backup, null, 2)],
-   {type:"application/json"}
- );
+/* =====================================================
+   FIREBASE INITIALIZATION
+===================================================== */
 
- const url = URL.createObjectURL(blob);
+window.initializeMTCFirebase =
+  async function(){
 
- const a = document.createElement("a");
- a.href = url;
- a.download = "MTC_Backup_" +
-   new Date().toISOString().slice(0,10) +
-   ".json";
+    firebaseReady = true;
 
- document.body.appendChild(a);
- a.click();
- document.body.removeChild(a);
 
- URL.revokeObjectURL(url);
+    /*
+     * Firebase থেকে data load হবে।
+     */
 
- alert("✅ MTC Backup সফলভাবে তৈরি হয়েছে!");
+    await loadFirebaseData();
+
+
+    /*
+     * Firebase document না থাকলে এবং
+     * local data-ও না থাকলে demo product যোগ করা হবে।
+     */
+
+    if(
+      products.length === 0 &&
+      invoices.length === 0 &&
+      !firebaseDataLoaded
+    ){
+
+      addDemoProducts();
+
+    }
+
+  };
+
+
+/*
+ * Firebase module যদি এই function তৈরি হওয়ার পরে
+ * ready হয়, তখন নিচের block কাজ করবে।
+ */
+
+if(
+  window.firebaseReady === true
+){
+
+  window.initializeMTCFirebase();
+
 }
+
+
+/* =====================================================
+   DEMO PRODUCT
+===================================================== */
+
+async function addDemoProducts(){
+
+  /*
+   * গুরুত্বপূর্ণ:
+   * Firebase-এ data থাকলে এই function call হবে না।
+   */
+
+  if(
+    products.length > 0
+  ){
+
+    return;
+
+  }
+
+
+  products = [
+
+    {
+
+      id:1,
+
+      name:
+        "60x60 Floor Tile",
+
+      category:
+        "Floor Tile",
+
+      unit:
+        "Box",
+
+      stock:10,
+
+      purchase:1800,
+
+      sale:2200
+
+    },
+
+
+    {
+
+      id:2,
+
+      name:
+        "30x60 Wall Tile",
+
+      category:
+        "Wall Tile",
+
+      unit:
+        "Box",
+
+      stock:15,
+
+      purchase:1400,
+
+      sale:1750
+
+    }
+
+  ];
+
+
+  await saveData();
+
+
+  refreshAll();
+
+}
+
+
+/* =====================================================
+   REFRESH ALL
+===================================================== */
 
 function refreshAll(){
 
+  updateDashboard();
 
- updateDashboard();
- renderProducts();
- renderProductSelect();
- renderInvoice();
- renderHistory();
+  renderProducts();
+
+  renderProductSelect();
+
+  renderInvoice();
+
+  renderHistory();
+
 }
 
+
+/* =====================================================
+   BACKUP
+===================================================== */
+
+function backupMTCData(){
+
+  const backup = {
+
+    products:
+      JSON.parse(
+        localStorage.getItem(
+          "mtc_products"
+        ) || "[]"
+      ),
+
+    invoices:
+      JSON.parse(
+        localStorage.getItem(
+          "mtc_invoices"
+        ) || "[]"
+      ),
+
+    backupDate:
+      new Date().toISOString()
+
+  };
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          backup,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    "MTC_Backup_" +
+    new Date()
+      .toISOString()
+      .slice(0,10) +
+    ".json";
+
+
+  document
+    .body
+    .appendChild(a);
+
+
+  a.click();
+
+
+  document
+    .body
+    .removeChild(a);
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  alert(
+    "✅ MTC Backup সফলভাবে তৈরি হয়েছে!"
+  );
+
+}
+
+
+/* =====================================================
+   TODAY
+===================================================== */
+
+function getTodayString(){
+
+  const today =
+    new Date();
+
+
+  return (
+
+    today.getFullYear() +
+    "-" +
+    String(
+      today.getMonth()+1
+    ).padStart(2,"0") +
+    "-" +
+    String(
+      today.getDate()
+    ).padStart(2,"0")
+
+  );
+
+}
+
+
+/* =====================================================
+   BANGLA DATE
+===================================================== */
+
+function formatDateBD(date){
+
+  return (
+
+    String(
+      date.getDate()
+    ).padStart(2,"0") +
+
+    "-" +
+
+    String(
+      date.getMonth()+1
+    ).padStart(2,"0") +
+
+    "-" +
+
+    date.getFullYear()
+
+  );
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
 
 function escapeHtml(text){
-  return String(text)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+
+  return String(
+    text ?? ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+
 }
 
 
-/* DEMO PRODUCT */
+/* =====================================================
+   JAVASCRIPT STRING ESCAPE
+===================================================== */
 
-window.addEventListener("firebaseReady", function(){
+function escapeJs(text){
 
-  if(products.length===0){
+  return String(
+    text ?? ""
+  )
+  .replaceAll(
+    "\\",
+    "\\\\"
+  )
+  .replaceAll(
+    "'",
+    "\\'"
+  )
+  .replaceAll(
+    "\n",
+    "\\n"
+  )
+  .replaceAll(
+    "\r",
+    "\\r"
+  );
 
-    products=[
-      {
-        id:1,
-        name:"60x60 Floor Tile",
-        category:"Floor Tile",
-        unit:"Box",
-        stock:10,
-        purchase:1800,
-        sale:2200
-      },
-      {
-        id:2,
-        name:"30x60 Wall Tile",
-        category:"Wall Tile",
-        unit:"Box",
-        stock:15,
-        purchase:1400,
-        sale:1750
-      }
-    ];
+}
 
-    saveData();
-  }
 
-  loadFirebaseData();
+/* =====================================================
+   INITIAL REFRESH
+===================================================== */
 
-});
+refreshAll();
+
+
+</script>
 
 </body>
 </html>
