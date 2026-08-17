@@ -4508,30 +4508,28 @@ td:nth-child(4){
 
   w.document.close();
 
+w.onload = function(){
 
-  setTimeout(
-    function(){
+  setTimeout(function(){
 
-      try{
+    try{
 
-        w.focus();
+      w.focus();
+      w.print();
 
-        w.print();
+    }
+    catch(error){
 
-      }
-      catch(error){
+      console.error(
+        "Print error:",
+        error
+      );
 
-        console.error(
-          "Print error:",
-          error
-        );
+    }
 
-      }
+  }, 1200);
 
-    },
-    500
-  );
-
+};
 }
 
 
