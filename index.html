@@ -1180,7 +1180,12 @@ function isStaffUser(){
 
 function applyRolePermissions(){
   const staff = isStaffUser();
+const salesReportBtn =
+  document.getElementById("salesReportBtn");
 
+if(salesReportBtn){
+  salesReportBtn.style.display = staff ? "none" : "";
+}
   document.querySelectorAll(".admin-only").forEach(el => {
     el.style.display = staff ? "none" : "";
   });
