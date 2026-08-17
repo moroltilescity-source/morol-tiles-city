@@ -449,8 +449,7 @@ th{
   </button>
 
   <button type="button" onclick="showPage('due',this)">💰 Due / Collection</button>
-  <button type="button" onclick="showPage('reports',this)">📊 Sales Report</button>
-
+  <button id="salesReportBtn" type="button" onclick="showPage('reports',this)">📊 Sales Report</button>
 </div>
 
 
@@ -467,15 +466,15 @@ th{
       <b id="totalProducts">0</b>
     </div>
 
-    <div class="card">
-      <small>Total Stock</small>
-      <b id="totalStock">0</b>
-    </div>
+    <div class="card admin-only">
+  <small>Total Stock</small>
+  <b id="totalStock">0</b>
+</div>
 
-    <div class="card">
-      <small>Total Stock Value</small>
-      <b id="totalStockValue">৳0.00</b>
-    </div>
+<div class="card admin-only">
+  <small>Total Stock Value</small>
+  <b id="totalStockValue">৳0.00</b>
+</div>
 
     <div class="card">
       <small>Total Sales</small>
@@ -1168,8 +1167,30 @@ let firebaseDataLoaded = false;
 ===================================================== */
 
 const USERNAME = "admin";
-const PASSWORD = "123456";
+const PASSWORD = "041286";
 
+const STAFF_USERNAME = "staff";
+const STAFF_PASSWORD = "123456";
+
+let currentUserRole = "admin";
+
+function isStaffUser(){
+  return currentUserRole === "staff";
+}
+
+function applyRolePermissions(){
+  const staff = isStaffUser();
+
+  document.querySelectorAll(".admin-only").forEach(el => {
+    el.style.display = staff ? "none" : "";
+  });
+
+  const badge = document.getElementById("userRoleBadge");
+
+  if(badge){
+    badge.textContent = staff ? "STAFF / MANAGER" : "ADMIN";
+  }
+}
 
 function doLogin(){
 
@@ -1204,18 +1225,29 @@ function doLogin(){
   loginMsg.textContent = "";
 
 
-  if(
-    username !== USERNAME ||
-    password !== PASSWORD
-  ){
+if(
+  username === USERNAME &&
+  password === PASSWORD
+){
+  currentUserRole = "admin";
+}
+else if(
+  username === STAFF_USERNAME &&
+  password === STAFF_PASSWORD
+){
+  currentUserRole = "staff";
+}
+else{
 
-    loginMsg.textContent =
-      "Username অথবা Password ভুল!";
+  loginMsg.textContent =
+    "Username অথবা Password ভুল!";
 
-    passwordInput.focus();
+  passwordInput.focus();
 
-    return;
-  }
+  return;
+}
+
+applyRolePermissions();
 
 
   /*
