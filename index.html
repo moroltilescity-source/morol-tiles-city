@@ -5405,7 +5405,49 @@ function loadPaymentInvoice(){const id=document.getElementById("paymentInvoice")
 function calculatePaymentDue(){const due=Number(document.getElementById("paymentCurrentDue")?.value||0);let amount=Number(document.getElementById("paymentAmount")?.value||0);if(amount<0)amount=0;if(amount>due)amount=due;const a=document.getElementById("paymentAmount");if(a)a.value=amount;const n=document.getElementById("paymentNewDue");if(n)n.value=(due-amount).toFixed(2);}
 async function saveDuePayment(){const id=document.getElementById("paymentInvoice")?.value;const inv=invoices.find(i=>String(i.id)===String(id));if(!inv){alert("Invoice select করুন");return}const due=getInvoiceDue(inv);let amount=Number(document.getElementById("paymentAmount")?.value||0);if(amount<=0){alert("নতুন জমার টাকা দিন");return}if(amount>due){alert("জমার টাকা বর্তমান Due-এর বেশি হতে পারবে না");return}const payment={id:"PAY-"+Date.now(),invoiceId:inv.id,date:document.getElementById("paymentDate")?.value||getTodayString(),previousPaid:getInvoicePreviousPaid(inv),amount,newDue:due-amount,method:document.getElementById("paymentMethod")?.value||"Cash",note:(document.getElementById("paymentNote")?.value||"").trim(),createdAt:new Date().toISOString()};payments.unshift(payment);await saveData();refreshAll();alert("✅ Due Collection সফল হয়েছে!\n\nInvoice: "+inv.id+"\nনতুন জমা: ৳"+amount.toFixed(2)+"\nনতুন Due: ৳"+payment.newDue.toFixed(2));}
 function renderPaymentHistory(){const tbody=document.getElementById("paymentTable");if(!tbody)return;tbody.innerHTML="";if(!payments.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center">এখনো কোনো payment collection নেই।</td></tr>';return}payments.forEach(p=>tbody.innerHTML+=`<tr><td>${escapeHtml(p.date||"")}</td><td>${escapeHtml(p.invoiceId||"")}</td><td>৳${Number(p.previousPaid||0).toFixed(2)}</td><td>৳${Number(p.amount||0).toFixed(2)}</td><td>৳${Number(p.newDue||0).toFixed(2)}</td><td>${escapeHtml(p.method||"")}</td><td>${escapeHtml(p.note||"")}</td></tr>`)}
+function renderDueHistory(){
 
+  const tbody = document.getElementById("dueHistoryTable");
+
+  if(!tbody) return;
+
+  tbody.innerHTML = "";
+
+  const dueInvoices = invoices.filter(inv => getInvoiceDue(inv) > 0.009);
+
+  if(!dueInvoices.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center">
+          কোনো বকেয়া নেই।
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  dueInvoices.forEach(inv => {
+
+    const payable = Number(inv.total || 0);
+    const paid = getInvoicePreviousPaid(inv);
+    const due = getInvoiceDue(inv);
+
+    tbody.innerHTML += `
+      <tr>
+        <td>${escapeHtml(inv.date || "")}</td>
+        <td>${escapeHtml(inv.id || "")}</td>
+        <td>${escapeHtml(inv.customer || "Walk-in Customer")}</td>
+        <td>৳${payable.toFixed(2)}</td>
+        <td>৳${paid.toFixed(2)}</td>
+        <td><b>৳${due.toFixed(2)}</b></td>
+      </tr>
+    `;
+
+  });
+
+}
 /* =====================================================
    SALES REPORT
 ===================================================== */
