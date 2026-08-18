@@ -1416,6 +1416,10 @@ let expenses =
   JSON.parse(
     localStorage.getItem("mtc_expenses") || "[]"
   );
+  let otherIncome =
+  JSON.parse(
+    localStorage.getItem("mtc_otherIncome") || "[]"
+  );
 let currentInvoice = [];
 
 let firebaseReady =
