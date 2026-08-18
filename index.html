@@ -5640,7 +5640,31 @@ function renderExpenseHistory(){
 
 }
 
+function handleExpenseCategory(){
 
+  const category =
+    document.getElementById("expenseCategory")?.value;
+
+  const box =
+    document.getElementById("customExpenseCategoryBox");
+
+  const input =
+    document.getElementById("customExpenseCategory");
+
+  if(!box || !input) return;
+
+  if(category === "custom"){
+
+    box.style.display = "";
+
+  }else{
+
+    box.style.display = "none";
+    input.value = "";
+
+  }
+
+}
 async function saveExpense(){
 
   const date =
