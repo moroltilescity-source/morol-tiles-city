@@ -5915,6 +5915,35 @@ if(category === "custom"){
   });
 
 }
+  function handleOtherIncomeCategory(){
+
+  const category =
+    document.getElementById("otherIncomeCategory")?.value;
+
+  const box =
+    document.getElementById(
+      "customOtherIncomeCategoryBox"
+    );
+
+  const input =
+    document.getElementById(
+      "customOtherIncomeCategory"
+    );
+
+  if(!box || !input) return;
+
+  if(category === "custom"){
+
+    box.style.display = "";
+
+  }else{
+
+    box.style.display = "none";
+    input.value = "";
+
+  }
+
+}
   async function saveOtherIncome(){
 
   const date =
