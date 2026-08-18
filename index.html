@@ -1657,6 +1657,207 @@ async function updateStock(id){
 
 }
 
+  /* =====================================================
+   EDIT PRODUCT
+===================================================== */
+
+async function editProduct(id){
+
+  if(isStaffUser()){
+
+    alert(
+      "Staff user product edit করতে পারবেন না।"
+    );
+
+    return;
+
+  }
+
+
+  const product =
+    products.find(
+      p =>
+        String(p.id) ===
+        String(id)
+    );
+
+
+  if(!product){
+
+    alert(
+      "Product পাওয়া যায়নি।"
+    );
+
+    return;
+
+  }
+
+
+  const newName =
+    prompt(
+      "Product Name:",
+      product.name || ""
+    );
+
+
+  if(newName === null){
+    return;
+  }
+
+
+  const name =
+    newName.trim();
+
+
+  if(!name){
+
+    alert(
+      "Product Name খালি রাখা যাবে না।"
+    );
+
+    return;
+
+  }
+
+
+  const newCategory =
+    prompt(
+      "Category:",
+      product.category || ""
+    );
+
+
+  if(newCategory === null){
+    return;
+  }
+
+
+  const category =
+    newCategory.trim();
+
+
+  const newUnit =
+    prompt(
+      "Unit:",
+      product.unit || ""
+    );
+
+
+  if(newUnit === null){
+    return;
+  }
+
+
+  const unit =
+    newUnit.trim();
+
+
+  const newPurchase =
+    prompt(
+      "Purchase Price:",
+      Number(
+        product.purchase || 0
+      ).toFixed(2)
+    );
+
+
+  if(newPurchase === null){
+    return;
+  }
+
+
+  const purchase =
+    Number(newPurchase);
+
+
+  if(
+    !Number.isFinite(purchase) ||
+    purchase < 0
+  ){
+
+    alert(
+      "Purchase Price সঠিকভাবে দিন।"
+    );
+
+    return;
+
+  }
+
+
+  const newSale =
+    prompt(
+      "Sale Price:",
+      Number(
+        product.sale || 0
+      ).toFixed(2)
+    );
+
+
+  if(newSale === null){
+    return;
+  }
+
+
+  const sale =
+    Number(newSale);
+
+
+  if(
+    !Number.isFinite(sale) ||
+    sale < 0
+  ){
+
+    alert(
+      "Sale Price সঠিকভাবে দিন।"
+    );
+
+    return;
+
+  }
+
+
+  const ok =
+    confirm(
+      "Product-এর তথ্য পরিবর্তন করবেন?\n\n" +
+      "Product: " + name + "\n" +
+      "Purchase Price: ৳" +
+      purchase.toFixed(2) + "\n" +
+      "Sale Price: ৳" +
+      sale.toFixed(2)
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  product.name =
+    name;
+
+  product.category =
+    category;
+
+  product.unit =
+    unit;
+
+  product.purchase =
+    purchase;
+
+  product.sale =
+    sale;
+
+
+  await saveData();
+
+  refreshAll();
+
+
+  alert(
+    "✅ Product successfully updated!"
+  );
+
+}
 
 /* =====================================================
    DELETE PRODUCT
@@ -1700,14 +1901,13 @@ function renderProducts(){
       "productTable"
     );
 
-
   if(!tbody){
     return;
   }
 
-
   tbody.innerHTML = "";
 
+  const staff = isStaffUser();
 
   products.forEach(
     (p,i)=>{
@@ -1716,7 +1916,9 @@ function renderProducts(){
 
         <tr>
 
-          <td>${i+1}</td>
+          <td>
+            ${i+1}
+          </td>
 
           <td>
             ${escapeHtml(p.name)}
@@ -1731,14 +1933,48 @@ function renderProducts(){
           </td>
 
           <td>
-            <b>${Number(p.stock || 0)}</b>
+            <b>
+              ${Number(p.stock || 0)}
+            </b>
           </td>
 
-          <td>
-            ৳${Number(p.sale || 0).toFixed(2)}
-          </td>
+
+          ${
+            staff
+            ? ""
+            : `
+              <td class="admin-only">
+                ৳${Number(
+                  p.purchase || 0
+                ).toFixed(2)}
+              </td>
+            `
+          }
+
 
           <td>
+            ৳${Number(
+              p.sale || 0
+            ).toFixed(2)}
+          </td>
+
+
+          <td>
+
+            ${
+              staff
+              ? ""
+              : `
+                <button
+                  class="btn blue"
+                  type="button"
+                  onclick="editProduct('${String(p.id)}')"
+                >
+                  Edit
+                </button>
+              `
+            }
+
 
             <button
               class="btn blue"
@@ -1747,6 +1983,7 @@ function renderProducts(){
             >
               Stock
             </button>
+
 
             <button
               class="btn red"
