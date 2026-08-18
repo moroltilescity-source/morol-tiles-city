@@ -475,7 +475,7 @@ th{
 
       <div>
         <label>খরচের Category</label>
-        <select id="expenseCategory">
+        <select id="expenseCategory" onchange="handleExpenseCategory()">
           <option value="দোকান ভাড়া">দোকান ভাড়া</option>
           <option value="বেতন">বেতন</option>
           <option value="বিদ্যুৎ">বিদ্যুৎ</option>
@@ -483,9 +483,18 @@ th{
           <option value="শ্রমিক">শ্রমিক / Labour</option>
           <option value="মোবাইল / ইন্টারনেট">মোবাইল / ইন্টারনেট</option>
           <option value="চা / নাস্তা">চা / নাস্তা</option>
+          <option value="custom">নিজে লিখুন</option>
           <option value="অন্যান্য">অন্যান্য</option>
         </select>
       </div>
+      <div id="customExpenseCategoryBox" style="display:none;">
+  <label>নিজের Category লিখুন</label>
+  <input
+    id="customExpenseCategory"
+    type="text"
+    placeholder="যেমন: ফার্নিচার মেরামত"
+  >
+</div>
 
       <div>
         <label>বিবরণ</label>
