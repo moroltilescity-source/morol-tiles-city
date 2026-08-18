@@ -3246,6 +3246,7 @@ async function completeSalesReturn(
    PREVIEW INVOICE
 ===================================================== */
 
+
 function previewInvoice(id){
 
   const inv =
@@ -3255,24 +3256,18 @@ function previewInvoice(id){
         String(id)
     );
 
-
   if(!inv){
 
-    alert(
-      "Invoice not found"
-    );
+    alert("Invoice not found");
 
     return;
 
   }
 
-
   const items =
     inv.items || [];
 
-
   let rows = "";
-
 
   items.forEach(
     item => {
@@ -3280,25 +3275,20 @@ function previewInvoice(id){
       const name =
         item.name || "";
 
-
       const qty =
         Number(
           item.qty || 0
         );
-
 
       const price =
         Number(
           item.price || 0
         );
 
-
       const total =
         qty * price;
 
-
       rows += `
-
         <tr>
 
           <td class="product-name">
@@ -3318,18 +3308,46 @@ function previewInvoice(id){
           </td>
 
         </tr>
-
       `;
 
     }
   );
 
 
+  /* =========================================
+     PAYMENT / DUE COLLECTION CALCULATION
+  ========================================= */
+
+  const originalPaid =
+    Number(inv.paidAmount || 0);
+
+  const collected =
+    typeof getInvoiceCollected === "function"
+      ? getInvoiceCollected(inv.id)
+      : 0;
+
+  const totalPaid =
+    originalPaid + collected;
+
+  const payable =
+    Number(inv.total || 0);
+
+  const currentDue =
+    Math.max(
+      0,
+      payable - totalPaid
+    );
+
+
+  /* =========================================
+     OPEN PREVIEW WINDOW
+  ========================================= */
+
   const win = window.open(
-  "",
-  "_blank",
-  "width=1000,height=1400,resizable=yes,scrollbars=yes"
-);
+    "",
+    "_blank",
+    "width=1000,height=1400,resizable=yes,scrollbars=yes"
+  );
 
 
   if(!win){
@@ -3360,7 +3378,6 @@ function previewInvoice(id){
 
 <title>MTC Invoice</title>
 
-
 <style>
 
 *{
@@ -3376,207 +3393,364 @@ body{
 }
 
 body{
+
   font-family:Arial,sans-serif;
+
   background:#fff;
+
   color:#222;
-  padding:10px;
+
+  padding:20px;
+
   font-size:14px;
-  width:100vw;
+
+  width:100%;
+
   overflow-x:hidden;
+
 }
 
 .invoice-page{
-  width:calc(100vw - 20px);
-  max-width:none;
+
+  width:100%;
+
+  max-width:900px;
+
   margin:0 auto;
+
+  background:#fff;
+
 }
 
+
 .invoice-header{
+
   width:100%;
+
   display:flex;
+
   align-items:center;
+
   gap:12px;
+
   border-bottom:2px solid #b8860b;
+
   padding-bottom:10px;
+
   margin-bottom:12px;
+
 }
 
 .invoice-logo{
+
   width:75px;
+
   height:75px;
+
   flex:0 0 75px;
+
   object-fit:contain;
+
   border-radius:8px;
+
   background:#fffaf0;
+
   padding:4px;
+
 }
 
 .company-info{
+
   flex:1;
+
   min-width:0;
+
 }
 
 .company-info h1{
+
   margin:0;
+
   color:#b8860b;
+
   font-size:23px;
+
   line-height:1.15;
+
   white-space:nowrap;
+
 }
 
 .slogan{
+
   margin:3px 0;
+
   font-size:13px;
+
   font-weight:bold;
+
 }
 
 .address{
+
   margin:3px 0;
+
   font-size:12px;
+
   line-height:1.35;
+
 }
 
 .mobile{
+
   margin:3px 0;
+
   font-size:12px;
+
   font-weight:bold;
+
   white-space:nowrap;
+
 }
 
 .invoice-title{
+
   text-align:center;
+
   color:#b8860b;
+
   font-size:21px;
+
   font-weight:bold;
+
   margin:10px 0 12px;
+
 }
 
 .customer-info{
+
   margin-bottom:12px;
+
 }
 
 .customer-info p{
+
   margin:5px 0;
+
   line-height:1.4;
+
 }
 
 .customer-mobile{
+
   white-space:nowrap;
+
 }
 
+
 .invoice-table{
+
   width:100%;
+
   border-collapse:collapse;
+
   table-layout:fixed;
+
   margin-top:12px;
+
 }
 
 .invoice-table th,
 .invoice-table td{
+
   border:1px solid #999;
+
   padding:7px 5px;
+
   text-align:center;
+
   vertical-align:middle;
+
   word-wrap:break-word;
+
 }
 
 .invoice-table th{
+
   background:#eee;
+
   font-weight:bold;
+
 }
 
 .invoice-table th:first-child,
 .invoice-table td:first-child{
+
   width:45%;
+
   text-align:left;
+
 }
 
 .invoice-table th:nth-child(2),
 .invoice-table td:nth-child(2){
+
   width:15%;
+
 }
 
 .invoice-table th:nth-child(3),
-.invoice-table td:nth-child(3),
+.invoice-table td:nth-child(3){
+
+  width:20%;
+
+}
+
 .invoice-table th:nth-child(4),
 .invoice-table td:nth-child(4){
+
   width:20%;
+
 }
 
 .product-name{
+
   text-align:left;
+
   overflow-wrap:break-word;
+
 }
 
+
 .summary{
+
   width:100%;
+
   max-width:340px;
+
   margin-left:auto;
+
   margin-top:15px;
+
 }
 
 .summary p{
+
   text-align:right;
+
   margin:5px 0;
+
   font-size:14px;
+
 }
 
 .payable{
+
   font-size:18px !important;
+
   font-weight:bold;
+
   color:#b8860b;
+
   border-top:2px solid #999;
+
   padding-top:7px;
+
+}
+
+.paid{
+
+  font-weight:bold;
+
 }
 
 .due{
+
   font-size:18px !important;
+
   font-weight:bold;
+
 }
+
 
 .terms{
+
   margin-top:22px;
+
   padding-top:10px;
+
   border-top:1px solid #bbb;
+
   font-size:12px;
+
   line-height:1.6;
+
 }
 
+
 .signatures{
+
   display:flex;
+
   justify-content:space-between;
+
   margin-top:55px;
+
   gap:30px;
+
 }
 
 .signature{
+
   width:42%;
+
   text-align:center;
+
   font-size:13px;
+
 }
 
 .signature-line{
+
   border-top:1px solid #555;
+
   margin-bottom:7px;
+
 }
 
+
 @page{
+
   size:A4 portrait;
+
   margin:8mm;
+
 }
+
+
 @media print{
 
   body{
+
     padding:8mm;
+
   }
 
   .invoice-page{
+
+    width:100%;
+
     max-width:none;
+
+    margin:0;
+
   }
 
   .terms,
   .signatures{
+
     page-break-inside:avoid;
+
   }
 
 }
@@ -3585,54 +3759,90 @@ body{
 @media(max-width:480px){
 
   body{
+
     padding:10px;
+
     font-size:13px;
+
+  }
+
+  .invoice-page{
+
+    width:100%;
+
+    max-width:none;
+
+    margin:0;
+
   }
 
   .invoice-logo{
+
     width:65px;
+
     height:65px;
+
     flex-basis:65px;
+
   }
 
   .company-info h1{
+
     font-size:20px;
+
   }
 
   .slogan{
+
     font-size:12px;
+
   }
 
   .address,
   .mobile{
+
     font-size:11px;
+
   }
 
   .invoice-title{
+
     font-size:19px;
+
   }
 
   .invoice-table th,
   .invoice-table td{
+
     padding:6px 3px;
+
     font-size:12px;
+
   }
 
   .summary p{
+
     font-size:13px;
+
   }
 
   .payable,
   .due{
+
     font-size:16px !important;
+
   }
 
   .terms{
+
     font-size:11px;
+
   }
 
   .signatures{
+
     margin-top:35px;
+
   }
 
 }
@@ -3655,24 +3865,20 @@ body{
     alt="MTC"
   >
 
-
   <div class="company-info">
 
     <h1>
       MOROL TILES CITY
     </h1>
 
-
     <p class="slogan">
       Decoration Your Home
     </p>
-
 
     <p class="address">
       বাস টার্মিনাল, মহিলা অধিদপ্তরের নিচতলা,
       যশোর রোড, সাতক্ষীরা
     </p>
-
 
     <p class="mobile">
       মোবাইল: 01911-786336, 01912-709914
@@ -3695,12 +3901,10 @@ body{
     ${escapeHtml(inv.id)}
   </p>
 
-
   <p>
     <b>Date:</b>
     ${escapeHtml(inv.date || "")}
   </p>
-
 
   <p>
     <b>Customer:</b>
@@ -3710,12 +3914,10 @@ body{
     )}
   </p>
 
-
   <p class="customer-mobile">
     <b>Mobile:</b>
     ${escapeHtml(inv.mobile || "")}
   </p>
-
 
   <p>
     <b>Address:</b>
@@ -3732,14 +3934,16 @@ body{
     <tr>
 
       <th>Product</th>
+
       <th>Qty</th>
+
       <th>Unit Price</th>
+
       <th>Total</th>
 
     </tr>
 
   </thead>
-
 
   <tbody>
 
@@ -3759,14 +3963,12 @@ body{
     ).toFixed(2)}
   </p>
 
-
   <p>
     Discount:
     ৳${Number(
       inv.discount || 0
     ).toFixed(2)}
   </p>
-
 
   <p>
     Labour Charge:
@@ -3775,28 +3977,19 @@ body{
     ).toFixed(2)}
   </p>
 
-
   <p class="payable">
     Payable Bill:
-    ৳${Number(
-      inv.total || 0
-    ).toFixed(2)}
+    ৳${payable.toFixed(2)}
   </p>
 
-
-  <p>
+  <p class="paid">
     Paid Amount:
-    ৳${Number(
-      inv.paidAmount || 0
-    ).toFixed(2)}
+    ৳${totalPaid.toFixed(2)}
   </p>
-
 
   <p class="due">
     Due Amount:
-    ৳${Number(
-      inv.dueAmount || 0
-    ).toFixed(2)}
+    ৳${currentDue.toFixed(2)}
   </p>
 
 </div>
@@ -3820,9 +4013,7 @@ body{
 
   <div class="signature">
 
-    <div
-      style="height:45px"
-    ></div>
+    <div style="height:45px"></div>
 
     <div class="signature-line"></div>
 
@@ -3833,9 +4024,7 @@ body{
 
   <div class="signature">
 
-    <div
-      style="height:45px"
-    ></div>
+    <div style="height:45px"></div>
 
     <div class="signature-line"></div>
 
