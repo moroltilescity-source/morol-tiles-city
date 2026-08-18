@@ -556,10 +556,108 @@ th{
 </div>
 
 
-<!-- =====================================================
+  <!-- =====================================================
      OTHER INCOME
 ===================================================== -->
 <div id="otherIncome" class="page hidden admin-only">
+
+  <div class="section">
+
+    <h3>💰 Other Income / অন্যান্য আয়</h3>
+
+    <div class="form-grid">
+
+      <div>
+        <label>তারিখ</label>
+        <input id="otherIncomeDate" type="date">
+      </div>
+
+      <div>
+        <label>আয়ের Category</label>
+
+        <select
+          id="otherIncomeCategory"
+          onchange="handleOtherIncomeCategory()"
+        >
+          <option value="কার্টুন বিক্রি">কার্টুন বিক্রি</option>
+          <option value="ওয়েস্টেজ বিক্রি">ওয়েস্টেজ বিক্রি</option>
+          <option value="পুরাতন সাইনবোর্ড বিক্রি">পুরাতন সাইনবোর্ড বিক্রি</option>
+          <option value="অন্যান্য">অন্যান্য</option>
+          <option value="custom">নিজে লিখুন</option>
+        </select>
+      </div>
+
+      <div id="customOtherIncomeCategoryBox" style="display:none;">
+
+        <label>নিজের Category লিখুন</label>
+
+        <input
+          id="customOtherIncomeCategory"
+          type="text"
+          placeholder="যেমন: পুরাতন ফার্নিচার বিক্রি"
+        >
+
+      </div>
+
+      <div>
+        <label>বিবরণ</label>
+
+        <input
+          id="otherIncomeDescription"
+          type="text"
+          placeholder="আয়ের বিস্তারিত লিখুন"
+        >
+      </div>
+
+      <div>
+        <label>আয়ের পরিমাণ</label>
+
+        <input
+          id="otherIncomeAmount"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="0.00"
+        >
+      </div>
+
+    </div>
+        <button
+      class="btn green"
+      type="button"
+      onclick="saveOtherIncome()"
+    >
+      💾 Income Save করুন
+    </button>
+
+  </div>
+
+  <div class="section">
+
+    <h3>📋 Other Income History</h3>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        <tbody id="otherIncomeTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
 <!-- =====================================================
      DASHBOARD
 ===================================================== -->
