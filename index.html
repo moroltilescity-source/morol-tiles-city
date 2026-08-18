@@ -5879,6 +5879,169 @@ if(category === "custom"){
   );
 
 }
+  function renderOtherIncomeHistory(){
+
+  const tbody =
+    document.getElementById("otherIncomeTable");
+
+  if(!tbody) return;
+
+  tbody.innerHTML = "";
+
+  if(!otherIncome.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align:center">
+          এখনো কোনো Other Income যোগ করা হয়নি।
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  otherIncome.forEach(income => {
+
+    tbody.innerHTML += `
+      <tr>
+        <td>${escapeHtml(income.date || "")}</td>
+        <td>${escapeHtml(income.category || "")}</td>
+        <td>${escapeHtml(income.description || "")}</td>
+        <td>৳${Number(income.amount || 0).toFixed(2)}</td>
+      </tr>
+    `;
+
+  });
+
+}
+  async function saveOtherIncome(){
+
+  const date =
+    document.getElementById("otherIncomeDate")?.value ||
+    getTodayString();
+
+  let category =
+    document.getElementById("otherIncomeCategory")?.value ||
+    "অন্যান্য";
+
+
+  if(category === "custom"){
+
+    category =
+      (
+        document.getElementById(
+          "customOtherIncomeCategory"
+        )?.value ||
+        ""
+      ).trim();
+
+
+    if(!category){
+
+      alert("নিজের Category লিখুন");
+
+      return;
+
+    }
+
+  }
+
+
+  const description =
+    (
+      document.getElementById(
+        "otherIncomeDescription"
+      )?.value ||
+      ""
+    ).trim();
+
+
+  const amount =
+    Number(
+      document.getElementById(
+        "otherIncomeAmount"
+      )?.value ||
+      0
+    );
+
+
+  if(amount <= 0){
+
+    alert("আয়ের পরিমাণ দিন");
+
+    return;
+
+  }
+
+
+  const income = {
+
+    id:
+      "INC-" + Date.now(),
+
+    date:
+      date,
+
+    category:
+      category,
+
+    description:
+      description,
+
+    amount:
+      amount,
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+
+  otherIncome.unshift(income);
+
+
+  localStorage.setItem(
+    "mtc_otherIncome",
+    JSON.stringify(otherIncome)
+  );
+
+
+  await saveData();
+
+
+  renderOtherIncomeHistory();
+
+
+  document.getElementById(
+    "otherIncomeDescription"
+  ).value = "";
+
+  document.getElementById(
+    "otherIncomeAmount"
+  ).value = "";
+
+
+  const customInput =
+    document.getElementById(
+      "customOtherIncomeCategory"
+    );
+
+  if(customInput){
+
+    customInput.value = "";
+
+  }
+
+
+  alert(
+    "✅ Other Income সফলভাবে Save হয়েছে!\n\n" +
+    "Category: " + category +
+    "\nAmount: ৳" +
+    amount.toFixed(2)
+  );
+
+}
 /* =====================================================
    SALES REPORT
 ===================================================== */
