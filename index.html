@@ -5333,6 +5333,14 @@ async function loadFirebaseData(){
     JSON.stringify(expenses)
   );
 }
+      if(Array.isArray(data.otherIncome)){
+  otherIncome = data.otherIncome;
+
+  localStorage.setItem(
+    "mtc_otherIncome",
+    JSON.stringify(otherIncome)
+  );
+}
 
 
       firebaseDataLoaded = true;
