@@ -458,7 +458,93 @@ th{
   📑 Accounts / হিসাব
 </button>
 </div>
+<!-- =====================================================
+     EXPENSES
+===================================================== -->
+<div id="expenses" class="page hidden">
 
+  <div class="section">
+    <h3>💸 Expenses / খরচের হিসাব</h3>
+
+    <div class="form-grid">
+
+      <div>
+        <label>তারিখ</label>
+        <input id="expenseDate" type="date">
+      </div>
+
+      <div>
+        <label>খরচের Category</label>
+        <select id="expenseCategory">
+          <option value="দোকান ভাড়া">দোকান ভাড়া</option>
+          <option value="বেতন">বেতন</option>
+          <option value="বিদ্যুৎ">বিদ্যুৎ</option>
+          <option value="পরিবহন">পরিবহন</option>
+          <option value="শ্রমিক">শ্রমিক / Labour</option>
+          <option value="মোবাইল / ইন্টারনেট">মোবাইল / ইন্টারনেট</option>
+          <option value="চা / নাস্তা">চা / নাস্তা</option>
+          <option value="অন্যান্য">অন্যান্য</option>
+        </select>
+      </div>
+
+      <div>
+        <label>বিবরণ</label>
+        <input
+          id="expenseDescription"
+          type="text"
+          placeholder="যেমন: আগস্ট মাসের দোকান ভাড়া"
+        >
+      </div>
+
+      <div>
+        <label>খরচের পরিমাণ</label>
+        <input
+          id="expenseAmount"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="0.00"
+        >
+      </div>
+
+    </div>
+
+    <button
+      class="btn green"
+      type="button"
+      onclick="saveExpense()"
+    >
+      💾 খরচ Save করুন
+    </button>
+
+  </div>
+
+  <div class="section">
+
+    <h3>📋 Expense History</h3>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        <tbody id="expenseTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
 
 <!-- =====================================================
      DASHBOARD
