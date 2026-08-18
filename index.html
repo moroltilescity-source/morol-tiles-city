@@ -5647,10 +5647,26 @@ async function saveExpense(){
     document.getElementById("expenseDate")?.value ||
     getTodayString();
 
-  const category =
-    document.getElementById("expenseCategory")?.value ||
-    "অন্যান্য";
+  let category =
+  document.getElementById("expenseCategory")?.value ||
+  "অন্যান্য";
 
+if(category === "custom"){
+
+  category =
+    (
+      document.getElementById("customExpenseCategory")?.value ||
+      ""
+    ).trim();
+
+  if(!category){
+
+    alert("নিজের Category লিখুন");
+
+    return;
+  }
+
+}
   const description =
     (
       document.getElementById("expenseDescription")?.value ||
