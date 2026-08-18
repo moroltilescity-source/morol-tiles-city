@@ -5210,6 +5210,13 @@ async function loadFirebaseData(){
         payments=data.payments;
         localStorage.setItem("mtc_payments",JSON.stringify(payments));
       }
+      if(Array.isArray(data.expenses)){
+  expenses = data.expenses;
+  localStorage.setItem(
+    "mtc_expenses",
+    JSON.stringify(expenses)
+  );
+}
 
 
       firebaseDataLoaded = true;
