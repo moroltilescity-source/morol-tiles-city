@@ -5590,6 +5590,129 @@ function renderDueHistory(){
   });
 
 }
+  /* =====================================================
+   EXPENSES
+===================================================== */
+
+function renderExpenseHistory(){
+
+  const tbody =
+    document.getElementById("expenseTable");
+
+  if(!tbody) return;
+
+  tbody.innerHTML = "";
+
+  if(!expenses.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align:center">
+          এখনো কোনো খরচ যোগ করা হয়নি।
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  expenses.forEach(exp => {
+
+    tbody.innerHTML += `
+      <tr>
+        <td>${escapeHtml(exp.date || "")}</td>
+        <td>${escapeHtml(exp.category || "")}</td>
+        <td>${escapeHtml(exp.description || "")}</td>
+        <td>৳${Number(exp.amount || 0).toFixed(2)}</td>
+      </tr>
+    `;
+
+  });
+
+}
+
+
+async function saveExpense(){
+
+  const date =
+    document.getElementById("expenseDate")?.value ||
+    getTodayString();
+
+  const category =
+    document.getElementById("expenseCategory")?.value ||
+    "অন্যান্য";
+
+  const description =
+    (
+      document.getElementById("expenseDescription")?.value ||
+      ""
+    ).trim();
+
+  const amount =
+    Number(
+      document.getElementById("expenseAmount")?.value ||
+      0
+    );
+
+
+  if(amount <= 0){
+
+    alert("খরচের পরিমাণ দিন");
+
+    return;
+  }
+
+
+  const expense = {
+
+    id:
+      "EXP-" + Date.now(),
+
+    date:
+      date,
+
+    category:
+      category,
+
+    description:
+      description,
+
+    amount:
+      amount,
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+
+  expenses.unshift(expense);
+
+
+  localStorage.setItem(
+    "mtc_expenses",
+    JSON.stringify(expenses)
+  );
+
+
+  await saveData();
+
+
+  renderExpenseHistory();
+
+
+  document.getElementById("expenseDescription").value = "";
+
+  document.getElementById("expenseAmount").value = "";
+
+
+  alert(
+    "✅ খরচ সফলভাবে Save হয়েছে!\n\n" +
+    "Category: " + category +
+    "\nAmount: ৳" + amount.toFixed(2)
+  );
+
+}
 /* =====================================================
    SALES REPORT
 ===================================================== */
