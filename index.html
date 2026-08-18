@@ -1211,7 +1211,12 @@ function applyRolePermissions(){
   const staff = isStaffUser();
 const salesReportBtn =
   document.getElementById("salesReportBtn");
+  const accountsBtn =
+    document.getElementById("accountsBtn");
 
+  if(accountsBtn){
+    accountsBtn.style.display = staff ? "none" : "";
+  }
 if(salesReportBtn){
   salesReportBtn.style.display = staff ? "none" : "";
 }
