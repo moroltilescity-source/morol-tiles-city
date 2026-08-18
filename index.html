@@ -1045,7 +1045,39 @@ th{
   </div>
   <div class="section"><h3>Product-wise Report</h3><div class="table-wrap"><table><thead><tr><th>Product</th><th>Unit</th><th>Qty</th><th>Sqft</th><th>Sales</th><th>Cost</th><th>Profit/Loss</th></tr></thead><tbody id="reportTable"></tbody></table></div></div>
 </div>
+<!-- =====================================================
+     ACCOUNTS
+===================================================== -->
+<div id="accounts" class="page hidden">
 
+  <div class="section">
+    <h3>📑 Accounts / হিসাব</h3>
+
+    <div class="cards">
+
+      <div class="card" onclick="showPage('expenses',this)" style="cursor:pointer;">
+        <small>💸</small>
+        <b>Expenses</b>
+        <span>খরচের হিসাব</span>
+      </div>
+
+      <div class="card" onclick="showPage('otherIncome',this)" style="cursor:pointer;">
+        <small>💰</small>
+        <b>Other Income</b>
+        <span>অন্যান্য আয়</span>
+      </div>
+
+      <div class="card" onclick="showPage('finalReport',this)" style="cursor:pointer;">
+        <small>📊</small>
+        <b>Final Report</b>
+        <span>চূড়ান্ত লাভ-ক্ষতির হিসাব</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 <!-- =====================================================
      FIREBASE
 ===================================================== -->
