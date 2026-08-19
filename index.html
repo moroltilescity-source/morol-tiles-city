@@ -4553,10 +4553,31 @@ body{
   `);
 
 
-  win.document.close();
+    win.document.close();
+
+  const reapplyPreviewViewport = () => {
+    try{
+      win.dispatchEvent(new Event("resize"));
+
+      if(win.document && win.document.documentElement){
+        win.document.documentElement.style.width = "100%";
+        win.document.documentElement.style.maxWidth = "100%";
+      }
+
+      if(win.document && win.document.body){
+        win.document.body.style.width = "100%";
+        win.document.body.style.maxWidth = "100%";
+      }
+    }catch(error){
+      console.warn("Invoice preview viewport refresh:", error);
+    }
+  };
+
+  setTimeout(reapplyPreviewViewport, 1);
+  setTimeout(reapplyPreviewViewport, 50);
+  setTimeout(reapplyPreviewViewport, 200);
 
 }
-
 
 /* =====================================================
    PRINT NEW INVOICE
