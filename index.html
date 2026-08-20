@@ -2332,7 +2332,225 @@ function renderProductSelect(){
 
 }
 
+function filterSaleProducts(){
 
+  const searchInput =
+    document.getElementById("productSearch");
+
+  const select =
+    document.getElementById("saleProduct");
+
+  if(!searchInput || !select){
+    return;
+  }
+
+
+  const rawSearch =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+
+  /*
+   * Search না লিখলে সব available product দেখাবে
+   */
+
+  if(!rawSearch){
+
+    renderProductSelect();
+
+    return;
+
+  }
+
+
+  /*
+   * x, X, *, × — সব একই size separator
+   */
+
+  const normalize =
+    text =>
+      String(text || "")
+        .toLowerCase()
+        .replace(/[×*x]/g, "x")
+        .replace(/\s+/g, "");
+
+
+  /*
+   * MTC Size Mapping
+   */
+
+  const sizeMap = {
+
+    "60x60": ["60x60", "24x24"],
+
+    "20x30": ["20x30", "8x12"],
+
+    "30x30": ["30x30", "12x12"],
+
+    "40x40": ["40x40", "16x16"],
+
+    "30x60": ["30x60", "12x24"],
+
+    "25x40": ["25x40", "10x16"],
+
+    "30x45": ["30x45", "12x18"],
+
+    "60x120": ["60x120", "24x48"],
+
+    "20x60": ["20x60", "8x24"]
+
+  };
+
+
+  /*
+   * Search words আলাদা করা
+   *
+   * যেমন:
+   * FR 8*12 White
+   *
+   * হবে:
+   * FR
+   * 8*12
+   * White
+   */
+
+  const searchWords =
+    rawSearch
+      .split(/\s+/)
+      .filter(Boolean);
+
+
+  select.innerHTML =
+    '<option value="">-- Product Select --</option>';
+
+
+  products.forEach(
+    p => {
+
+      const stock =
+        Number(p.stock || 0);
+
+
+      /*
+       * Stock 0 হলে দেখাবে না
+       */
+
+      if(stock <= 0){
+        return;
+      }
+
+
+      const productName =
+        String(p.name || "");
+
+
+      const normalizedName =
+        normalize(productName);
+
+
+      /*
+       * প্রতিটি Search word Product-এর
+       * নামের মধ্যে আছে কিনা পরীক্ষা করবে
+       */
+
+      let matched = true;
+
+
+      searchWords.forEach(
+        word => {
+
+          const normalizedWord =
+            normalize(word);
+
+
+          let wordMatched =
+            normalizedName.includes(
+              normalizedWord
+            );
+
+
+          /*
+           * Size conversion check
+           */
+
+          Object.values(sizeMap)
+            .forEach(
+              sizes => {
+
+                const normalizedSizes =
+                  sizes.map(
+                    size =>
+                      normalize(size)
+                  );
+
+
+                if(
+                  normalizedSizes.includes(
+                    normalizedWord
+                  )
+                ){
+
+                  normalizedSizes.forEach(
+                    size => {
+
+                      if(
+                        normalizedName.includes(
+                          size
+                        )
+                      ){
+
+                        wordMatched = true;
+
+                      }
+
+                    }
+                  );
+
+                }
+
+              }
+            );
+
+
+          /*
+           * এই word না মিললে
+           * পুরো product match হবে না
+           */
+
+          if(!wordMatched){
+
+            matched = false;
+
+          }
+
+        }
+      );
+
+
+      /*
+       * Product match করলে dropdown-এ যোগ করবে
+       */
+
+      if(matched){
+
+        select.innerHTML += `
+
+          <option value="${String(p.id)}">
+
+            ${escapeHtml(p.name)}
+            — Stock ${stock}
+
+          </option>
+
+        `;
+
+      }
+
+    }
+  );
+
+}
 /* =====================================================
    SALE PRICE
 ===================================================== */
