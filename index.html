@@ -956,10 +956,24 @@ th{
     <h3>Add Product</h3>
 
 
-    <select
-      id="saleProduct"
-      onchange="updateSalePrice()"
-    ></select>
+    <div style="margin-bottom:10px">
+
+  <label>🔎 Search Product</label>
+
+  <input
+    id="productSearch"
+    type="text"
+    placeholder="নাম / Size যেমন FR 8*12 White লিখুন"
+    oninput="filterSaleProducts()"
+    autocomplete="off"
+  >
+
+</div>
+
+<select
+  id="saleProduct"
+  onchange="updateSalePrice()"
+></select>
 
 
     <div class="form-grid">
