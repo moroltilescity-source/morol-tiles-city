@@ -5487,15 +5487,89 @@ w.onload = function(){
 ===================================================== */
 
 function updateDashboard(){
-  const totalStock=products.reduce((sum,p)=>sum+Number(p.stock||0),0);
-  const totalStockValue=products.reduce((sum,p)=>sum+Number(p.stock||0)*Number(p.purchase||0),0);
-  const totalSales=invoices.reduce((sum,i)=>sum+Number(i.total||0),0);
-  const el=id=>document.getElementById(id);
-  if(el("totalProducts"))el("totalProducts").textContent=products.length;
-  if(el("totalStock"))el("totalStock").textContent=totalStock.toFixed(2);
-  if(el("totalStockValue"))el("totalStockValue").textContent="৳"+totalStockValue.toFixed(2);
-  if(el("totalSales"))el("totalSales").textContent="৳"+totalSales.toFixed(2);
-  if(el("totalInvoices"))el("totalInvoices").textContent=invoices.length;
+
+  const totalStock =
+    products.reduce(
+      (sum,p) =>
+        sum + Number(p.stock || 0),
+      0
+    );
+
+  const totalStockValue =
+    products.reduce(
+      (sum,p) =>
+        sum +
+        Number(p.stock || 0) *
+        Number(p.purchase || 0),
+      0
+    );
+
+
+  // Running / Current Month
+  const now = new Date();
+
+  const currentYear =
+    now.getFullYear();
+
+  const currentMonth =
+    now.getMonth();
+
+
+  const thisMonthInvoices =
+    invoices.filter(inv => {
+
+      if(!inv.date) return false;
+
+      const d =
+        new Date(inv.date);
+
+      return (
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      );
+
+    });
+
+
+  // Total Sales This Month
+  const totalSales =
+    thisMonthInvoices.reduce(
+      (sum,i) =>
+        sum + Number(i.total || 0),
+      0
+    );
+
+
+  const el =
+    id => document.getElementById(id);
+
+
+  if(el("totalProducts"))
+    el("totalProducts").textContent =
+      products.length;
+
+
+  if(el("totalStock"))
+    el("totalStock").textContent =
+      totalStock.toFixed(2);
+
+
+  if(el("totalStockValue"))
+    el("totalStockValue").textContent =
+      "৳" +
+      totalStockValue.toFixed(2);
+
+
+  if(el("totalSales"))
+    el("totalSales").textContent =
+      "৳" +
+      totalSales.toFixed(2);
+
+
+  if(el("totalInvoices"))
+    el("totalInvoices").textContent =
+      thisMonthInvoices.length;
+
 }
 
 /* =====================================================
