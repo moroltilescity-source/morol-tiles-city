@@ -5635,7 +5635,38 @@ function updateDashboard(){
 
   const currentMonth =
     now.getMonth();
+  const firstDay =
+    new Date(
+      currentYear,
+      currentMonth,
+      1
+    );
 
+  const reportPeriod =
+    document.getElementById(
+      "finalReportPeriod"
+    );
+
+  if(reportPeriod){
+
+    const formatDate =
+      date =>
+        date.toLocaleDateString(
+          "en-GB",
+          {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+          }
+        );
+
+    reportPeriod.textContent =
+      "Report Period: " +
+      formatDate(firstDay) +
+      " – " +
+      formatDate(now);
+
+  }
 
   // =========================================
   // CURRENT MONTH INVOICES
