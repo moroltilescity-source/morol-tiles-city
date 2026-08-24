@@ -438,6 +438,335 @@ th{
   width:100%;
   height:100%;
 }
+  /* =====================================================
+   MTC PROFESSIONAL DASHBOARD THEME
+===================================================== */
+
+.dashboard-heading{
+  background:linear-gradient(135deg,#111827,#1f2937);
+  border-radius:18px;
+  padding:20px 22px;
+  margin-bottom:18px;
+  color:#fff;
+  box-shadow:0 8px 24px rgba(17,24,39,.16);
+}
+
+.dashboard-heading h2{
+  color:#f4c542;
+  font-size:27px;
+  margin:0 0 6px;
+  font-weight:700;
+}
+
+.dashboard-heading p{
+  color:#d1d5db;
+  margin:0;
+  font-size:14px;
+}
+
+.dashboard-date{
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.15);
+  color:#f9fafb;
+  border-radius:10px;
+  padding:9px 13px;
+}
+
+
+/* =====================================================
+   KPI CARDS
+===================================================== */
+
+.dashboard-cards{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.dashboard-card{
+  position:relative;
+  overflow:hidden;
+  min-height:145px;
+  padding:18px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  box-shadow:0 4px 14px rgba(0,0,0,.06);
+  transition:.2s ease;
+}
+
+.dashboard-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(0,0,0,.10);
+}
+
+.dashboard-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:5px;
+  height:100%;
+  background:#b8860b;
+}
+
+.dashboard-icon{
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px;
+  background:#fef3c7;
+  font-size:20px;
+  margin-bottom:13px;
+}
+
+.dashboard-card small{
+  color:#6b7280;
+  font-size:12px;
+  font-weight:600;
+}
+
+.dashboard-card b{
+  color:#111827;
+  font-size:23px;
+  margin-top:7px;
+}
+
+.dashboard-card span{
+  color:#9ca3af;
+  font-size:11px;
+  margin-top:6px;
+}
+
+
+/* =====================================================
+   CARD COLORS
+===================================================== */
+
+.card-products::before{
+  background:#2563eb;
+}
+
+.card-products .dashboard-icon{
+  background:#dbeafe;
+}
+
+.card-stock::before{
+  background:#16a34a;
+}
+
+.card-stock .dashboard-icon{
+  background:#dcfce7;
+}
+
+.card-value::before{
+  background:#b8860b;
+}
+
+.card-value .dashboard-icon{
+  background:#fef3c7;
+}
+
+.card-sales::before{
+  background:#7c3aed;
+}
+
+.card-sales .dashboard-icon{
+  background:#ede9fe;
+}
+
+.card-invoices::before{
+  background:#0891b2;
+}
+
+.card-invoices .dashboard-icon{
+  background:#cffafe;
+}
+
+
+/* =====================================================
+   SALES GRAPH CARD
+===================================================== */
+
+.dashboard-chart-section{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  box-shadow:0 4px 14px rgba(0,0,0,.06);
+  padding:20px;
+}
+
+.dashboard-section-header{
+  border-bottom:1px solid #f0f0f0;
+  padding-bottom:14px;
+}
+
+.dashboard-section-header h3{
+  color:#111827;
+  font-size:18px;
+}
+
+.dashboard-section-header p{
+  color:#6b7280;
+}
+
+.chart-badge{
+  background:#fef3c7;
+  color:#92400e;
+  border:1px solid #fde68a;
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:600;
+}
+
+
+/* =====================================================
+   WELCOME PANEL
+===================================================== */
+
+.welcome-panel{
+  background:linear-gradient(135deg,#fff,#fffbeb);
+  border:1px solid #f3e8b0;
+}
+
+.welcome-content{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.welcome-icon{
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fef3c7;
+  border-radius:13px;
+  font-size:24px;
+}
+
+.welcome-panel h3{
+  margin:0 0 6px;
+  color:#111827;
+}
+
+.welcome-panel p{
+  margin:0;
+  color:#6b7280;
+  line-height:1.6;
+}
+
+
+/* =====================================================
+   BACKUP PANEL
+===================================================== */
+
+.backup-panel{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  background:#111827;
+  color:#fff;
+}
+
+.backup-panel h3{
+  color:#f4c542;
+  margin:0 0 5px;
+}
+
+.backup-panel p{
+  color:#d1d5db;
+  margin:0;
+  font-size:13px;
+}
+
+.backup-panel .btn{
+  white-space:nowrap;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:900px){
+
+  .dashboard-cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:700px){
+
+  .dashboard-heading{
+    padding:17px;
+  }
+
+  .dashboard-heading h2{
+    font-size:21px;
+  }
+
+  .dashboard-date{
+    margin-top:12px;
+    display:inline-block;
+  }
+
+  .dashboard-cards{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .dashboard-card{
+    min-height:135px;
+    padding:14px;
+  }
+
+  .dashboard-card b{
+    font-size:19px;
+  }
+
+  .dashboard-icon{
+    width:36px;
+    height:36px;
+    font-size:18px;
+  }
+
+  .dashboard-section-header{
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .chart-badge{
+    display:none;
+  }
+
+  .sales-chart-wrap{
+    height:250px;
+  }
+
+  .welcome-content{
+    align-items:flex-start;
+  }
+
+  .backup-panel{
+    flex-direction:column;
+    align-items:stretch;
+    text-align:center;
+  }
+
+  .backup-panel .btn{
+    width:100%;
+  }
+
+}
 </style>
 
 </head>
