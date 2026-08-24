@@ -5932,6 +5932,360 @@ function updateDashboard(){
       "৳" + netProfit.toFixed(2);
 
 }
+  function updateSalesChart(){
+
+  const canvas =
+    document.getElementById("salesChart");
+
+  if(!canvas) return;
+
+  const ctx =
+    canvas.getContext("2d");
+
+
+  // =========================================
+  // LAST 6 MONTHS SALES
+  // =========================================
+
+  const now = new Date();
+
+  const months = [];
+  const sales = [];
+
+
+  for(let i = 5; i >= 0; i--){
+
+    const date =
+      new Date(
+        now.getFullYear(),
+        now.getMonth() - i,
+        1
+      );
+
+    const year =
+      date.getFullYear();
+
+    const month =
+      date.getMonth();
+
+
+    const monthSales =
+      invoices
+        .filter(inv => {
+
+          if(!inv.date) return false;
+
+          const d =
+            new Date(inv.date);
+
+          return (
+            d.getFullYear() === year &&
+            d.getMonth() === month
+          );
+
+        })
+        .reduce(
+          (sum, inv) =>
+            sum + Number(inv.total || 0),
+          0
+        );
+
+
+    months.push(
+      date.toLocaleDateString(
+        "en-US",
+        {
+          month:"short"
+        }
+      )
+    );
+
+    sales.push(monthSales);
+
+  }
+
+
+  // =========================================
+  // CANVAS SIZE
+  // =========================================
+
+  const width =
+    canvas.clientWidth;
+
+  const height =
+    canvas.clientHeight;
+
+
+  if(!width || !height) return;
+
+
+  const ratio =
+    window.devicePixelRatio || 1;
+
+
+  canvas.width =
+    width * ratio;
+
+  canvas.height =
+    height * ratio;
+
+
+  const ctxWidth =
+    width;
+
+  const ctxHeight =
+    height;
+
+
+  ctx.setTransform(
+    ratio,
+    0,
+    0,
+    ratio,
+    0,
+    0
+  );
+
+
+  // =========================================
+  // GRAPH AREA
+  // =========================================
+
+  const paddingLeft = 60;
+  const paddingRight = 20;
+  const paddingTop = 25;
+  const paddingBottom = 40;
+
+
+  const graphWidth =
+    ctxWidth -
+    paddingLeft -
+    paddingRight;
+
+  const graphHeight =
+    ctxHeight -
+    paddingTop -
+    paddingBottom;
+
+
+  const maxSales =
+    Math.max(...sales, 1);
+
+
+  // =========================================
+  // BACKGROUND
+  // =========================================
+
+  ctx.clearRect(
+    0,
+    0,
+    ctxWidth,
+    ctxHeight
+  );
+
+
+  // =========================================
+  // GRID + Y AXIS
+  // =========================================
+
+  ctx.font =
+    "11px Arial";
+
+  ctx.textAlign =
+    "right";
+
+  ctx.textBaseline =
+    "middle";
+
+
+  for(let i = 0; i <= 4; i++){
+
+    const y =
+      paddingTop +
+      graphHeight -
+      (graphHeight * i / 4);
+
+
+    const value =
+      maxSales * i / 4;
+
+
+    ctx.strokeStyle =
+      "#e5e7eb";
+
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      paddingLeft,
+      y
+    );
+
+    ctx.lineTo(
+      ctxWidth - paddingRight,
+      y
+    );
+
+    ctx.stroke();
+
+
+    ctx.fillStyle =
+      "#6b7280";
+
+    ctx.fillText(
+      "৳" + Math.round(value),
+      paddingLeft - 8,
+      y
+    );
+
+  }
+
+
+  // =========================================
+  // POINTS
+  // =========================================
+
+  const points = [];
+
+
+  sales.forEach(
+    (value,index) => {
+
+      const x =
+        paddingLeft +
+        (
+          graphWidth *
+          index /
+          (sales.length - 1)
+        );
+
+
+      const y =
+        paddingTop +
+        graphHeight -
+        (
+          value /
+          maxSales *
+          graphHeight
+        );
+
+
+      points.push({
+        x:x,
+        y:y
+      });
+
+    }
+  );
+
+
+  // =========================================
+  // SALES LINE
+  // =========================================
+
+  ctx.strokeStyle =
+    "#b8860b";
+
+  ctx.lineWidth = 3;
+
+  ctx.lineJoin =
+    "round";
+
+  ctx.lineCap =
+    "round";
+
+  ctx.beginPath();
+
+
+  points.forEach(
+    (point,index) => {
+
+      if(index === 0){
+
+        ctx.moveTo(
+          point.x,
+          point.y
+        );
+
+      }else{
+
+        ctx.lineTo(
+          point.x,
+          point.y
+        );
+
+      }
+
+    }
+  );
+
+
+  ctx.stroke();
+
+
+  // =========================================
+  // SALES POINTS + LABELS
+  // =========================================
+
+  points.forEach(
+    (point,index) => {
+
+      ctx.beginPath();
+
+      ctx.arc(
+        point.x,
+        point.y,
+        5,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fillStyle =
+        "#b8860b";
+
+      ctx.fill();
+
+
+      ctx.fillStyle =
+        "#374151";
+
+      ctx.font =
+        "bold 11px Arial";
+
+      ctx.textAlign =
+        "center";
+
+      ctx.textBaseline =
+        "bottom";
+
+      ctx.fillText(
+        "৳" +
+        Math.round(sales[index]),
+        point.x,
+        point.y - 9
+      );
+
+
+      ctx.fillStyle =
+        "#6b7280";
+
+      ctx.font =
+        "12px Arial";
+
+      ctx.textBaseline =
+        "top";
+
+      ctx.fillText(
+        months[index],
+        point.x,
+        ctxHeight - 25
+      );
+
+    }
+  );
+
+}
 /* =====================================================
    FIREBASE LOAD
 ===================================================== */
