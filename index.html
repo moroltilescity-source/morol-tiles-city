@@ -131,7 +131,30 @@ header strong{
   margin:auto;
   padding:18px;
 }
+/* =====================================================
+   ERP MAIN LAYOUT
+===================================================== */
 
+.container{
+  max-width:none;
+  margin:0;
+  padding:18px;
+  display:flex;
+  align-items:flex-start;
+  gap:20px;
+}
+
+.container > .nav{
+  flex:0 0 245px;
+  position:sticky;
+  top:82px;
+  margin:0;
+}
+
+.container > .page{
+  flex:1;
+  min-width:0;
+}
 /* ================= NAV ================= */
 
 .nav{
