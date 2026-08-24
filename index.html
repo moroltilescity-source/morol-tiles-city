@@ -851,6 +851,80 @@ th{
   text-align:center;
   font-size:17px;
 }
+  /* =====================================================
+   MTC ERP RESPONSIVE FIX
+===================================================== */
+
+/* DESKTOP */
+@media (min-width:701px){
+
+  .container{
+    display:flex;
+    align-items:flex-start;
+  }
+
+  .container > .nav{
+    flex:0 0 245px;
+    min-height:auto;
+    height:calc(100vh - 110px);
+    overflow-y:auto;
+  }
+
+}
+
+
+/* MOBILE */
+@media (max-width:700px){
+
+  .container{
+    display:block;
+    padding:10px;
+  }
+
+  .container > .nav{
+    width:100%;
+    min-width:0;
+    min-height:auto;
+    height:auto;
+    position:relative;
+    top:auto;
+    margin-bottom:14px;
+    padding:10px;
+  }
+
+  .sidebar-brand{
+    padding:6px 8px 12px;
+    margin-bottom:8px;
+  }
+
+  .sidebar-brand img{
+    width:36px;
+    height:36px;
+  }
+
+  .sidebar-menu{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:6px;
+  }
+
+  .sidebar-menu button{
+    padding:10px 8px;
+    justify-content:flex-start;
+    font-size:12px;
+  }
+
+  .menu-icon{
+    width:22px;
+    font-size:15px;
+  }
+
+  .container > .page{
+    width:100%;
+    min-width:0;
+  }
+
+}
 </style>
 
 </head>
