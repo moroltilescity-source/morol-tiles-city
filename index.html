@@ -5623,6 +5623,194 @@ function updateDashboard(){
 
 }
 
+  function updateFinalReport(){
+
+  const now = new Date();
+
+  const currentYear =
+    now.getFullYear();
+
+  const currentMonth =
+    now.getMonth();
+
+
+  // =========================================
+  // CURRENT MONTH INVOICES
+  // =========================================
+
+  const thisMonthInvoices =
+    invoices.filter(inv => {
+
+      if(!inv.date) return false;
+
+      const d =
+        new Date(inv.date);
+
+      return (
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      );
+
+    });
+
+
+  // =========================================
+  // TOTAL SALES
+  // =========================================
+
+  const totalSales =
+    thisMonthInvoices.reduce(
+      (sum, inv) =>
+        sum + Number(inv.total || 0),
+      0
+    );
+
+
+  // =========================================
+  // COGS
+  // Cost of Goods Sold
+  // =========================================
+
+  const cogs =
+    thisMonthInvoices.reduce(
+      (invoiceSum, inv) => {
+
+        const invoiceCOGS =
+          (inv.items || []).reduce(
+            (itemSum, item) => {
+
+              const qty =
+                Number(item.qty || 0);
+
+              const purchasePrice =
+                Number(
+                  item.purchasePrice || 0
+                );
+
+              return (
+                itemSum +
+                (qty * purchasePrice)
+              );
+
+            },
+            0
+          );
+
+        return invoiceSum + invoiceCOGS;
+
+      },
+      0
+    );
+
+
+  // =========================================
+  // GROSS PROFIT
+  // =========================================
+
+  const grossProfit =
+    totalSales - cogs;
+
+
+  // =========================================
+  // CURRENT MONTH EXPENSES
+  // =========================================
+
+  const totalExpenses =
+    expenses
+      .filter(exp => {
+
+        if(!exp.date) return false;
+
+        const d =
+          new Date(exp.date);
+
+        return (
+          d.getFullYear() === currentYear &&
+          d.getMonth() === currentMonth
+        );
+
+      })
+      .reduce(
+        (sum, exp) =>
+          sum + Number(exp.amount || 0),
+        0
+      );
+
+
+  // =========================================
+  // CURRENT MONTH OTHER INCOME
+  // =========================================
+
+  const totalOtherIncome =
+    otherIncome
+      .filter(income => {
+
+        if(!income.date) return false;
+
+        const d =
+          new Date(income.date);
+
+        return (
+          d.getFullYear() === currentYear &&
+          d.getMonth() === currentMonth
+        );
+
+      })
+      .reduce(
+        (sum, income) =>
+          sum + Number(income.amount || 0),
+        0
+      );
+
+
+  // =========================================
+  // NET PROFIT
+  // =========================================
+
+  const netProfit =
+    grossProfit -
+    totalExpenses +
+    totalOtherIncome;
+
+
+  // =========================================
+  // UPDATE UI
+  // =========================================
+
+  const el =
+    id => document.getElementById(id);
+
+
+  if(el("finalTotalSales"))
+    el("finalTotalSales").textContent =
+      "৳" + totalSales.toFixed(2);
+
+
+  if(el("finalCOGS"))
+    el("finalCOGS").textContent =
+      "৳" + cogs.toFixed(2);
+
+
+  if(el("finalGrossProfit"))
+    el("finalGrossProfit").textContent =
+      "৳" + grossProfit.toFixed(2);
+
+
+  if(el("finalExpenses"))
+    el("finalExpenses").textContent =
+      "৳" + totalExpenses.toFixed(2);
+
+
+  if(el("finalOtherIncome"))
+    el("finalOtherIncome").textContent =
+      "৳" + totalOtherIncome.toFixed(2);
+
+
+  if(el("finalNetProfit"))
+    el("finalNetProfit").textContent =
+      "৳" + netProfit.toFixed(2);
+
+}
 /* =====================================================
    FIREBASE LOAD
 ===================================================== */
