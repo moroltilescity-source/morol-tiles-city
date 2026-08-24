@@ -767,6 +767,90 @@ th{
   }
 
 }
+  /* =====================================================
+   MTC ERP SIDEBAR
+===================================================== */
+
+.nav{
+  width:245px;
+  min-width:245px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#111827,#1f2937);
+  padding:18px 12px;
+  box-sizing:border-box;
+  border-right:1px solid #374151;
+}
+
+.sidebar-brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:8px 10px 20px;
+  margin-bottom:12px;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+
+.sidebar-brand img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+  border-radius:9px;
+  background:#fff;
+  padding:3px;
+}
+
+.sidebar-brand strong{
+  display:block;
+  color:#f4c542;
+  font-size:14px;
+}
+
+.sidebar-brand small{
+  display:block;
+  margin-top:3px;
+  color:#9ca3af;
+  font-size:10px;
+}
+
+.sidebar-menu{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.sidebar-menu button{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 13px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:#d1d5db;
+  text-align:left;
+  font-size:13px;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.sidebar-menu button:hover{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+}
+
+.sidebar-menu button.active{
+  background:linear-gradient(90deg,#b8860b,#d4a72c);
+  color:#111827;
+  font-weight:700;
+  box-shadow:0 5px 14px rgba(184,134,11,.25);
+}
+
+.menu-icon{
+  width:24px;
+  text-align:center;
+  font-size:17px;
+}
 </style>
 
 </head>
