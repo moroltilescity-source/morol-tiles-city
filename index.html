@@ -788,78 +788,167 @@ th{
 
 <div id="dashboard" class="page">
 
-  <div class="cards">
+  <!-- ==============================
+       DASHBOARD HEADER
+  =============================== -->
 
-    <div class="card">
-      <small>Total Products</small>
-      <b id="totalProducts">0</b>
+  <div class="dashboard-heading">
+
+    <div>
+      <h2>Morol Tiles City</h2>
+      <p>Business Overview &amp; Performance</p>
     </div>
 
-    <div class="card admin-only">
-  <small>Total Stock</small>
-  <b id="totalStock">0</b>
-</div>
-
-<div class="card admin-only">
-  <small>Total Stock Value</small>
-  <b id="totalStockValue">৳0.00</b>
-</div>
-
-    <div class="card">
-      <small>Total Sales This Month</small>
-      <b id="totalSales">৳0</b>
-    </div>
-
-    <div class="card">
-      <small>Total Invoices This Month</small>
-      <b id="totalInvoices">0</b>
+    <div class="dashboard-date">
+      📅 Current Month
     </div>
 
   </div>
 
-  <!-- SALES GRAPH -->
+
+  <!-- ==============================
+       KPI CARDS
+  =============================== -->
+
+  <div class="dashboard-cards">
+
+    <div class="dashboard-card card-products">
+      <div class="dashboard-icon">📦</div>
+
+      <small>Total Products</small>
+
+      <b id="totalProducts">0</b>
+
+      <span>Products in system</span>
+    </div>
+
+
+    <div class="dashboard-card card-stock admin-only">
+      <div class="dashboard-icon">🏢</div>
+
+      <small>Total Stock</small>
+
+      <b id="totalStock">0</b>
+
+      <span>Current available stock</span>
+    </div>
+
+
+    <div class="dashboard-card card-value admin-only">
+      <div class="dashboard-icon">💰</div>
+
+      <small>Total Stock Value</small>
+
+      <b id="totalStockValue">৳0.00</b>
+
+      <span>Purchase value of stock</span>
+    </div>
+
+
+    <div class="dashboard-card card-sales">
+      <div class="dashboard-icon">📈</div>
+
+      <small>Total Sales This Month</small>
+
+      <b id="totalSales">৳0</b>
+
+      <span>Current month sales</span>
+    </div>
+
+
+    <div class="dashboard-card card-invoices">
+      <div class="dashboard-icon">🧾</div>
+
+      <small>Total Invoices This Month</small>
+
+      <b id="totalInvoices">0</b>
+
+      <span>Current month invoices</span>
+    </div>
+
+  </div>
+
+
+  <!-- ==============================
+       SALES TREND
+  =============================== -->
+
   <div class="section dashboard-chart-section">
 
     <div class="dashboard-section-header">
 
       <div>
         <h3>📈 Sales Trend</h3>
-        <p>Last 6 months sales performance</p>
+
+        <p>
+          Last 6 months sales performance
+        </p>
+      </div>
+
+      <div class="chart-badge">
+        Monthly Sales
       </div>
 
     </div>
 
+
     <div class="sales-chart-wrap">
+
       <canvas id="salesChart"></canvas>
+
     </div>
 
   </div>
-  <div
-    class="section"
-    style="margin-top:18px"
-  >
 
-    <h3>Morol Tiles City</h3>
 
-    <p>
-      স্বাগতম MTC Management Software-এ।
-    </p>
+  <!-- ==============================
+       WELCOME PANEL
+  =============================== -->
 
-    <p>
-      Products & Stock থেকে পণ্য যোগ করুন এবং
-      Sales Invoice থেকে বিক্রয় করুন।
-    </p>
+  <div class="section welcome-panel">
+
+    <div class="welcome-content">
+
+      <div class="welcome-icon">
+        🏠
+      </div>
+
+      <div>
+
+        <h3>
+          Welcome to MTC Management Software
+        </h3>
+
+        <p>
+          আপনার ব্যবসার Products, Stock, Sales,
+          Invoice এবং Accounts এক জায়গা থেকে
+          পরিচালনা করুন।
+        </p>
+
+      </div>
+
+    </div>
 
   </div>
 
 
-  <div
-    class="section"
-    style="
-      margin-top:18px;
-      text-align:center
-    "
-  >
+  <!-- ==============================
+       BACKUP
+  =============================== -->
+
+  <div class="section backup-panel">
+
+    <div>
+
+      <h3>💾 Data Backup</h3>
+
+      <p>
+        আপনার গুরুত্বপূর্ণ MTC data-এর একটি
+        backup রাখুন।
+      </p>
+
+    </div>
+
 
     <button
       class="btn blue"
