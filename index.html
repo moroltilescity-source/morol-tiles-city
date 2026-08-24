@@ -869,48 +869,101 @@ th{
 <!-- =====================================================
      NAV
 ===================================================== -->
+<!-- =====================================================
+     MTC ERP SIDEBAR NAVIGATION
+===================================================== -->
 
 <div class="nav">
 
-  <button
-    class="active"
-    type="button"
-    onclick="showPage('dashboard',this)"
-  >
-    📊 Dashboard
-  </button>
+  <!-- MTC BRAND -->
+  <div class="sidebar-brand">
 
-  <button
-    type="button"
-    onclick="showPage('products',this)"
-  >
-    📦 Products & Stock
-  </button>
+    <img
+      src="logo.jpg"
+      alt="MTC Logo"
+    >
 
-  <button
-    type="button"
-    onclick="showPage('sales',this)"
-  >
-    🧾 Sales Invoice
-  </button>
+    <div>
+      <strong>Morol Tiles City</strong>
+      <small>MTC Management</small>
+    </div>
 
-  <button
-    type="button"
-    onclick="showPage('history',this)"
-  >
-    📋 Sales History
-  </button>
+  </div>
 
-  <button type="button" onclick="showPage('due',this)">💰 Due / Collection</button>
-  <button id="salesReportBtn" type="button" onclick="showPage('reports',this)">📊 Sales Report</button>
-<button
-  id="accountsBtn"
-  type="button"
-  onclick="showPage('accounts',this)"
->
-  📑 Accounts / হিসাব
-</button>
+
+  <!-- MAIN MENU -->
+
+  <div class="sidebar-menu">
+
+    <button
+      class="active"
+      type="button"
+      onclick="showPage('dashboard',this)"
+    >
+      <span class="menu-icon">📊</span>
+      <span>Dashboard</span>
+    </button>
+
+
+    <button
+      type="button"
+      onclick="showPage('products',this)"
+    >
+      <span class="menu-icon">📦</span>
+      <span>Products &amp; Stock</span>
+    </button>
+
+
+    <button
+      type="button"
+      onclick="showPage('sales',this)"
+    >
+      <span class="menu-icon">🧾</span>
+      <span>Sales Invoice</span>
+    </button>
+
+
+    <button
+      type="button"
+      onclick="showPage('history',this)"
+    >
+      <span class="menu-icon">📋</span>
+      <span>Sales History</span>
+    </button>
+
+
+    <button
+      type="button"
+      onclick="showPage('due',this)"
+    >
+      <span class="menu-icon">💰</span>
+      <span>Due / Collection</span>
+    </button>
+
+
+    <button
+      id="salesReportBtn"
+      type="button"
+      onclick="showPage('reports',this)"
+    >
+      <span class="menu-icon">📊</span>
+      <span>Sales Report</span>
+    </button>
+
+
+    <button
+      id="accountsBtn"
+      type="button"
+      onclick="showPage('accounts',this)"
+    >
+      <span class="menu-icon">📑</span>
+      <span>Accounts / হিসাব</span>
+    </button>
+
+  </div>
+
 </div>
+
 <!-- =====================================================
      EXPENSES
 ===================================================== -->
