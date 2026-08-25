@@ -2567,11 +2567,9 @@ function showPage(id,btn){
     updateFinalReport();
   }
 if(id === "dashboard"){
-  setTimeout(
-    updateSalesChart,
-    200
+  requestAnimationFrame(
+    updateSalesChart
   );
-}
 }
 
 /* =====================================================
