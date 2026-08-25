@@ -6685,14 +6685,20 @@ function updateDashboard(){
   // =========================================
 
   const width =
-    canvas.clientWidth;
+    canvas.parentElement.clientWidth;
 
-  const height =
-    canvas.clientHeight;
+const height =
+    canvas.parentElement.clientHeight;
 
+if(!width || !height){
 
-  if(!width || !height) return;
+  setTimeout(
+    updateSalesChart,
+    150
+  );
 
+  return;
+}
 
   const ratio =
     window.devicePixelRatio || 1;
