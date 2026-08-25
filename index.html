@@ -2566,8 +2566,11 @@ function showPage(id,btn){
   if(id === "finalReport"){
     updateFinalReport();
   }
-  if(id === "dashboard"){
-  updateSalesChart();
+if(id === "dashboard"){
+  setTimeout(
+    updateSalesChart,
+    200
+  );
 }
 }
 
