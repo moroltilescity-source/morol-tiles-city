@@ -6610,22 +6610,27 @@ function updateDashboard(){
       "৳" + netProfit.toFixed(2);
 
 }
-  function updateSalesChart(){
+  
+
+function updateSalesChart(){
 
   const canvas =
     document.getElementById("salesChart");
 
   if(!canvas) return;
 
-  const ctx =
-    canvas.getContext("2d");
+  const wrap =
+    canvas.parentElement;
+
+  if(!wrap) return;
 
 
   // =========================================
   // LAST 6 MONTHS SALES
   // =========================================
 
-  const now = new Date();
+  const now =
+    new Date();
 
   const months = [];
   const sales = [];
@@ -6648,25 +6653,33 @@ function updateDashboard(){
 
 
     const monthSales =
-      invoices
-        .filter(inv => {
+      (Array.isArray(invoices)
+        ? invoices
+        : []
+      )
+      .filter(inv => {
 
-          if(!inv.date) return false;
+        if(!inv || !inv.date)
+          return false;
 
-          const d =
-            new Date(inv.date);
+        const d =
+          new Date(inv.date);
 
-          return (
-            d.getFullYear() === year &&
-            d.getMonth() === month
-          );
+        if(isNaN(d.getTime()))
+          return false;
 
-        })
-        .reduce(
-          (sum, inv) =>
-            sum + Number(inv.total || 0),
-          0
+        return (
+          d.getFullYear() === year &&
+          d.getMonth() === month
         );
+
+      })
+      .reduce(
+        (sum, inv) =>
+          sum +
+          Number(inv.total || 0),
+        0
+      );
 
 
     months.push(
@@ -6688,84 +6701,108 @@ function updateDashboard(){
   // =========================================
 
   const width =
-    canvas.parentElement.clientWidth;
+    wrap.clientWidth;
 
-const height =
-    canvas.parentElement.clientHeight;
+  const height =
+    wrap.clientHeight || 300;
 
-if(!width || !height){
 
-  setTimeout(
-    updateSalesChart,
-    150
-  );
+  if(width <= 0){
 
-  return;
-}
+    requestAnimationFrame(
+      updateSalesChart
+    );
+
+    return;
+  }
+
 
   const ratio =
     window.devicePixelRatio || 1;
 
 
   canvas.width =
-    width * ratio;
+    Math.round(width * ratio);
 
   canvas.height =
-    height * ratio;
+    Math.round(height * ratio);
+
+  canvas.style.width =
+    width + "px";
+
+  canvas.style.height =
+    height + "px";
 
 
-  const ctxWidth =
-    width;
+  const ctx =
+    canvas.getContext("2d");
 
-  const ctxHeight =
-    height;
+  if(!ctx) return;
 
 
   ctx.setTransform(
-  ratio,
-  0,
-  0,
-  ratio,
-  0,
-  0
-);
+    ratio,
+    0,
+    0,
+    ratio,
+    0,
+    0
+  );
+
+
+  // =========================================
+  // CLEAR
+  // =========================================
+
+  ctx.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
 
 
   // =========================================
   // GRAPH AREA
   // =========================================
 
-  const paddingLeft = 60;
+  const paddingLeft = 65;
   const paddingRight = 20;
   const paddingTop = 25;
-  const paddingBottom = 40;
+  const paddingBottom = 45;
 
 
   const graphWidth =
-    ctxWidth -
+    width -
     paddingLeft -
     paddingRight;
 
+
   const graphHeight =
-    ctxHeight -
+    height -
     paddingTop -
     paddingBottom;
 
 
+  if(
+    graphWidth <= 0 ||
+    graphHeight <= 0
+  ){
+
+    return;
+
+  }
+
+
+  // =========================================
+  // MAX SALES
+  // =========================================
+
   const maxSales =
-    Math.max(...sales, 1);
-
-
-  // =========================================
-  // BACKGROUND
-  // =========================================
-
-  ctx.clearRect(
-    0,
-    0,
-    ctxWidth,
-    ctxHeight
-  );
+    Math.max(
+      ...sales,
+      1
+    );
 
 
   // =========================================
@@ -6787,19 +6824,27 @@ if(!width || !height){
     const y =
       paddingTop +
       graphHeight -
-      (graphHeight * i / 4);
+      (
+        graphHeight *
+        i /
+        4
+      );
 
 
     const value =
-      maxSales * i / 4;
+      maxSales *
+      i /
+      4;
 
+
+    // Horizontal grid line
+    ctx.beginPath();
 
     ctx.strokeStyle =
       "#e5e7eb";
 
-    ctx.lineWidth = 1;
-
-    ctx.beginPath();
+    ctx.lineWidth =
+      1;
 
     ctx.moveTo(
       paddingLeft,
@@ -6807,23 +6852,62 @@ if(!width || !height){
     );
 
     ctx.lineTo(
-      ctxWidth - paddingRight,
+      width - paddingRight,
       y
     );
 
     ctx.stroke();
 
 
+    // Y-axis value
     ctx.fillStyle =
       "#6b7280";
 
     ctx.fillText(
-      "৳" + Math.round(value),
+      "৳" +
+      Math.round(value),
       paddingLeft - 8,
       y
     );
 
   }
+
+
+  // =========================================
+  // AXIS LINES
+  // =========================================
+
+  ctx.beginPath();
+
+  ctx.strokeStyle =
+    "#9ca3af";
+
+  ctx.lineWidth =
+    1.5;
+
+
+  // Y axis
+  ctx.moveTo(
+    paddingLeft,
+    paddingTop
+  );
+
+  ctx.lineTo(
+    paddingLeft,
+    paddingTop +
+    graphHeight
+  );
+
+
+  // X axis
+  ctx.lineTo(
+    width - paddingRight,
+    paddingTop +
+    graphHeight
+  );
+
+
+  ctx.stroke();
 
 
   // =========================================
@@ -6863,112 +6947,41 @@ if(!width || !height){
     }
   );
 
-// =========================================
-// COLORFUL SALES AREA
-// =========================================
 
-const areaGradient =
-  ctx.createLinearGradient(
-    0,
-    paddingTop,
-    0,
-    ctxHeight - paddingBottom
-  );
-
-areaGradient.addColorStop(
-  0,
-  "rgba(37,99,235,0.20)"
-);
-
-areaGradient.addColorStop(
-  0.5,
-  "rgba(22,163,74,0.10)"
-);
-
-areaGradient.addColorStop(
-  1,
-  "rgba(245,158,11,0.03)"
-);
-
-
-ctx.beginPath();
-
-points.forEach(
-  (point,index) => {
-
-    if(index === 0){
-
-      ctx.moveTo(
-        point.x,
-        point.y
-      );
-
-    }else{
-
-      ctx.lineTo(
-        point.x,
-        point.y
-      );
-
-    }
-
-  }
-);
-
-
-ctx.lineTo(
-  points[points.length - 1].x,
-  paddingTop + graphHeight
-);
-
-ctx.lineTo(
-  points[0].x,
-  paddingTop + graphHeight
-);
-
-ctx.closePath();
-
-ctx.fillStyle =
-  areaGradient;
-
-ctx.fill();
-
-
-// =========================================
-// SALES LINE
-// =========================================
-
-const lineColors = [
-  "#2563eb",
-  "#16a34a",
-  "#f59e0b",
-  "#ef4444",
-  "#7c3aed"
-];
-
-
-for(
-  let i = 0;
-  i < points.length - 1;
-  i++
-){
+  // =========================================
+  // SALES LINE
+  // =========================================
 
   ctx.beginPath();
 
-  ctx.moveTo(
-    points[i].x,
-    points[i].y
+  points.forEach(
+    (point,index) => {
+
+      if(index === 0){
+
+        ctx.moveTo(
+          point.x,
+          point.y
+        );
+
+      }else{
+
+        ctx.lineTo(
+          point.x,
+          point.y
+        );
+
+      }
+
+    }
   );
 
-  ctx.lineTo(
-    points[i + 1].x,
-    points[i + 1].y
-  );
 
   ctx.strokeStyle =
-    lineColors[i];
+    "#2563eb";
 
-  ctx.lineWidth = 3;
+  ctx.lineWidth =
+    3;
 
   ctx.lineJoin =
     "round";
@@ -6978,8 +6991,6 @@ for(
 
   ctx.stroke();
 
-}
-
 
   // =========================================
   // SALES POINTS + LABELS
@@ -6988,6 +6999,7 @@ for(
   points.forEach(
     (point,index) => {
 
+      // Point
       ctx.beginPath();
 
       ctx.arc(
@@ -6998,12 +7010,14 @@ for(
         Math.PI * 2
       );
 
+
       ctx.fillStyle =
-  lineColors[index];
+        "#2563eb";
 
       ctx.fill();
 
 
+      // Sales value
       ctx.fillStyle =
         "#374151";
 
@@ -7016,14 +7030,18 @@ for(
       ctx.textBaseline =
         "bottom";
 
+
       ctx.fillText(
         "৳" +
-        Math.round(sales[index]),
+        Math.round(
+          sales[index]
+        ),
         point.x,
         point.y - 9
       );
 
 
+      // Month
       ctx.fillStyle =
         "#6b7280";
 
@@ -7033,16 +7051,20 @@ for(
       ctx.textBaseline =
         "top";
 
+
       ctx.fillText(
         months[index],
         point.x,
-        ctxHeight - 25
+        paddingTop +
+        graphHeight +
+        12
       );
 
     }
   );
 
 }
+
 /* =====================================================
    FIREBASE LOAD
 ===================================================== */
