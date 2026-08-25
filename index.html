@@ -2567,8 +2567,9 @@ function showPage(id,btn){
     updateFinalReport();
   }
 if(id === "dashboard"){
-  requestAnimationFrame(
-    updateSalesChart
+  setTimeout(
+    updateSalesChart,
+    200
   );
 }
 
