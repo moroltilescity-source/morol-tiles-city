@@ -2467,10 +2467,14 @@ document.addEventListener(
      * আজকের date
      */
 
-    setInvoiceToday();
-    const pd=document.getElementById("paymentDate"); if(pd)pd.value=getTodayString();
-    setReportDates();
-
+    try{
+  setInvoiceToday();
+  const pd=document.getElementById("paymentDate");
+  if(pd) pd.value=getTodayString();
+  setReportDates();
+}catch(error){
+  console.error("Date initialization error:", error);
+}
   }
 );
 
