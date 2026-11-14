@@ -6071,3 +6071,127 @@ saveInvoice = async function(){
     editingInvoiceId = null;
   }
 };
+
+
+
+/* =====================================================
+   FIX: Render mobile product cards
+===================================================== */
+function renderProductMobileCards(list){
+  const container = document.getElementById("productCardsMobile");
+  if(!container) return;
+  const q = (document.getElementById("productTableSearch")?.value || "").trim().toLowerCase();
+  let filtered = list || products;
+  if(q){
+    filtered = filtered.filter(p=>{
+      const name = String(p.name||"").toLowerCase();
+      const cat = String(p.category||"").toLowerCase();
+      return name.includes(q) || cat.includes(q);
+    });
+  }
+  if(filtered.length===0){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#6b7280">কোনো প্রোডাক্ট পাওয়া যায়নি</div>';
+    return;
+  }
+  const staff = typeof isStaffUser==="function" ? isStaffUser() : false;
+  container.innerHTML = filtered.map(p=>{
+    const stock = Number(p.stock||0);
+    const isLow = stock <= 5;
+    return `
+      <div class="product-mobile-card">
+        <div class="product-mobile-card-top">
+          <b>${escapeHtml(p.name||"Unnamed")}</b>
+          <span class="product-mobile-stock ${isLow?'low':''}">${stock.toFixed(2).replace(/\.00$/,"")} ${escapeHtml(p.unit||"")}</span>
+        </div>
+        <div class="product-mobile-meta">
+          <span>📦 ${escapeHtml(p.category||"Other")}</span>
+          <span>💰 Sale ৳${Number(p.sale||0).toFixed(2)}</span>
+          ${!staff ? `<span>🛒 Buy ৳${Number(p.purchase||0).toFixed(2)}</span>` : ""}
+        </div>
+        <div class="product-mobile-actions">
+          ${!staff ? `<button class="btn blue" type="button" onclick="editProduct('${String(p.id)}')">✏️ Edit</button>` : ""}
+          <button class="btn blue" type="button" onclick="updateStock('${String(p.id)}')">📦 Stock</button>
+          <button class="btn red" type="button" onclick="deleteProduct('${String(p.id)}')">🗑️ Delete</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// Hook into existing render functions
+document.addEventListener("DOMContentLoaded", function(){
+  // Create mobile container if not exists
+  const tableWrap = document.querySelector("#products .table-wrap") || document.querySelector(".table-wrap");
+  if(tableWrap && !document.getElementById("productCardsMobile")){
+    const mobileDiv = document.createElement("div");
+    mobileDiv.id = "productCardsMobile";
+    tableWrap.parentNode.insertBefore(mobileDiv, tableWrap.nextSibling);
+  }
+  // Initial render
+  renderProductMobileCards(products);
+});
+
+// Override filterStockProducts to also update mobile cards
+const _origFilterStockProducts2 = typeof filterStockProducts==="function" ? filterStockProducts : null;
+filterStockProducts = function(){
+  if(_origFilterStockProducts2){
+    _origFilterStockProducts2();
+  }
+  renderProductMobileCards(products);
+};
+
+// Also hook renderProductsLowStock and refreshAll to update mobile cards
+const _origRefreshAll2 = typeof refreshAll==="function" ? refreshAll : null;
+if(_origRefreshAll2){
+  const originalRefresh = refreshAll;
+  refreshAll = function(){
+    originalRefresh();
+    renderProductMobileCards(products);
+  };
+}
+
+
+
+/* =====================================================
+   GLOBAL FIX: Add data-label to all table TDs for mobile card view
+===================================================== */
+function addDataLabelsToTables(){
+  document.querySelectorAll(".table-wrap table, table").forEach(table=>{
+    const headers = Array.from(table.querySelectorAll("thead th")).map(th=>th.textContent.trim());
+    if(headers.length===0) return;
+    table.querySelectorAll("tbody tr").forEach(row=>{
+      const cells = row.querySelectorAll("td");
+      cells.forEach((td, i)=>{
+        if(headers[i]) td.setAttribute("data-label", headers[i]);
+        // If cell has only buttons, mark as Action
+        if(td.querySelector(".btn") && !td.getAttribute("data-label")){
+          td.setAttribute("data-label", "Action");
+        }
+      });
+    });
+  });
+}
+document.addEventListener("DOMContentLoaded", addDataLabelsToTables);
+// Re-run after every render
+const _origRefreshAllGlobal = typeof refreshAll==="function" ? refreshAll : null;
+if(_origRefreshAllGlobal){
+  const origR = refreshAll;
+  refreshAll = function(){
+    origR();
+    setTimeout(addDataLabelsToTables, 50);
+    setTimeout(addDataLabelsToTables, 300);
+  };
+}
+// Observe DOM changes to keep labels
+const _labelObserver = new MutationObserver((mutations)=>{
+  let needs = false;
+  for(const m of mutations){
+    if(m.addedNodes && m.addedNodes.length>0) needs = true;
+  }
+  if(needs) setTimeout(addDataLabelsToTables, 100);
+});
+document.addEventListener("DOMContentLoaded", ()=>{
+  const app = document.getElementById("app") || document.body;
+  if(app) _labelObserver.observe(app, {childList:true, subtree:true});
+});
+
