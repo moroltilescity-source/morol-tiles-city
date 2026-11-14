@@ -2481,3 +2481,11 @@ input[type="date"] {
   min-width: 160px !important;
   font-size: 16px !important;
 }
+/* Sales History - Date কলাম ঠিক করা */
+table th:nth-child(2),
+table td:nth-child(2) {
+  min-width: 115px !important;
+  width: 115px !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
