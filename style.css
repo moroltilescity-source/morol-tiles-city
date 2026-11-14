@@ -2476,3 +2476,8 @@ html, body {
   .table-wrap th, .table-wrap td { white-space: nowrap !important; }
   .table-wrap td:nth-child(2) { white-space: normal !important; }
 }
+input[type="date"] {
+  width: 160px !important;
+  min-width: 160px !important;
+  font-size: 16px !important;
+}
