@@ -2193,3 +2193,286 @@ html,body{overflow-x:hidden;}
 
 /* Prevent accidental logout on back */
 body.no-logout-back{overscroll-behavior:none;}
+
+
+
+/* =====================================================
+   FIX: Products & Stock table - mobile card view
+===================================================== */
+.table-wrap{
+  overflow-x:auto !important;
+  overflow-y:visible;
+  -webkit-overflow-scrolling:touch;
+  max-width:100%;
+  display:block;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  background:#fff;
+}
+.table-wrap table{
+  min-width:780px !important;
+  width:100%;
+  border-collapse:collapse;
+}
+.table-wrap th{
+  white-space:nowrap !important;
+  font-size:12px;
+  background:#f8fafc;
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+.table-wrap td{
+  white-space:nowrap;
+  font-size:13px;
+  vertical-align:middle;
+}
+.table-wrap td:nth-child(2){
+  white-space:normal !important;
+  max-width:220px;
+  word-break:break-word;
+  font-weight:600;
+}
+
+/* Mobile cards - hidden on desktop, visible on mobile */
+#productCardsMobile{
+  display:none;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:12px;
+}
+.product-mobile-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:12px 14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.product-mobile-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+.product-mobile-card-top b{
+  font-size:14px;
+  color:#111827;
+  line-height:1.3;
+  flex:1;
+}
+.product-mobile-stock{
+  flex:0 0 auto;
+  background:#fef3c7;
+  border:1px solid #fde68a;
+  color:#92400e;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.product-mobile-stock.low{
+  background:#fee2e2;
+  border-color:#fecaca;
+  color:#dc2626;
+}
+.product-mobile-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  font-size:11px;
+  color:#6b7280;
+}
+.product-mobile-meta span{
+  background:#f3f4f6;
+  padding:3px 8px;
+  border-radius:12px;
+}
+.product-mobile-actions{
+  display:flex;
+  gap:6px;
+  margin-top:4px;
+}
+.product-mobile-actions .btn{
+  flex:1;
+  padding:7px 8px !important;
+  font-size:12px !important;
+  text-align:center;
+  justify-content:center;
+}
+
+/* Show cards on mobile, hide table */
+@media (max-width:700px){
+  .table-wrap{
+    display:none !important;
+  }
+  #productCardsMobile{
+    display:grid !important;
+  }
+  /* Remove the global overflow-x hidden that was breaking table scroll */
+  html,body{
+    overflow-x:auto !important;
+  }
+  #app > .container{
+    overflow-x:visible !important;
+  }
+}
+@media (min-width:701px){
+  #productCardsMobile{
+    display:none !important;
+  }
+  .table-wrap{
+    display:block !important;
+  }
+}
+
+
+/* =====================================================
+   GLOBAL FIX: All tables - mobile card view, no cut-off
+   Reason: min-width 650px + overflow-x:hidden was cutting right columns
+===================================================== */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+.container, #app > .container, .page {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+.table-wrap {
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  -webkit-overflow-scrolling: touch !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  display: block !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  padding: 0 !important;
+}
+.table-wrap table {
+  min-width: 0 !important;
+  width: 100% !important;
+  table-layout: auto !important;
+}
+.table-wrap th, .table-wrap td {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  font-size: 13px !important;
+  padding: 9px 8px !important;
+}
+
+/* === MOBILE: Convert ALL tables to cards === */
+@media (max-width: 768px) {
+  .table-wrap {
+    border: none !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+  .table-wrap table,
+  .table-wrap thead,
+  .table-wrap tbody,
+  .table-wrap th,
+  .table-wrap td,
+  .table-wrap tr {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .table-wrap thead {
+    display: none !important;
+  }
+  .table-wrap tbody {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .table-wrap tr {
+    background: #fff !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    padding: 12px 14px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    margin: 0 !important;
+  }
+  .table-wrap td {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    padding: 6px 0 !important;
+    border: none !important;
+    border-bottom: 1px dashed #f3f4f6 !important;
+    text-align: right !important;
+  }
+  .table-wrap td:last-child {
+    border-bottom: none !important;
+    padding-bottom: 2px !important;
+  }
+  .table-wrap td::before {
+    content: attr(data-label) !important;
+    font-weight: 700 !important;
+    color: #6b7280 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.4px !important;
+    text-align: left !important;
+    flex: 0 0 40% !important;
+    white-space: normal !important;
+  }
+  .table-wrap td:empty::before {
+    display: none !important;
+  }
+  .table-wrap td:empty {
+    display: none !important;
+  }
+  /* Action cell - buttons full width */
+  .table-wrap td[data-label="Action"],
+  .table-wrap td[data-label="Actions"],
+  .table-wrap td:last-child:has(.btn) {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+  .table-wrap td[data-label="Action"]::before,
+  .table-wrap td[data-label="Actions"]::before {
+    flex-basis: 100% !important;
+    margin-bottom: 6px !important;
+  }
+  .table-wrap td .btn {
+    flex: 1 1 auto !important;
+    padding: 7px 8px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+    min-width: 70px !important;
+    justify-content: center !important;
+    display: inline-flex !important;
+  }
+  /* Hide old compact cards - use universal card conversion instead */
+  #productCardsCompact, #productCardsMobile {
+    display: none !important;
+  }
+  #productTableWrap, .table-wrap {
+    display: block !important;
+  }
+  body.view-table #productTableWrap,
+  body.view-cards #productCardsCompact {
+    display: block !important;
+  }
+  body.view-cards #productCardsCompact { display: none !important; }
+}
+
+/* Desktop: keep table but allow scroll */
+@media (min-width: 769px) {
+  .table-wrap table { min-width: 750px !important; }
+  .table-wrap th, .table-wrap td { white-space: nowrap !important; }
+  .table-wrap td:nth-child(2) { white-space: normal !important; }
+}
