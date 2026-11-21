@@ -290,8 +290,7 @@ async function logout(){
 /* =====================================================
    PAGE
 ===================================================== */
-
-function showPage(id,btn){
+function showPage(id,btn,pushHistory = true){
 
   document
     .querySelectorAll(".page")
@@ -299,15 +298,12 @@ function showPage(id,btn){
       x.classList.add("hidden")
     );
 
-
   const page =
     document.getElementById(id);
-
 
   if(page){
     page.classList.remove("hidden");
   }
-
 
   document
     .querySelectorAll(".nav button")
@@ -315,11 +311,13 @@ function showPage(id,btn){
       x.classList.remove("active")
     );
 
-
   if(btn){
     btn.classList.add("active");
   }
 
+  if(pushHistory){
+    history.pushState({page: id}, '', '#' + id);
+  }
 
   refreshAll();
   if(id === "finalReport"){
@@ -332,6 +330,13 @@ if(id === "dashboard"){
   );
 }
 }
+
+window.addEventListener('popstate', function(e){
+  if(e.state && e.state.page){
+    showPage(e.state.page, null, false);
+  }
+});
+
 /* =====================================================
    PRODUCT
 ===================================================== */
